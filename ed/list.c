@@ -6,25 +6,14 @@ typedef struct tlist {
     struct tlist* next;
 } list;
 
-void append(int val, list* st) {
+void push_back(int val, list* st) {
     st -> value = val;
     st -> next = (list*)malloc(sizeof(list));
-    st -> next = NULL;
+    st -> next -> next = NULL;
 
 }
 
-void append2(int val, list* st) {
-    printf("adsadsad\n");
-    if (st == NULL) { 
-
-    
-    } else { // For the first element
-        st -> value = val;
-        st -> next = NULL;
-    }
-}
-
-void get(int i, list*st) {
+void get(int i, list* st) {
     int c = 0;
     
     while (c < i) {
@@ -35,8 +24,20 @@ void get(int i, list*st) {
     printf("%d\n", st -> value);
 }
 
+void del(int i, list* st) {
+    int c = 0;
+    while (c < i-1) {
+        st = st -> next;
+        c++;
+    }
+
+    if (st -> next != NULL) {
+        st -> next = st -> next -> next;
+    } 
+}
+
 void printAll(list* st) {
-    while (st != NULL) {
+    while (st -> next != NULL) {
         printf("%d ", st -> value);
         st = st -> next;
     }
@@ -44,9 +45,9 @@ void printAll(list* st) {
     printf("\n");
 }
 
-void deleteList(list* st) {
+void clear(list* st) {
     if (st == NULL) return;
-    deleteList(st -> next);
+    clear(st -> next);
     free(st);
 }
 
@@ -57,14 +58,17 @@ int main () {
     int val;
 
     while (scanf(" %d", &val) != EOF) {
-        append(val, mylist);
+        push_back(val, mylist);
         mylist = mylist -> next;
     }
 
     mylist = first;
+
     printAll(mylist);
-    // get(5, mylist);
-    deleteList(first);
+    //del(5, mylist);
+    printAll(mylist);
+
+    clear(first);
 
     return 0;
 }
