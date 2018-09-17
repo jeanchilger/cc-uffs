@@ -6,37 +6,14 @@ typedef struct tlist {
     struct tlist* next;
 } list;
 
-int length = 0;
-list *begin;
-
 void push_back(int val, list* st) {
-    /*
-     * Adds a new element at the end of the list.
-    */
+    st -> value = val;
+    st -> next = (list*)malloc(sizeof(list));
+    st -> next -> next = NULL;
 
-    if (st == NULL) {
-
-        st = (list*)malloc(sizeof(list));
-        st -> value = val;
-        st -> next = NULL;
-
-        if (length == 0) {
-            begin = st;
-    
-        }
-    
-    } else {
-        printf("SSASSS\n");
-    }
-
-    length++;
 }
 
 void get(int i, list* st) {
-    /*
-     * Prints the i-th element of the list.
-    */
-
     int c = 0;
     
     while (c < i) {
@@ -48,7 +25,6 @@ void get(int i, list* st) {
 }
 
 void del(int i, list* st) {
-    // TODO BUGADO
     int c = 0;
     while (c < i-1) {
         st = st -> next;
@@ -61,14 +37,9 @@ void del(int i, list* st) {
 }
 
 void printAll(list* st) {
-    /*
-     * Prints all elements within the list.
-    */
-    int i = 0;
-    while (st != NULL) {
-        printf("[%d] %d ", i, st -> value);
+    while (st -> next != NULL) {
+        printf("%d ", st -> value);
         st = st -> next;
-        i++;
     }
 
     printf("\n");
@@ -82,20 +53,22 @@ void clear(list* st) {
 
 int main () {
 
-    list* mylist = NULL;
-
+    list* mylist = (list*)malloc(sizeof(list));
+    list* first = mylist;
     int val;
 
-    //printf("%p\n", mylist);
     while (scanf(" %d", &val) != EOF) {
         push_back(val, mylist);
-        printf("AAAAAAAAAAAAAAAAAA %d \n", mylist -> value);
         mylist = mylist -> next;
-       
     }
 
-    mylist = begin;
+    mylist = first;
+
     printAll(mylist);
+    //del(5, mylist);
+    printAll(mylist);
+
+    clear(first);
 
     return 0;
 }
