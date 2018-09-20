@@ -104,6 +104,29 @@ void print(node *b) {
 
 }
 
+void delete(node **b, int i) {
+    /*
+     * Removes a element of a given index from the list.
+     * */
+
+    if (i == 0) {
+        (*b) = (*b) -> next;
+
+    } else {
+        node *aux;
+
+        int c = 0;
+        while (c < i-1) {
+            (*b) = (*b) -> next;
+            c++;
+        }
+    
+        aux = (*b) -> next -> next;
+
+        (*b) -> next = aux;
+    }
+}
+
 void clear(node* b) {
     /*
      * Erases the whole list.
@@ -128,6 +151,8 @@ int main() {
     list = begin;
 
     //update(begin, 5, 40);
+    delete(&list, 1);
+
     print(begin);
     //printf("%d\n", has(begin, 5));
     //printf("%d\n", has(begin, 50));
