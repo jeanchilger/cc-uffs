@@ -6,6 +6,7 @@ typedef struct node {
     struct node *next;
 
 } node;
+ 
 
 void push_back(node** current, node** begin, int val) {
     /*
@@ -42,7 +43,7 @@ void at(node *b, int index) {
     printf("%d\n", b -> value);
 }
 
-int find(node* b, int val) {
+int has(node* b, int val) {     
     /*
      * Returns wether an element is in the list
      * */
@@ -53,7 +54,41 @@ int find(node* b, int val) {
     }
 
     return 0;
-} 
+}
+
+int find(node* b, int val) {
+    /*
+     * Returns the index of a given value in the list.
+     * Returns -1 if value doesn't exists.
+     * */
+
+    int c = 0;
+    
+    while (b != NULL) {
+        if (b -> value == val) return c;
+        b = b -> next;
+        c++;
+    }
+
+    return -1;
+
+}
+
+void update(node *b, int val, int new) {
+    /*
+     * Updates a value from the list.
+     * */
+
+    while(b != NULL) {
+        if (b -> value == val) {
+            b -> value = new;
+            return;
+        }
+        b = b -> next;
+    }
+
+    printf("Value wasn't found\n");
+}
 
 void print(node *b) {
     /*
@@ -70,6 +105,10 @@ void print(node *b) {
 }
 
 void clear(node* b) {
+    /*
+     * Erases the whole list.
+     * */
+
     if (b == NULL) return;
     clear(b->next);
     free(b);
@@ -84,14 +123,14 @@ int main() {
     while (scanf(" %d", &val) != EOF) {
         push_back(&list, &begin, val);
         //printf("%d\n", begin -> value);
-        
     }
 
     list = begin;
 
+    //update(begin, 5, 40);
     print(begin);
-    printf("%d\n", find(begin, 5));
-    printf("%d\n", find(begin, 50));
+    //printf("%d\n", has(begin, 5));
+    //printf("%d\n", has(begin, 50));
     clear(begin);
 
     return 0;
