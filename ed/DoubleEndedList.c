@@ -7,6 +7,8 @@ typedef struct node {
     struct node *previous;
 
 } node;
+
+int length = 0;
  
 ////////// SEARCH
 
@@ -81,6 +83,8 @@ void insert(node** begin, node** current, int index, int val) {
         (*current) -> next -> previous = new;
     }
 
+    length++;
+
 }
 
 void push_back(node** current, node** begin, int val) {
@@ -97,6 +101,7 @@ void push_back(node** current, node** begin, int val) {
 
 
     } else {
+        printf("C: %d\n", (*current)->value);
         (*current) -> next = (node*)malloc(sizeof(node));
         (*current) -> next -> value = val;
         (*current) -> next -> next = NULL;
@@ -104,6 +109,8 @@ void push_back(node** current, node** begin, int val) {
         (*current) = (*current) -> next;
 
     }
+
+    length++;
 }
 
 void insertBefore(node** begin, node** current, int old, int newVal) {
@@ -128,6 +135,8 @@ void insertBefore(node** begin, node** current, int old, int newVal) {
     (*current) -> previous -> next = new;
     (*current) -> next -> previous = new;
 
+    length++;
+
 }
 
 ////////// OTHER
@@ -137,29 +146,49 @@ void erase(node** b, int i) {
      * Removes a element of a given index from the list.
      * */
 
-    if (i == 0) {
-        node* aux = (*b);
-        (*b) -> next -> previous = NULL;
-        (*b) = (*b) -> next;
-        //free(aux);
+    if (length != 0) {
+        if (i == 0) {
+            node* aux = (*b);
+            (*b) -> next -> previous = NULL;
+            (*b) = (*b) -> next;
+        
+            free(aux);
+    
+        } else if (i == length-1) {
+            printf("asdasdasd\n");
+            node* aux = (*b);
+            (*b) -> previous -> next = NULL;
+            (*b) = (*b) -> previous;
+
+            free(aux);
+    
+        } else {
+            node* aux;
+            node* aux1;
+            node* aux2;
+    
+            int c = 0;
+            while (c < i) {
+                (*b) = (*b) -> next;
+                c++;
+            }
+            aux = (*b);
+
+            aux1 = (*b) -> next;
+            aux2 = (*b) -> previous;
+
+            // TODO add a shit for the last shit;
+            (*b) -> next -> previous = aux2;
+            (*b) -> previous -> next = aux1;
+
+            free(aux);
+        }
+
+        length--;
 
     } else {
-        node* aux;
-        node* aux1;
-        node* aux2;
+        printf("Lista Vazia!!\n");
 
-        int c = 0;
-        while (c < i-1) {
-            (*b) = (*b) -> next;
-            c++;
-        }
-        aux = (*b);
-        aux1 = (*b) -> next -> next;
-        aux2 = (*b) -> next -> previous;
-
-        (*b) -> next = aux1;
-        (*b) -> next -> previous = aux2;
-        //free(aux);
     }
 }
 
@@ -171,6 +200,8 @@ void clear(node* b) {
     if (b == NULL) return;
     clear(b->next);
     free(b);
+
+    length = 0;
 }
 
 void print(node* b, char sep) {
@@ -216,7 +247,7 @@ void update(node *b, int val, int new) {
 }
 
 void showMenu() {
-	printf("\t\tMENU\n");
+	printf("\n\t\tMENU\n");
     printf("===================================================\n");
     printf(" |\t0 - Sair                                 |\n");
     printf(" |\t1 - Inserir elemento (ao fim)            |\n");
@@ -227,11 +258,11 @@ void showMenu() {
     printf(" |\t6 - Buscar valor                         |\n");
     printf(" |\t7 - Excluir valor                        |\n");
     printf(" |\t8 - Limpar lista                         |\n");
+    printf(" |\t9 - Mostrar menu novamente               |\n");
     printf("===================================================\n");
-    printf(">>> ");
 }
 
-int main() {//TODO ERASE NOT WORKING
+int main() {
             //TODO INSERIR ELEMENTO ANTES NOT WORKING
 
     node *begin = NULL;
@@ -240,22 +271,27 @@ int main() {//TODO ERASE NOT WORKING
     char sep = ' ';
 
     int val1, val2, opt;
-    
+    showMenu();
+
     while (1) {
         
-		showMenu();
+        printf("\n>>> ");
         scanf(" %d", &opt);
 
+        // EXIT
         if (opt == 0) {
         	break;
 
+        // PUSH BACK
         } else if (opt == 1) {
+            list = end;
         	printf("Valor a inserir: ");
         	scanf(" %d", &val1);
         	push_back(&list, &begin, val1);
 
             end = list;
 
+        // INSERT BEFORE
         } else if (opt == 2) {
         	printf("Valor a inserir: ");
         	scanf(" %d", &val1);
@@ -266,12 +302,15 @@ int main() {//TODO ERASE NOT WORKING
             list = begin;
             insertBefore(&begin, &list, val2, val1);
 
+        // PRINT
         } else if (opt == 3) {
 	        print(begin, sep);
 
+        // PRINT REVERSED
         } else if (opt == 4) {
 	        printR(end, sep);
 
+        // UPDATE VALUE
         } else if (opt == 5) {
         	printf("Valor antigo: ");
             scanf(" %d", &val1);
@@ -280,6 +319,7 @@ int main() {//TODO ERASE NOT WORKING
 
             update(begin, val1, val2);
 
+        // FIND VALUE
         } else if (opt == 6) {
             printf("Valor a ser buscado: ");
             scanf(" %d", &val1);
@@ -287,28 +327,36 @@ int main() {//TODO ERASE NOT WORKING
             if (has(begin, val1)) printf("Valor existe!\n");
             else printf ("Valor não encontrado!!!!\n");
 
+        // DELETE ELEMENT
         } else if (opt == 7) {
             printf("Valor a excluir: ");
             scanf(" %d", &val1);
 
             list = begin;
-            int index = find(begin, val1);
-            printf("IDX %d\n", index);
-            erase(&begin, index);
 
+            int index = find(begin, val1);
+            erase(&list, index);
+
+            if (index == length-1) end = list;
+
+        // CLEAR LIST
         } else if (opt == 8) {
             clear(begin);
             free(end);
             free(list);
 
-        } else if (opt == 999) {
+        } else if (opt == 9) {
+            showMenu();
+
+        } else if (opt = 999) {
             printf("(ಠ‿ಠ)\n");
 
         } else {
             printf("Sorry, I don't know what this means!\n");
         }
+
+        printf("L: %d\n", length);
     }
 
-    return 0;
- 
+    return 0; 
 }
