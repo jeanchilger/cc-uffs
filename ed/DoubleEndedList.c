@@ -192,7 +192,7 @@ void update(node *b, int old, int new) {
         b = b -> next;
     }
 
-    printf("Valor não encontrado\n");
+    printf("Valor nao encontrado\n");
 }
 
 void showMenu() {
@@ -281,7 +281,7 @@ int main() {
             scanf(" %d", &val1);
 
             if (has(begin, val1)) printf("Valor existe!\n");
-            else printf ("Valor não encontrado!\n");
+            else printf ("Valor nao encontrado!\n");
 
     // DELETE ELEMENT
         } else if (opt == 7) {
@@ -290,7 +290,7 @@ int main() {
 
 			node* elem = find(begin, val1);
 			if (elem == NULL) {
-				printf("Valor não encontrado :(\n");
+				printf("Valor nao encontrado :(\n");
 			} else {
             	erase(&begin, &end, &elem);
 			}
@@ -300,13 +300,14 @@ int main() {
             clear(begin);
 
             begin = end = list = NULL;
+			printf("OK.\n");
 
 	// SHOW MENU
         } else if (opt == 9) {
             showMenu();
 
         } else if (opt == 999) {
-            printf("(ಠ‿ಠ)\n");
+            printf("(^ _ ^)\n");
 
         } else {
             printf("What did you said?\n");
