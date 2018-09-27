@@ -8,7 +8,6 @@ typedef struct node {
 
 } node;
 
- 
 ////////// SEARCH
 
 void at(node *b, int index) {
@@ -64,21 +63,18 @@ void push_back(node** current, node** begin, int val) {
         (*current) -> previous = NULL;
         *begin = *current;
 
-
     } else {
         (*current) -> next = (node*)malloc(sizeof(node));
         (*current) -> next -> value = val;
         (*current) -> next -> next = NULL;
         (*current) -> next -> previous = (*current);        
         (*current) = (*current) -> next;
-
     }
-
 }
 
 void insertBefore(node** begin, int val, int newVal) {
     /*
-     * Searches for an value and inserts a new element after that value
+     * Searches for an value and inserts a new element before that value
      * */
     
     node* elem = find((*begin), val);
@@ -88,7 +84,6 @@ void insertBefore(node** begin, int val, int newVal) {
 		new -> value = newVal;
 		
 		if (elem -> previous == NULL) {
-			printf("asd %d\n", elem->value);
 			new -> previous = NULL;
 			new -> next = (*begin);
 			(*begin) -> previous = new;
@@ -102,9 +97,8 @@ void insertBefore(node** begin, int val, int newVal) {
 		}
 		
    	} else {
-   		printf("Lista Vazia!!!\n");
+        printf("Lista vazia\n");
    	}
-
 }
 
 ////////// OTHER
@@ -114,7 +108,14 @@ void erase(node** begin, node** end, node** elem) {
      * Removes a element from the list.
      * */
 
-    if (begin != end) {
+	if ((*begin) == (*end)) {
+		node* aux = (*begin);
+		(*begin) = NULL;
+		(*end) = NULL;
+
+		free(aux);
+
+    } else {
         if ((*elem) -> previous == NULL) {
             node* aux = (*begin);
             (*begin) -> next -> previous = NULL;
@@ -139,10 +140,6 @@ void erase(node** begin, node** end, node** elem) {
 
             free(aux);
         }
-
-    } else {
-        printf("Lista Vazia!!\n");
-
     }
 }
 
@@ -154,7 +151,6 @@ void clear(node* b) {
     if (b == NULL) return;
     clear(b->next);
     free(b);
-
 }
 
 void print(node* b, char sep) {
@@ -196,7 +192,7 @@ void update(node *b, int old, int new) {
         b = b -> next;
     }
 
-    printf("Value wasn't found\n");
+    printf("Valor não encontrado\n");
 }
 
 void showMenu() {
@@ -285,7 +281,7 @@ int main() {
             scanf(" %d", &val1);
 
             if (has(begin, val1)) printf("Valor existe!\n");
-            else printf ("Valor não encontrado!!!!\n");
+            else printf ("Valor não encontrado!\n");
 
     // DELETE ELEMENT
         } else if (opt == 7) {
@@ -293,7 +289,11 @@ int main() {
             scanf(" %d", &val1);
 
 			node* elem = find(begin, val1);
-            erase(&begin, &end, &elem);
+			if (elem == NULL) {
+				printf("Valor não encontrado :(\n");
+			} else {
+            	erase(&begin, &end, &elem);
+			}
 
     // CLEAR LIST
         } else if (opt == 8) {
@@ -311,7 +311,6 @@ int main() {
         } else {
             printf("What did you said?\n");
         }
-
     }
 
     return 0; 
