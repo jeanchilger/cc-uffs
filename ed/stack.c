@@ -15,7 +15,7 @@ int empty(node* top);
 void push (node** top, int val) {
     /*
      * Adds an element at the top of the stack.
-     * */
+    * */
 
     if (empty(*top)) {
         (*top) = (node*)malloc(sizeof(node));
