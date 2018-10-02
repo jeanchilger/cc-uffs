@@ -14,8 +14,29 @@ int empty (node* head) {
     return (head == NULL);
 }
 
+int get_front (node* head) {
+    /*
+    * Returns the next value to be removed in the queue (the first).
+    * If queue is empty, returns -999.
+    * */
+
+    if (empty(head)) {
+        printf("ERROR: queue is empty, nothing to show.\n");
+        return -999;
+                               
+    } else {
+        return head -> value;
+                      
+    }
+}
+
+
 void enqueue (node** tail, node** head, int val) {
-    if ((*tail) == NULL) {
+    /*
+     * Adds a new value at the end of the queue.
+     * */
+
+    if (empty((*head))) {
         (*tail) = (node*)malloc(sizeof(node));
         (*tail) -> next = NULL;
         (*tail) -> value = val;
@@ -28,33 +49,23 @@ void enqueue (node** tail, node** head, int val) {
         (*tail) -> value = val;
         aux -> next = (*tail);
     }
-    printf("AAAA: %d", (*tail) -> value);
 }
 
 void dequeue (node** head) {
+    /*
+     * Removes the first value of the queue.
+     * */
+
     if (empty ((*head))) {
         printf("ERROR: queue is empty, you cannot remove elements.\n");
         return;
 
     } else {
+        printf("%d was removed.\n", get_front((*head)));
         node* aux = (*head);
         (*head) = (*head) -> next;
 
         free(aux);
-    }
-}
-
-int get_front (node* head) {
-    /*
-     * Returns the next value to be removed in the queue (the first).
-     * If queue is empty, returns -999.
-     * */
-
-    if (empty(head)) {
-        printf("ERROR: queue is empty, nothing to show.\n");
-        return -999;
-    } else {
-        return head -> value;
     }
 }
 
@@ -67,6 +78,7 @@ void showMenu () {
         printf(" | 9 - Mostrar menu                      |\n");
         printf(" | 0 - Sair                              |\n");
         printf(" |---------------------------------------|\n");
+        printf("\n");
 }
 
 int main () {
@@ -89,9 +101,8 @@ int main () {
             dequeue(&head);
 
         } else if (opt == 3) {
-            int elem = get_front (head);
-            if (elem != -999) {
-                printf("Elemento à frente é: %d.\n", elem);
+            if (!empty(head)) {
+                printf("Elemento à frente é: %d.\n", get_front(head));
             }
 
         } else if (opt == 9) {
