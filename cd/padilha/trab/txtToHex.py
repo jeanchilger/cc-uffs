@@ -7,8 +7,9 @@ f = open("in.txt", "w")
 print("v2.0 raw", file=f)
 
 for x in s:
-    inp = list(bin(ord(x))[4:])
+    inp = list(bin(ord(x))[2:])
     print(inp)
+    inp = inp[2:]
 
     #braille_ascii = "10"
     braille_ascii = ""
