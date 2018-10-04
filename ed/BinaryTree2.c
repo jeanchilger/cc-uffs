@@ -8,7 +8,7 @@ typedef struct Node {
      * Right: bigger than value.
      * */
 
-    int value;
+    long long int value;
     struct Node *right;
     struct Node *left;
 } node;
@@ -51,6 +51,7 @@ node *search (node *root, int val) {
      * If the value is found within the list, returns a pointer to it.
      * Else, returns NULL.
      * */
+
     if (root == NULL) {
         return NULL;
     }
@@ -120,14 +121,14 @@ int main () {
     node* root = NULL;
     int val, opt;
 
-    long long int i;
+    long int i;
     clock_t tbegin, tend;
     double time_spent;
  
     tbegin = clock();
     for(i = 0; i <= SIZE; i++) {
         printf("%ld\r\r\r\r\r\r\r", i);
-        insert(&root, rand() % 100);
+        insert(&root, rand());
     }
     tend = clock();
     time_spent = (double)(tend - tbegin)/CLOCKS_PER_SEC;
@@ -147,11 +148,7 @@ int main () {
         } else*/ if (opt == 2) {
             printf("Value to search: ");
             scanf(" %d", &val);
-            clock_t tb;
-            clock_t te;
-            double ts;
             
-            tb = clock();
             node* elem = search(root, val);
             if (elem == NULL) {
                 printf ("%d not found\n", val);
@@ -159,10 +156,6 @@ int main () {
             } else {
                 printf("%d found\n", val);
             }
-            te = clock();
-            ts = (double)(te - tb) / CLOCKS_PER_SEC;
-
-            printf("Asd %4.2lf", ts);
 
         } else if (opt == 3) {
             printf("Crescente (1)\\decrescente (2): ");
