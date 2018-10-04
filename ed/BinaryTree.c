@@ -12,9 +12,6 @@ typedef struct Node {
     struct Node *left;
 } node;
 
-void _printRight(node *root);
-void _printLeft(node *root);
-
 int empty (node *root) {
     /*
      * Returns wether or not the list is empty.
@@ -67,18 +64,6 @@ node *search (node *root, int val) {
     }
 }
 
-void _printLeft(node *root) {
-    if (root == NULL) return;
-    _printLeft(root -> left);
-    _printRight(root -> right);
-    printf(" %d", root -> value);
-}
-
-void _printRight(node *root) {
-    if (root == NULL) return;
-
-}
-
 void print(node *root) {
     /*
      * Prints the elements in "sorted" order.
@@ -89,7 +74,7 @@ void print(node *root) {
     print(root -> left);
     printf(" %d", root -> value);
     print(root -> right);
-    printf(" %d", root -> value);
+    //printf(" %d", root -> value);
 }
 
 void showMenu() {
@@ -137,9 +122,9 @@ int main () {
         } else if (opt == 3) {
             print(root);
         
-        } else if (opt == 4) {
+        /*} else if (opt == 4) {
         
-        } else if (opt == 5) {
+        } else if (opt == 5) {*/
         
         } else if (opt == 9) {
             showMenu();
