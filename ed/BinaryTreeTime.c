@@ -13,7 +13,6 @@ typedef struct Node {
     struct Node *left;
 } node;
 
-#define SIZE 1000000
 
 int empty (node *root) {
     /*
@@ -66,33 +65,9 @@ node *search (node *root, int val) {
     }
 }
 
-void printI(node *root) {
-    /*
-     * Prints the elements in increasing order.
-     * */
-
-    if (root == NULL) return;
-
-    printI(root -> left);
-    printf(" %d", root -> value);
-    printI(root -> right);    
-}
-
-void printD(node *root) {
-    /*
-     * Prints the elements in decreasing order.
-     * */
-
-    if (root == NULL) return;
-
-    printD(root -> right);
-    printf(" %d", root -> value);
-    printD(root -> left);
-}
-
 void clear(node *root) {
     /*
-     * Clear the entire list
+     * Clear the entire list.
      * */
 
     if (root == NULL) return;
@@ -104,54 +79,47 @@ void clear(node *root) {
 void showMenu() {
 	printf("\n\t\t  MENU\n");
     printf("================================================\n");
-    printf(" | 1 - Insert element                         |\n");
+    printf(" | 1 - Insert elements                        |\n");
     printf(" | 2 - Search value                           |\n");
-    printf(" | 3 - Print elements                         |\n");
-    printf(" | (X)4 - Erase element                       |\n");
-    printf(" | 5 - Clean list                             |\n");
+    printf(" | 3 - Clean list                             |\n");
     printf(" | 9 - Show menu                              |\n");
     printf(" | 0 - Exit                                   |\n");
     printf("================================================\n");
 }
 
 int main () {
-    node* begin = NULL;
-    node* end = NULL;
     node* root = NULL;
     int val, opt;
+	int i;
 
-    long long int i;
     clock_t tbegin, tend;
     double time_spent;
- 
-    tbegin = clock();
-    for(i = 0; i <= SIZE; i++) {
-        printf("%ld\r\r\r\r\r\r\r", i);
-        insert(&root, rand() % 100);
-    }
-    tend = clock();
-    time_spent = (double)(tend - tbegin)/CLOCKS_PER_SEC;
-    printf("\n%4.2lf\n", time_spent);
 
     showMenu();
     while (1) {
         printf("\n>>> ");
         scanf(" %d", &opt);
 
-/*        if (opt == 1) {
-            printf("Value to insert: ");
+        if (opt == 1) {
+            printf("How many values to insert: ");
             scanf(" %d", &val);
 
-            insert(&root, val);
+			tbegin = clock();
+            for (i = 0; i < val; i++) {
+            	printf("%d\r\r\r\r\r", i);
+	            insert(&root, rand() % 100);
+            }
+            
+            tend = clock();
 
-        } else*/ if (opt == 2) {
+            time_spent = (double)(tend - tbegin) / CLOCKS_PER_SEC;
+            printf("The insertion took %4.5lf seconds.\n", time_spent);
+
+        } else if (opt == 2) {
             printf("Value to search: ");
             scanf(" %d", &val);
-            clock_t tb;
-            clock_t te;
-            double ts;
             
-            tb = clock();
+            tbegin = clock();
             node* elem = search(root, val);
             if (elem == NULL) {
                 printf ("%d not found\n", val);
@@ -159,24 +127,12 @@ int main () {
             } else {
                 printf("%d found\n", val);
             }
-            te = clock();
-            ts = (double)(te - tb) / CLOCKS_PER_SEC;
-
-            printf("Asd %4.2lf", ts);
-
+            tend = clock();
+			
+			time_spent = (double)(tend - tbegin) / CLOCKS_PER_SEC;
+            printf("The search took %4.5lf seconds.\n", time_spent);
+        
         } else if (opt == 3) {
-            printf("Crescente (1)\\decrescente (2): ");
-            scanf(" %d", &val);
-            if (val == 1) {
-                printI(root);
-
-            } else {
-                printD(root);
-            }
-        
-        /*} else if (opt == 4) {*/
-        
-        } else if (opt == 5) {
             clear(root);
             root = NULL;
         
@@ -185,10 +141,13 @@ int main () {
         
         } else if (opt == 0) {
             printf("Goodbye.\n");
+            if (root != NULL) {
+            	clear(root);
+            }
             break;
 
         } else {
-            printf("What did you said?\n");
+            printf("What did you say?\n");
         }
 
     }
