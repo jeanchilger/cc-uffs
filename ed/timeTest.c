@@ -2,68 +2,70 @@
 #include <stdlib.h>
 #include <time.h>
 
-typedef struct Node {
-    int value;
-    struct Node *next;
-} node;
+#define RANGE 10
 
-void insert(node **begin, node **list, int val) {
-    if ((*begin) == NULL) {
-        (*begin) = (node*)malloc(sizeof(node));
-        (*begin) -> value = val;
-        (*begin) -> next = NULL;
+void insert(int *array, int index, int value) {
+    array[index] = value;
+}
 
-    } else {
-        (*current) -> next = (node*)malloc(sizeof(node));
-        (*current) -> next -> value = val;
-        (*current) -> next -> next = NULL;
-        (*current) = (*current) -> next;
+void sortInsert(int *array, int last, int value) {
+    if (last == 0) array[0] = value;
+    else {
+        int idx = last - 1;
+        while ((array[idx] <= value) && idx > 0) {
+            array[idx + 1] = array[idx];
+            idx--;
+        }
+
+        array[idx] = value;
     }
 }
 
-void showMenu() {
-    printf("\n\t\t  MENU\n");
-    printf("================================================\n");
-    printf(" | 1 - Insert element                         |\n");
-    printf(" | 2 - Search value                           |\n");
-    printf(" | 3 - Clean list                             |\n");
-    printf(" | 9 - Show menu                              |\n");
-    printf(" | 0 - Exit                                   |\n");
-    printf("================================================\n");                                                       
-}
-
-
-int main() {
-    
-    int val, opt;
-    node *begin = NULL;
-    node *list = NULL;
-
-    while (1) {
-        printf(">>> ");
-        scanf(" %d", &opt);
-
-        if (opt == 1) {
-            printf("Value to insert: ");
-            scanf(" %d", &val);
-            insert(&begin, val);
-
-        } else if (opt == 2) {
-
-        } else if (opt == 3) {
-
-        } else if (opt == 9) {
-            showMenu();
-
-        } else if (opt == 0) {
-            printf("Goodbye.\n");
-            break;
-
-        } else {
-            printf("What did you say?\n");
-        }
+int search(int *array, int size, int value) {
+    int i = 0;
+    for (; i < size; i++) {
+        if (array[i] == value) return 1;
     }
 
     return 0;
 }
 
+int main () {
+
+    int size, val;
+
+    clock_t tbegin, tend;
+    double time_spent;
+
+    printf("Vector size: ");
+    scanf(" %d", &size);
+    int array[size];
+
+    tbegin = clock();
+    int i;
+    for (i=0; i < size; i++) {
+        sortInsert(array, i, rand() % RANGE);
+    }
+    /*
+    tend = clock();
+    time_spent = (double)(tend - tbegin) / CLOCKS_PER_SEC;
+    printf("The insertion took %4.5lf seconds.\n\n", time_spent);
+
+    val = rand() % RANGE;
+    printf("Looking for %d in vector...\n", val);
+    tbegin = clock();
+    if (search(array, size, val)) printf("There it is.\n");
+    else printf("I don't know you!\n");
+    tend = clock();
+
+    time_spent = (double)(tend - tbegin) / CLOCKS_PER_SEC;
+    printf("The searching took %4.5lf seconds.\n", time_spent);
+    */
+    printf("\n1\n");
+    for (i = 0; i < size; i++) {
+        printf(" %d", array[i]);
+    }
+    printf("\n2\n");
+
+    return 0;
+}
