@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 int binSearch(int *array, long int val, int length) {
+
     int start = 0, end = length-1, mid;
 
     while (start <= end) {
