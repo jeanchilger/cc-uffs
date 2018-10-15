@@ -17,16 +17,23 @@ int binSearch(int *array, long int val, int length) {
     return -1;
 }
 
-void insertVector(int *array, long int last, int val) {
-   while (1) {
-       if (last == 0 || array[last-1] < val) {
-           array[last] = val;
-           break;
-       }
-       array[last] = array[last-1];
-       last--;
-   }
-}
+void insert(int *array, int index, int value) {
+    printf(" %d ", value);
+    
+    if (index == 0) array[0] = value;
+    
+    while (index > 0) {
+        if (array[index-1] < value) break;
+        else {
+            array[index] = array[index-1];
+        }
+
+        index--;
+    }
+
+    array[index] = array[index-1];
+    array[index] = value;
+} 
 
 int main () {
 
@@ -40,11 +47,12 @@ int main () {
 
 	for (i=0; i < length; i++) {
 		a = (int)(rand() % 1000);
-		insertVector(array, i, a);
+		insert(array, i, a);
 	}
+    printf("\n");
 
 	for (i=0; i < length; i++) {
-		printf(" %li", array[i]);
+		printf(" %d", array[i]);
 	}
 
 	printf("\nValor pra procurar: ");

@@ -1,11 +1,6 @@
 #include <stdio.h>
 
-void t(int*p) {
-    int a = 56;
-    printf("%p\n", p);
-    printf("Bjarne Stroustrup\n");
-    p = &a;
-}
+
 
 int main() {
 
