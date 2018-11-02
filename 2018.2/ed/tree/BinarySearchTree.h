@@ -12,22 +12,31 @@ typedef struct TNode {
     struct TNode *right;
 } Node;
 
-// Checks if the Tree is empty
+// 1 - Checks if the Tree is empty.
 int empty (Node *);
 
-// Inserts a new value into the Tree
+// 2 - Inserts a new value into the Tree.
 void insert (Node **, int);
 
-// Searches for a given value
+// 3 - Searches for a given value.
 Node *search (Node *, int);
 
-// Prints the values in increasing order
+// 4 - Removes a single element from the tree.
+void eraseElement(Node **, int);
+
+// 5 - Prints the values in increasing order.
 void printInOrder(Node *);
 
-// Clear the entire list
+// 6 - Clear the entire list.
 void clear(Node *);
 
-// Shows the menu with the avaiable operations
+// 7 - Calculates the height of the tree.
+int treeHeight(Node *);
+
+// 8 - Counts the number of nodes.
+int countNodes(Node *);
+
+// 9 - Shows the menu with the avaiable operations.
 void showMenu();
 
 #endif
