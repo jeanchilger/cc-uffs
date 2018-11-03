@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "avl.h"
+
+int main() {
+	int opt, val;
+	Node *root = NULL;
+    showMenu();
+    
+    while (1) {
+        printf("\n>>> ");
+        scanf(" %d", &opt);
+        
+        if (opt == 1) {
+            printf("Value to insert: ");
+            scanf(" %d", &val);
+
+            insert(&root, val);
+
+        } else if (opt == 2) {
+            /*printf("Value to search: ");
+            scanf(" %d", &val);
+            
+            Node* elem = search(root, val);
+            if (elem == NULL) {
+                printf ("%d not found\n", val);
+            
+            } else {
+                printf("%d found\n", val);
+            }*/
+
+        } else if (opt == 3) {           
+            printf(" 1 - Pre-Order\n 2 - In-Order\n 3 - Post-Order\n: ");
+            int n;
+            scanf(" %d", &n);
+            if (n == 1) {
+                printPreOrder(root);
+
+            } else if (n == 2) {
+                printInOrder(root);
+            
+            } else if (n == 3) {
+                printPostOrder(root);
+            }
+        
+        } else if (opt == 4) {
+        
+        } else if (opt == 5) {
+            clear(root);
+            root = NULL;
+        
+        } else if (opt == 6) {
+            int h = calcTreeHeight(root);
+            printf("%d, counting root,\n", h + 1);
+            printf("%d, not counting.\n", h);
+
+        } else if (opt == 7) {
+            int n = countNumberOfNodes(root);
+            printf("Number of nodes: %d\n", n);
+
+        } else if (opt == 9) {
+            showMenu();
+        
+        } else if (opt == 0) {
+            printf("Goodbye.\n");
+            break;
+
+        } else {
+            printf("What did you said?\n");
+        }
+    }
+    return 0;
+}
