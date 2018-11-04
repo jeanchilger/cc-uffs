@@ -31,14 +31,14 @@ Node *newNode(int val) {
     node -> left = NULL;
     node -> right = NULL;
     node -> value = val;
-    node -> height = -1;
+    node -> height = 0;
     return node;
 }
 
 int getHeight(Node *node) {
     /*
      * Returns the height attribute of a node.
-     * No calculations is done.
+     * No calculation is done.
      * */
 
     if (node == NULL) return 0;
@@ -50,12 +50,17 @@ void leftRotate(Node **node) {
      * Execute the LEFT rotation in the subtree where the given node is the root.
      * */
     
-    Node *z = (*node);
-    Node *y = (*node) -> right;
-    Node *x = (*node) -> right -> right;
-    z -> right = y -> left;
-    y -> left = z;
-    (*node) = y;
+    Node *a = (*node);
+    Node *b = a -> right;
+    Node *aux = b -> left;
+
+    b -> left = a;
+    a -> right = aux;
+
+    a -> height = max(getHeight(a -> left), getHeight(a -> right)) + 1;
+    b -> height = max(getHeight(b -> left), getHeight(b -> right)) + 1;
+
+    (*node) = b;
 }
 
 void rightRotate(Node **node) {
@@ -63,13 +68,18 @@ void rightRotate(Node **node) {
      * Executes the RIGHT rotation in the subtree where the given node is the root.
      * */
 
-    Node *z = (*node);
-    Node *y = (*node) -> left;
-    Node *x = (*node) -> left -> left;
-    z -> left = y -> right;
-    y -> right = z;
-    (*node) = y;
-}
+    Node *a = (*node);
+    Node *b = a -> left;
+    Node *aux = b -> right;
+
+    b -> right = a;
+    a -> left = aux;
+
+    a -> height = max(getHeight(a -> left), getHeight(a -> right)) + 1;
+    b -> height = max(getHeight(b -> left), getHeight(b -> right)) + 1;
+
+    (*node) = b;
+} 
 
 //
 // AVL functions
@@ -99,42 +109,41 @@ void insert(Node **root, int val) {
             insert(&((*root) -> left), val);
                                 
         } else {
-            printf("Baka!!\nValue already exists.\n");
+            //printf("Baka!!\nValue already exists.\n");
             return;
         }    
     }
     
-    // Updates the height for new node
+    // Updates the heights after new node is inserted
     (*root) -> height = 1 + max(getHeight((*root) -> left), 
                                 getHeight((*root) -> right));
 
     // Checks if tree is unbalanced
     int balance = abs(getHeight((*root) -> left) - getHeight((*root) -> right));
     if (balance > 1) {
+        
         if (getHeight((*root) -> left) > getHeight((*root) -> right)) {
+  
             // left left case
             if (getHeight((*root) -> left -> left) > getHeight((*root) -> left -> right)) {
-                printf("LEFT LEFT\n");
                 rightRotate(root);
 
 
             // left right case
             } else {
-                printf("LEFT RIGHT\n");
                 leftRotate(&((*root) -> left));
                 rightRotate(root);
             }
 
         } else {
+            
             // right right case
             if (getHeight((*root) -> right -> right) > getHeight((*root) -> right -> left)) {
-                printf("RIGHT RIGHT\n");
                 leftRotate(root);
 
 
             // right left case
             } else {
-                printf("RIGHT LEFT\n");
                 rightRotate(&((*root) -> right));
                 leftRotate(root);
             }
@@ -147,6 +156,7 @@ Node *search(Node *root, int val) {
      * Searchs for a given value in the tree and returns a pointer to it.
      * If not found, returns NULL.
      * */
+
     return NULL;
 }
 
@@ -156,11 +166,10 @@ void printPreOrder(Node *root) {
      * */
      
     if (root == NULL) return;
-    printf(" %d", root -> value);
+    printf("| %d: %d ", root -> value, root -> height);
     printPreOrder(root -> left);
     printPreOrder(root -> right);                         
 }
-
 
 void printInOrder(Node *root) {
     /*
@@ -198,10 +207,10 @@ void clear(Node *root) {
 int calcTreeHeight(Node *node) {
     /*
      * Calculates the height of the tree at the given node.
-     * By default, the root is not counted.
+     * By default, the root is counted.
      * */
-    
-    if (node == NULL) return -1;
+   
+    if (node == NULL) return 0;
     return max(1 + calcTreeHeight(node -> left), 
                1 + calcTreeHeight(node -> right));
 }
@@ -222,7 +231,7 @@ void showMenu() {
     printf(" | (X)2 - Search value                        |\n");
     printf(" | 3 - Print elements                         |\n");
     printf(" | (X)4 - Erase element                       |\n");
-    printf(" | (X)5 - Clean list                          |\n");
+    printf(" | 5 - Clean list                             |\n");
     printf(" | 6 - Calc. tree height                      |\n");
     printf(" | 7 - Number of nodes                        |\n");
     printf(" | 9 - Show menu                              |\n");

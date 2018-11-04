@@ -7,6 +7,14 @@ int main() {
 	Node *root = NULL;
     showMenu();
     
+
+    insert(&root, 10);
+    insert(&root, 20);
+    insert(&root, 30);
+    insert(&root, 40);
+    insert(&root, 50);
+    insert(&root, 25);
+
     while (1) {
         printf("\n>>> ");
         scanf(" %d", &opt);
@@ -51,8 +59,8 @@ int main() {
         
         } else if (opt == 6) {
             int h = calcTreeHeight(root);
-            printf("%d, counting root,\n", h + 1);
-            printf("%d, not counting.\n", h);
+            printf("%d, counting root,\n", h);
+            printf("%d, not counting.\n", h - 1);
 
         } else if (opt == 7) {
             int n = countNumberOfNodes(root);

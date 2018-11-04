@@ -34,7 +34,7 @@ void printPostOrder(Node *);
 void clear(Node *);
 
 // Calculates the height of the tree at the given node.
-// By default, 
+// By default, the root is counted. 
 int calcTreeHeight(Node *);
 
 // Counts the number of the nodes in the tree.
