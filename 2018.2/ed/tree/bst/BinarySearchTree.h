@@ -39,4 +39,7 @@ int countNodes(Node *);
 // 9 - Shows the menu with the avaiable operations.
 void showMenu();
 
+// 10 - BFS.
+void printBFS(Node *, int);
+
 #endif

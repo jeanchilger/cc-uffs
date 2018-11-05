@@ -153,11 +153,14 @@ void insert(Node **root, int val) {
 
 Node *search(Node *root, int val) {
     /*
-     * Searchs for a given value in the tree and returns a pointer to it.
+     * Searchs for a given value in the tree and returns a pointer to its node.
      * If not found, returns NULL.
      * */
 
-    return NULL;
+    if (root == NULL) return NULL;
+    if (root -> value == val) return root;
+    if (val > root -> value) return search(root -> right, val);
+    if (val < root -> value) return search(root -> left, val);
 }
 
 void printPreOrder(Node *root) {

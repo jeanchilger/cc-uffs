@@ -112,6 +112,13 @@ int countNodes(Node *root) {
     return countNodes(root -> left) + countNodes(root -> right) + 1;
 }
 
+void printBFS(Node *root, int h) {
+    if (root == NULL) return;
+    printBFS(root -> left, h-1);
+    printBFS(root -> right, h-1);
+    if (h == 0) printf(" %d", root -> value);
+
+}
 
 void showMenu() {
     printf("\n\t\t  MENU\n");

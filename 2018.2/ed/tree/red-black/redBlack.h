@@ -1,5 +1,5 @@
-#ifndef _$AVL_$a23e
-#define _$AVL_$a23e
+#ifndef _$RBT$21_$1a
+#define _$RBT$21_$1a
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,7 +8,8 @@ struct TNode {
     int value;
     struct TNode *left;
     struct TNode *right;
-    int height;
+    struct TNode *parent;
+    int color; // 0 - Red, 1 - Black
 };
 
 typedef struct TNode Node;
@@ -17,7 +18,7 @@ typedef struct TNode Node;
 int empty(Node *);
 
 // Inserts a new element in the tree.
-// If the insertion makes tree skewed, it is rebalanced.
+// If the insertion makes the tree skewed, it is rebalanced following Red-Black rules.
 void insert(Node **, int);
 
 // Searchs for a given value in the tree and returns a pointer to its node.
@@ -39,7 +40,7 @@ void clear(Node *);
 // Calculates the height of the tree at the given node.
 // By default, the root is counted. 
 int calcTreeHeight(Node *);
-
+ 
 // Counts the number of the nodes in the tree.
 int countNumberOfNodes(Node *);
 

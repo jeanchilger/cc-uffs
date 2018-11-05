@@ -33,15 +33,19 @@ int main() {
             }
 
         } else if (opt == 3) {
-            /*printf("Crescente (1)\\decrescente (2): ");
+            printf("Crescente (1)\\bfs (2): ");
             scanf(" %d", &val);
-            if (val == 1) {*/
+            if (val == 1) {
             
-            printInOrder(root);
+                printInOrder(root);
 
-            /*} else {
-                printD(root);
-            }*/
+            } else {
+                int i;
+                for (i = 0; i < treeHeight(root); i++) {
+                    printBFS(root, i);
+                    printf("\n");
+                }
+            }
         
         /*} else if (opt == 4) {*/
         
@@ -64,6 +68,15 @@ int main() {
         } else if (opt == 0) {
             printf("Goodbye.\n");
             break;
+
+        } else if (opt == 10) {
+            int i;
+            Node *aux = root;
+            for (i = treeHeight(root); i > 0; i++) {
+                //printf(" \r%d", i);
+                printBFS(root, i);
+                printf("\n");
+            }
 
         } else {
             printf("What did you said?\n");
