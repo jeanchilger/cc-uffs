@@ -12,11 +12,15 @@ struct TNode {
 
 typedef TNode Node;
 
-// Checks wether the tree is empty or not.
+// Returns wether the tree is empty or not.
 int empty(Node *);
 
 // Inserts a new element to the tree.
 void insert(Node **, int);
+
+// Searchs for a given value in the tree and returns a pointer to its node.
+// If not found, returns NULL.
+Node *search(Node *, int);
 
 // Prints the menu, showing avaiable options.
 void showMenu();

@@ -33,6 +33,9 @@ void printInOrder(Node *);
 // Traverse the tree Post Order and prints the nodes.
 void printPostOrder(Node *);
 
+// Traverse the tree using Breadth First Search and prints the nodes.
+void printBFS(Node *);
+
 // Clear the entire tree.
 void clear(Node *);
 

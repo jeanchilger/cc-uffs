@@ -13,15 +13,6 @@ int max(int a, int b) {
     return (a > b) ? a : b;      
 }
 
-int abs(int x) {
-    /*
-     * Returns the absolute value of the given number.
-     * */
-
-    if (x < 0) x *= -1;
-    return x;
-}
-
 Node *newNode(int val) {
     /*
      * Creates a new tree node and returns it.
@@ -119,34 +110,32 @@ void insert(Node **root, int val) {
                                 getHeight((*root) -> right));
 
     // Checks if tree is unbalanced
-    int balance = abs(getHeight((*root) -> left) - getHeight((*root) -> right));
+    int balance = getHeight((*root) -> left) - getHeight((*root) -> right);
+
     if (balance > 1) {
-        
-        if (getHeight((*root) -> left) > getHeight((*root) -> right)) {
   
-            // left left case
-            if (getHeight((*root) -> left -> left) > getHeight((*root) -> left -> right)) {
-                rightRotate(root);
+        // left left case
+        if (getHeight((*root) -> left -> left) > getHeight((*root) -> left -> right)) {
+            rightRotate(root);
 
 
-            // left right case
-            } else {
-                leftRotate(&((*root) -> left));
-                rightRotate(root);
-            }
-
+        // left right case
         } else {
+            leftRotate(&((*root) -> left));
+            rightRotate(root);
+        }
+
+    } else if (balance < -1) {
             
-            // right right case
-            if (getHeight((*root) -> right -> right) > getHeight((*root) -> right -> left)) {
-                leftRotate(root);
+        // right right case
+        if (getHeight((*root) -> right -> right) > getHeight((*root) -> right -> left)) {
+            leftRotate(root);
 
 
-            // right left case
-            } else {
-                rightRotate(&((*root) -> right));
-                leftRotate(root);
-            }
+        // right left case
+        } else {
+            rightRotate(&((*root) -> right));
+            leftRotate(root);
         }
     }
 }
@@ -169,7 +158,7 @@ void printPreOrder(Node *root) {
      * */
      
     if (root == NULL) return;
-    printf("| %d: %d ", root -> value, root -> height);
+    printf(" %d", root -> value);
     printPreOrder(root -> left);
     printPreOrder(root -> right);                         
 }
@@ -194,6 +183,29 @@ void printPostOrder(Node *root) {
     printPostOrder(root -> left);
     printPostOrder(root -> right);
     printf(" %d", root -> value);
+}
+
+void bfs(Node *root, int h) {
+    /*
+     * Performs the BFS in tree printing the visited nodes.
+     * */
+
+    if (empty(root) || h < 0) return;
+    if (h == 0) printf(" %d", root -> value);
+    bfs(root -> left, h - 1);
+    bfs(root -> right, h - 1);
+}
+
+void printBFS(Node *root) {
+    /*
+     * Traverse the tree using Breadth First Search and prints the nodes.
+     * */
+
+    int i;
+    for (i = 0; i < calcTreeHeight(root); i++) {
+        bfs(root, i);
+        printf("\n");
+    }
 }
 
 void clear(Node *root) {

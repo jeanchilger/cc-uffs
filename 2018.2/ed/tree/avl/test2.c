@@ -14,6 +14,8 @@ int main() {
     insert(&root, 40);
     insert(&root, 50);
     insert(&root, 25);
+    insert(&root, 1);
+    insert(&root, 35);
 
     while (1) {
         printf("\n>>> ");
@@ -26,7 +28,7 @@ int main() {
             insert(&root, val);
 
         } else if (opt == 2) {
-            /*printf("Value to search: ");
+            printf("Value to search: ");
             scanf(" %d", &val);
             
             Node* elem = search(root, val);
@@ -35,10 +37,10 @@ int main() {
             
             } else {
                 printf("%d found\n", val);
-            }*/
+            }
 
         } else if (opt == 3) {           
-            printf(" 1 - Pre-Order\n 2 - In-Order\n 3 - Post-Order\n: ");
+            printf(" 1 - Pre-Order\n 2 - In-Order\n 3 - Post-Order\n 4 - BFS\n: ");
             int n;
             scanf(" %d", &n);
             if (n == 1) {
@@ -49,6 +51,9 @@ int main() {
             
             } else if (n == 3) {
                 printPostOrder(root);
+
+            } else if (n == 4) {
+                printBFS(root);
             }
         
         } else if (opt == 4) {
