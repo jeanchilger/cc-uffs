@@ -2,31 +2,30 @@
 #include <stdlib.h>
 #include "avl.h"
 
-void insertRandonNumbers(Node **root, long int n, int max) {
+void insertRandonNumbers(Node **root, long int n, long int max) {
     /*
      * Inserts n random numbers, from 0 to max, in the tree.
      * */
 
     long int i;
-    int val;
+    long int val;
 
     printf("Inserting %ld numbers...\n", n);
     for (i = 0; i < n; i++) {
         val = rand() % max;
         insert(root, val);
-        printf("%d\r\r\r\r\r\r", val);
     }
 }
 
 int main() {
-	int opt, val, max;
-    long int n;
+	int opt;
+    long int n, val, max;
 	Node *root = NULL;
 
     printf("How many numbers? ");
     scanf(" %ld", &n);
-    printf("Max range of the numbers ([0, max[): ");
-    scanf(" %d", &max);
+    printf("Max range of the numbers [0, max): ");
+    scanf(" %ld", &max);
     insertRandonNumbers(&root, n, max);
     
     showMenu();
@@ -37,20 +36,20 @@ int main() {
         
         if (opt == 1) {
             printf("Value to insert: ");
-            scanf(" %d", &val);
+            scanf(" %ld", &val);
 
             insert(&root, val);
 
         } else if (opt == 2) {
             printf("Value to search: ");
-            scanf(" %d", &val);
+            scanf(" %ld", &val);
             
             Node* elem = search(root, val);
             if (elem == NULL) {
-                printf ("%d not found\n", val);
+                printf ("%ld not found\n", val);
             
             } else {
-                printf("%d found\n", val);
+                printf("%ld found\n", val);
             }
 
         } else if (opt == 3) {
@@ -77,13 +76,13 @@ int main() {
             root = NULL;
         
         } else if (opt == 6) {
-            int h = calcTreeHeight(root);
-            printf("%d, counting root,\n", h);
-            printf("%d, not counting.\n", h - 1);
+            long int h = calcTreeHeight(root);
+            printf("%ld, counting root,\n", h);
+            printf("%ld, not counting.\n", h - 1);
 
         } else if (opt == 7) {
-            int n = countNumberOfNodes(root);
-            printf("Number of nodes: %d\n", n);
+            long int n = countNumberOfNodes(root);
+            printf("Number of nodes: %ld\n", n);
 
         } else if (opt == 9) {
             showMenu();

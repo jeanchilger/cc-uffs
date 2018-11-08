@@ -13,7 +13,7 @@ int max(int a, int b) {
     return (a > b) ? a : b;      
 }
 
-Node *newNode(int val) {
+Node *newNode(long int val) {
     /*
      * Creates a new tree node and returns it.
      * */
@@ -83,7 +83,7 @@ int empty(Node *root) {
     return (root == NULL);
 }
 
-void insert(Node **root, int val) {
+void insert(Node **root, long int val) {
     /*
      * Inserts a new element in the tree.
      * If the insertion makes the tree skewed, it is rebalanced.
@@ -100,7 +100,7 @@ void insert(Node **root, int val) {
             insert(&((*root) -> left), val);
                                 
         } else {
-            //printf("Baka!!\nValue already exists.\n");
+            //printf("Value already exists.\n");
             return;
         }    
     }
@@ -140,7 +140,7 @@ void insert(Node **root, int val) {
     }
 }
 
-Node *search(Node *root, int val) {
+Node *search(Node *root, long int val) {
     /*
      * Searchs for a given value in the tree and returns a pointer to its node.
      * If not found, returns NULL.
@@ -185,15 +185,15 @@ void printPostOrder(Node *root) {
     printf(" %d", root -> value);
 }
 
-void bfs(Node *root, int h) {
+void bfs(Node *root, long int lvl) {
     /*
      * Performs the BFS in tree printing the visited nodes.
      * */
 
-    if (empty(root) || h < 0) return;
-    if (h == 0) printf(" %d", root -> value);
-    bfs(root -> left, h - 1);
-    bfs(root -> right, h - 1);
+    if (empty(root) || lvl < 0) return;
+    if (lvl == 0) printf(" %d", root -> value);
+    bfs(root -> left, lvl - 1);
+    bfs(root -> right, lvl - 1);
 }
 
 void printBFS(Node *root) {
@@ -201,10 +201,10 @@ void printBFS(Node *root) {
      * Traverse the tree using Breadth First Search and prints the nodes.
      * */
 
-    int i;
+    long int i;
     for (i = 0; i < calcTreeHeight(root); i++) {
         bfs(root, i);
-        printf("\n");
+        printf("\n\n");
     }
 }
 
@@ -219,7 +219,7 @@ void clear(Node *root) {
     free(root);
 }
 
-int calcTreeHeight(Node *node) {
+long int calcTreeHeight(Node *node) {
     /*
      * Calculates the height of the tree at the given node.
      * By default, the root is counted.
@@ -230,7 +230,7 @@ int calcTreeHeight(Node *node) {
                1 + calcTreeHeight(node -> right));
 }
 
-int countNumberOfNodes(Node *root) {
+long int countNumberOfNodes(Node *root) {
     /*
      * Counts the number of the nodes in the tree.
      * */

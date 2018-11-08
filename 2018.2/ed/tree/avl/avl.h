@@ -5,10 +5,10 @@
 #include <stdlib.h>
 
 struct TNode {
-    int value;
+    long int value;
     struct TNode *left;
     struct TNode *right;
-    int height;
+    long int height;
 };
 
 typedef struct TNode Node;
@@ -18,11 +18,11 @@ int empty(Node *);
 
 // Inserts a new element in the tree.
 // If the insertion makes tree skewed, it is rebalanced.
-void insert(Node **, int);
+void insert(Node **, long int);
 
 // Searchs for a given value in the tree and returns a pointer to its node.
 // If not found, returns NULL.
-Node *search(Node *, int);
+Node *search(Node *, long int);
 
 // Traverse the tree Pre Order and prints the nodes.
 void printPreOrder(Node *);
@@ -41,10 +41,10 @@ void clear(Node *);
 
 // Calculates the height of the tree at the given node.
 // By default, the root is counted. 
-int calcTreeHeight(Node *);
+long int calcTreeHeight(Node *);
 
 // Counts the number of the nodes in the tree.
-int countNumberOfNodes(Node *);
+long int countNumberOfNodes(Node *);
 
 // Prints the menu, showing avaiable options.
 void showMenu();
