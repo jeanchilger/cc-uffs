@@ -22,7 +22,7 @@ Node *newNode (Node *parent, int val) {
     new -> value = val;
     new -> left = NULL;
     new -> right = NULL;
-    new -> color = 0;
+    new -> color = 0; // when inserted, node is red.
     new -> parent = parent;
 
     return new;
@@ -37,7 +37,13 @@ void leftRotate(Node **node) {
 
 void rightRotate(Node **node) {
     /*
-     * Performs the RIGHT rotation in the subtree rootd in the given node.
+     * Performs the RIGHT rotation in the subtree rooted in the given node.
+     * */
+}
+
+void insertionFixUp(Node **root) {
+    /*
+     * Fixes the possible unbalance caused in the insertion of a new value.
      * */
 }
 
@@ -52,21 +58,21 @@ int empty(Node *root) {
     return (root == NULL);
 }
 
-void insert(Node **root, int val) {
+void insert(Node **root, int val, Node *parent) {
     /*
      * Inserts a new element in the tree.
      * If the insertion makes the tree skewed, it is rebalanced following Red-Black rules.
      * */
 
     if (empty((*root))) {
-        (*root) = newNode((*root) -> parent, val);
+        (*root) = newNode(parent, val);
 
     } else {
         if (val > (*root) -> value) {
-            insert(&((*root) -> right), val);
+            insert(&((*root) -> right), val, (*root));
 
         } else if (val < (*root) -> value) {
-            insert(&((*root) -> left), val);
+            insert(&((*root) -> left), val, (*root));
 
         } else {
             //printf("Baka!!\nValue already exists.\n");
@@ -92,8 +98,11 @@ void printPreOrder(Node *root) {
      * Traverse the tree Pre Order and prints the nodes.
      * */
 
-    if (root == NULL) return;
-    printf(" %d", root -> value);
+    if (empty(root)) return;
+    printf("v: %d\n", root -> value);
+    if (!empty(root -> parent)) {
+        printf("p: %d\n\n", root -> parent -> value);
+    }
     printPreOrder(root -> left);
     printPreOrder(root -> right);
 }
@@ -120,6 +129,12 @@ void printPostOrder(Node *root) {
     printf(" %d", root -> value);
 }
 
+void printBFS(Node *root) {
+    /*
+     * Traverse the tree using BFS and prints the nodes.
+     * */
+}
+
 void clear(Node *root) {
     /*
      * Clear the entire tree.
@@ -129,6 +144,23 @@ void clear(Node *root) {
     clear(root -> left);
     clear(root -> right);
     free(root);
+}
+
+int calcTreeHeight(Node *root) {
+    /*
+     * Calculates the height of the tree at the given node.
+     * By default, the root is counted.
+     * */
+
+    return 1;
+}
+
+int countNumberOfNodes(Node *root) {
+    /*
+     * Counts the number of the nodes in the tree.
+     * */
+
+    return 1;
 }
 
 void showMenu() {

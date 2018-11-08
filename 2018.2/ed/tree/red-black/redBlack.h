@@ -19,7 +19,7 @@ int empty(Node *);
 
 // Inserts a new element in the tree.
 // If the insertion makes the tree skewed, it is rebalanced following Red-Black rules.
-void insert(Node **, int);
+void insert(Node **, int, Node *);
 
 // Searchs for a given value in the tree and returns a pointer to its node.
 // If not found, returns NULL.
@@ -33,6 +33,9 @@ void printInOrder(Node *);
 
 // Traverse the tree Post Order and prints the nodes.
 void printPostOrder(Node *);
+
+// Traverse the tree using BFS and prints the nodes.
+void printBFS(Node *);
 
 // Clear the entire tree.
 void clear(Node *);
