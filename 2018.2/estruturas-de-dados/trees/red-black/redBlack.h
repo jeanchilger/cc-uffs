@@ -4,8 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define BLACK 1
+#define RED 0
+
 struct TNode {
-    int value;
+    long int value;
     struct TNode *left;
     struct TNode *right;
     struct TNode *parent;
@@ -19,11 +22,14 @@ int empty(Node *);
 
 // Inserts a new element in the tree.
 // If the insertion makes the tree skewed, it is rebalanced following Red-Black rules.
-void insert(Node **, int, Node *);
+void insert(Node **, long int, Node *);
 
 // Searchs for a given value in the tree and returns a pointer to its node.
 // If not found, returns NULL.
-Node *search(Node *, int);
+Node *search(Node *, long int);
+
+// Removes a single element from the tree.
+void erase(Node **, long int);
 
 // Traverse the tree Pre Order and prints the nodes.
 void printPreOrder(Node *);
@@ -42,10 +48,13 @@ void clear(Node *);
 
 // Calculates the height of the tree at the given node.
 // By default, the root is counted. 
-int calcTreeHeight(Node *);
+long int calcTreeHeight(Node *);
+
+// Calculates the black-height of the tree at the given node.
+long int calcTreeBlackHeight(Node *);
  
 // Counts the number of the nodes in the tree.
-int countNumberOfNodes(Node *);
+long int countNumberOfNodes(Node *);
 
 // Prints the menu, showing avaiable options.
 void showMenu();

@@ -16,6 +16,7 @@ int main() {
             scanf(" %d", &val);
 
             insert(&root, val, NULL);
+//            printf("COLOR OF ROOT IS (0 - RED; 1 - BLACK): %d\n", root -> color);
 
         } else if (opt == 2) {
             printf("Value to search: ");
@@ -29,7 +30,9 @@ int main() {
                 printf("%d found\n", val);
             }
 
-        } else if (opt == 3) {           
+        } else if (opt == 3) { 
+
+        } else if (opt == 4) {           
             printf(" 1 - Pre-Order\n 2 - In-Order\n 3 - Post-Order\n 4 - BFS\n: ");
             int n;
             scanf(" %d", &n);
@@ -45,8 +48,6 @@ int main() {
             } else if (n == 4) {
                 printBFS(root);
             }
-        
-        } else if (opt == 4) {
         
         } else if (opt == 5) {
             clear(root);

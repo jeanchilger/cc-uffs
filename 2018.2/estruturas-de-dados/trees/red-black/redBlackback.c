@@ -28,44 +28,43 @@ Node *newNode (Node *parent, long int val) {
     return new;
 }
 
-Node *parent(Node *node) {
+Node **parent(Node **node) {
     /*
      * Utility function to get the parent of a node.
      * */
 
-    if (!empty(node)) {
-        return (node) -> parent;
+    if (!empty(*node)) {
+        return &((*node) -> parent);
     }
 
     return NULL;
 }
 
-Node *grandParent(Node *node) {
+Node **grandParent(Node **node) {
     /*
      * Utility function to get the grand parent of a node.
      * */
 
-    //printf("GP CALL\n");
-    if (!empty(node)) {
-        return parent(node -> parent);
+    if (!empty(*node)) {
+        return parent(&((*node) -> parent));
     }
 
     return NULL;
 }
 
-Node *uncle(Node *node) {
+Node **uncle(Node **node) {
     /*
      * Utility function to get the uncle of a node.
      * */
 
-    if (!empty(node)) {
-        Node *gp = grandParent(node);
+    if (!empty(*node)) {
+        Node *gp = (*grandParent(node));
         if (!empty(gp)) {
-            if (parent(node) == grandParent(node) -> left) {
-                return grandParent(node) -> right;
+            if ((*parent(node)) == (*grandParent(node)) -> left) {
+                return (&((*grandParent(node)) -> right));
 
-            } else if (parent(node) == grandParent(node) -> right) {
-                return grandParent(node) -> left;
+            } else if ((*parent(node)) == (*grandParent(node)) -> right) {
+                return (&((*grandParent(node)) -> left));
             }
         }
     }
@@ -73,34 +72,34 @@ Node *uncle(Node *node) {
     return NULL;
 }
 
-Node *leftRotate(Node *node) {
+void leftRotate(Node **node) {
     /*
      * Performs the LEFT rotation in the subtree rooted in the given node.
      * */
 
-    Node *a = node;
+    Node *a = (*node);
     Node *b = a -> right;
     Node *s2 = b -> left;
 
     a -> right = s2;
     b -> left = a;
 
-    return b;
+    (*node) = b;
 }
 
-Node *rightRotate(Node *node) {
+void rightRotate(Node **node) {
     /*
      * Performs the RIGHT rotation in the subtree rooted in the given node.
      * */
 
-    Node *a = node;
-    Node *b = a -> left;
+    Node *a = (*node);
+    Node *b = (*node) -> left;
     Node *s2 = b -> right;
 
     a -> left = s2;
     b -> right = a;
 
-    return b;
+    (*node) = b;
 }
 
 void insertionFixUp(Node **node) {
@@ -108,73 +107,57 @@ void insertionFixUp(Node **node) {
      * Fixes the possible unbalance caused in the insertion of a new value.
      * */
 
-    if (empty(parent(*node))) { 
+    if (empty(*parent(node))) { 
         // node is root
-        printf("NODE IS ROOT\n");
         (*node) -> color = BLACK;
 
     } else {
-        printf("NODE NOT THE ROOT\n");
-        if (!empty(uncle(*node)) && uncle(*node) -> color == RED) {
+        if (!empty(*uncle(node)) && (*uncle(node)) -> color == RED) {
             // node has a red uncle
-            printf("NODE HAS RED UNCLE\n");
-
-            parent(*node) -> color = BLACK;
-            uncle(*node) -> color = BLACK;
-            grandParent(*node) -> color = RED;
+            (*parent(node)) -> color = BLACK;
+            (*uncle(node)) -> color = BLACK;
+            (*grandParent(node)) -> color = RED;
 
         } else {
             // node has a black uncle
-            printf("NODE HAS BLACK UNCLE\n");
-
-            if (!empty(grandParent(*node))
-                    && parent(*node) == (grandParent(*node) -> left)) {
-                if ((*node) == parent(*node) -> left) {
+            if ((*parent(node)) == (*grandParent(node)) -> left) {
+                if ((*node) == (*parent(node)) -> left) {
                     //left left case
-                    printf("LEFT LEFT\n");
-
-                    int parentColor = parent(*node) -> color;
-                    parent(*node) -> color = grandParent(*node) -> color;
-                    grandParent(*node) -> color = parentColor;
+                    int parentColor = (*parent(node)) -> color;
+                    (*parent(node)) -> color = (*grandParent(node)) -> color;
+                    (*grandParent(node)) -> color = parentColor;
                     
-                    (*node) = rightRotate(grandParent(*node));
+                    rightRotate(grandParent(node));
 
-                } else if ((*node) == parent(*node) -> right) {
+                } else if ((*node) == (*parent(node)) -> right) {
                     // left right case
-                    printf("LEFT RIGHT\n");
+                    leftRotate(parent(node));
 
-                    (*node) = leftRotate(parent(*node));
+                    int parentColor = (*parent(node)) -> color;
+                    (*parent(node)) -> color = (*grandParent(node)) -> color;
+                    (*grandParent(node)) -> color = parentColor;
 
-                    int parentColor = parent(*node) -> color;
-                    parent(*node) -> color = grandParent(*node) -> color;
-                    grandParent(*node) -> color = parentColor;
-
-                    (*node) = rightRotate(grandParent(*node));
+                    rightRotate(grandParent(node));
                 } 
 
-            } else if (!empty(grandParent(*node)) 
-                    && parent(*node) == grandParent(*node) -> right) {
-                if ((*node) == parent(*node) -> right) {
+            } else if ((*parent(node)) == (*grandParent(node)) -> right) {
+                if ((*node) == (*parent(node)) -> right) {
                     // right right case
-                    printf("RIGHT RIGHT\n");
+                    int parentColor = (*parent(node)) -> color;
+                    (*parent(node)) -> color = (*grandParent(node)) -> color;
+                    (*grandParent(node)) -> color = parentColor;
 
-                    int parentColor = parent(*node) -> color;
-                    parent(*node) -> color = grandParent(*node) -> color;
-                    grandParent(*node) -> color = parentColor;
+                    leftRotate(grandParent(node));
 
-                    (*node) = leftRotate(grandParent(*node));
-
-                } else if ((*node) == parent(*node) -> left) {
+                } else if ((*node) == (*parent(node)) -> left) {
                     // right left case
-                    printf("RIGHT LEFT\n");
-
-                    (*node) = leftRotate(parent(*node));
+                    leftRotate(parent(node));
                      
-                    int parentColor = parent(*node) -> color;             
-                    parent(*node) -> color = grandParent(*node) -> color;
-                    grandParent(*node) -> color = parentColor;
+                    int parentColor = (*parent(node)) -> color;             
+                    (*parent(node)) -> color = (*grandParent(node)) -> color;
+                    (*grandParent(node)) -> color = parentColor;
                     
-                    (*node) = rightRotate(grandParent(*node));
+                    rightRotate(grandParent(node));
                 }
             }
         }
