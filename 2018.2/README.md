@@ -11,4 +11,4 @@ Conteúdos e trabalhos relacionados à segunda fase do curso.
 * Probabilidade e Estatística*
 * Produção Textual Acadêmica*
 
-    *Não presente neste repositório
+*Não presente neste repositório
