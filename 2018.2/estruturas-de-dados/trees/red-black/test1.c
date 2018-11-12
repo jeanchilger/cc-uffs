@@ -10,29 +10,29 @@ int main() {
     while (1) {
         printf("\n>>> ");
         scanf(" %d", &opt);
-        
+
         if (opt == 1) {
             printf("Value to insert: ");
             scanf(" %d", &val);
 
-            insert(&root, val, NULL);
-//            printf("COLOR OF ROOT IS (0 - RED; 1 - BLACK): %d\n", root -> color);
+            insert(&root, val);
+			// printf("COLOR OF ROOT IS (0 - RED; 1 - BLACK): %d\n", root -> color);
 
         } else if (opt == 2) {
             printf("Value to search: ");
             scanf(" %d", &val);
-            
+
             Node* elem = search(root, val);
             if (elem == NULL) {
                 printf ("%d not found\n", val);
-            
+
             } else {
                 printf("%d found\n", val);
             }
 
-        } else if (opt == 3) { 
+        } else if (opt == 3) {
 
-        } else if (opt == 4) {           
+        } else if (opt == 4) {
             printf(" 1 - Pre-Order\n 2 - In-Order\n 3 - Post-Order\n 4 - BFS\n: ");
             int n;
             scanf(" %d", &n);
@@ -41,18 +41,18 @@ int main() {
 
             } else if (n == 2) {
                 printInOrder(root);
-            
+
             } else if (n == 3) {
                 printPostOrder(root);
 
             } else if (n == 4) {
                 printBFS(root);
             }
-        
+
         } else if (opt == 5) {
             clear(root);
             root = NULL;
-        
+
         } else if (opt == 6) {
             int h = calcTreeHeight(root);
             printf("%d, counting root,\n", h);
@@ -64,7 +64,7 @@ int main() {
 
         } else if (opt == 9) {
             showMenu();
-        
+
         } else if (opt == 0) {
             printf("Goodbye.\n");
             break;

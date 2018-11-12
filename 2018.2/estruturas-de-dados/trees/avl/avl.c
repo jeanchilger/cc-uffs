@@ -9,8 +9,8 @@ int max(int a, int b) {
     /*
      * Returns the max between a and b.
      * */
-    
-    return (a > b) ? a : b;      
+
+    return (a > b) ? a : b;
 }
 
 Node *newNode(long int val) {
@@ -40,7 +40,7 @@ void leftRotate(Node **node) {
     /*
      * Execute the LEFT rotation in the subtree where the given node is the root.
      * */
-    
+
     Node *a = (*node);
     Node *b = a -> right;
     Node *aux = b -> left;
@@ -70,7 +70,7 @@ void rightRotate(Node **node) {
     b -> height = max(getHeight(b -> left), getHeight(b -> right)) + 1;
 
     (*node) = b;
-} 
+}
 
 //
 // AVL functions
@@ -91,29 +91,29 @@ void insert(Node **root, long int val) {
 
     if (empty((*root))) {
         (*root) = newNode(val);
-    
+
     } else {
         if (val > (*root) -> value) {
             insert(&((*root) -> right), val);
-                    
+
         } else if (val < (*root) -> value) {
             insert(&((*root) -> left), val);
-                                
+
         } else {
             //printf("Value already exists.\n");
             return;
-        }    
+        }
     }
-    
+
     // Updates the heights after new node is inserted
-    (*root) -> height = 1 + max(getHeight((*root) -> left), 
+    (*root) -> height = 1 + max(getHeight((*root) -> left),
                                 getHeight((*root) -> right));
 
     // Checks if tree is unbalanced
     int balance = getHeight((*root) -> left) - getHeight((*root) -> right);
 
     if (balance > 1) {
-  
+
         // left left case
         if (getHeight((*root) -> left -> left) > getHeight((*root) -> left -> right)) {
             rightRotate(root);
@@ -126,7 +126,7 @@ void insert(Node **root, long int val) {
         }
 
     } else if (balance < -1) {
-            
+
         // right right case
         if (getHeight((*root) -> right -> right) > getHeight((*root) -> right -> left)) {
             leftRotate(root);
@@ -156,11 +156,11 @@ void printPreOrder(Node *root) {
     /*
      * Traverse the tree Pre Order and prints the nodes.
      * */
-     
+
     if (root == NULL) return;
     printf(" %d", root -> value);
     printPreOrder(root -> left);
-    printPreOrder(root -> right);                         
+    printPreOrder(root -> right);
 }
 
 void printInOrder(Node *root) {
@@ -224,9 +224,9 @@ long int calcTreeHeight(Node *node) {
      * Calculates the height of the tree at the given node.
      * By default, the root is counted.
      * */
-   
+
     if (node == NULL) return 0;
-    return max(1 + calcTreeHeight(node -> left), 
+    return max(1 + calcTreeHeight(node -> left),
                1 + calcTreeHeight(node -> right));
 }
 
