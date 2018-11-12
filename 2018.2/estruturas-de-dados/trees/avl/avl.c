@@ -152,6 +152,14 @@ Node *search(Node *root, long int val) {
     if (val < root -> value) return search(root -> left, val);
 }
 
+void erase(Node *root, long int val) {
+    /*
+     * Deletes a node with the given value.
+     * */
+
+    return;
+}
+
 void printPreOrder(Node *root) {
     /*
      * Traverse the tree Pre Order and prints the nodes.
@@ -243,9 +251,9 @@ void showMenu() {
     printf("\n\t\t  MENU\n");
     printf("================================================\n");
     printf(" | 1 - Insert element                         |\n");
-    printf(" | (X)2 - Search value                        |\n");
-    printf(" | 3 - Print elements                         |\n");
-    printf(" | (X)4 - Erase element                       |\n");
+    printf(" | 2 - Search value                           |\n");
+    printf(" | 4 - Erase element                          |\n");
+    printf(" | 4 - Prints elements                        |\n");
     printf(" | 5 - Clean list                             |\n");
     printf(" | 6 - Calc. tree height                      |\n");
     printf(" | 7 - Number of nodes                        |\n");

@@ -1,3 +1,8 @@
+/*
+ * The tree of this program starts empty.
+ * The user has to insert the values.
+ * */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "avl.h"

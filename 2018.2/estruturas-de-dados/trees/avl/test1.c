@@ -1,3 +1,8 @@
+/*
+ * The tree of this program starts with some random numbers in it.
+ * The user can insert numbers after that.
+ * */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "avl.h"

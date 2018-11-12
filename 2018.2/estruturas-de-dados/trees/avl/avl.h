@@ -24,6 +24,9 @@ void insert(Node **, long int);
 // If not found, returns NULL.
 Node *search(Node *, long int);
 
+// Deletes the node with given value.
+void erase(Node *, long int);
+
 // Traverse the tree Pre Order and prints the nodes.
 void printPreOrder(Node *);
 
