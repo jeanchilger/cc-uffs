@@ -12,7 +12,7 @@ struct TNode {
     struct TNode *left;
     struct TNode *right;
     struct TNode *parent;
-    int color; // 0 - Red, 1 - Black
+    int color;
 };
 
 typedef struct TNode Node;

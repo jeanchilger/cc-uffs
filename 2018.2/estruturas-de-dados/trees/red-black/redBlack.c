@@ -155,12 +155,8 @@ void insertionFixUp(Node **node) {
                     parent -> color = grandParent -> color;
                     grandParent -> color = parentColor;
 
-                    // printf("BBBBBBBBBBBBBBBBBB: %ld\n", (*node) -> right -> value);
                     rightRotate(&grandParent);
-                    // printf("R %ld\n", (*node) -> right -> value);
-                    // printf("L %ld\n", (*node) -> left -> value);
                     printBFS(grandParent);
-                    // printf("AAAAAAAAAAAAAAAAAA: %ld\n", (*node) -> right -> value);
             //
             } else if ((*node) == parent -> right) {
                     // left right case
