@@ -76,6 +76,18 @@ Node *getUncle(Node *node) {
     return NULL;
 }
 
+void swap(Node *new, Node *old) {
+    /*
+     * Swap the values from new to old.
+     * */
+
+    old -> value = new -> value;
+    old -> left = new -> left;
+    old -> right = new -> right;
+    old -> parent = new -> parent;
+    old -> color = new -> color;
+}
+
 Node *leftRotate(Node *node) {
     /*
      * Performs the LEFT rotation in the subtree rooted in the given node.
@@ -91,7 +103,7 @@ Node *leftRotate(Node *node) {
     return b;
 }
 
-Node* rightRotate(Node **node) {
+void rightRotate(Node **node) {
     /*
      * Performs the RIGHT rotation in the subtree rooted in the given node.
      * */
@@ -103,14 +115,14 @@ Node* rightRotate(Node **node) {
     if (!empty(s2)) {
         s2 -> parent = a;
     }
-    //a -> parent -> left = b;
     b -> parent = a -> parent;
     a -> parent = b;
 
-    b -> right = a;
     a -> left = s2;
+    b -> right = a;
 
-    return b;
+    // swap(b, (*node));
+    (*node) = b;
 }
 
 void insertionFixUp(Node **node) {
@@ -129,6 +141,7 @@ void insertionFixUp(Node **node) {
         return;
     }
 
+    Node *aux = *node;
     if(!empty(getParent(*node)) && getParent(*node) -> color == RED) {
         Node *parent = getParent(*node);
         Node *uncle = getUncle(*node);
@@ -148,61 +161,63 @@ void insertionFixUp(Node **node) {
 
             if (!empty(grandParent)
                     && parent == (grandParent -> left)) {
+
                 if ((*node) == parent -> left) {
                     //left left case
                     printf("LEFT LEFT\n");
-                    int parentColor = parent -> color;
-                    parent -> color = grandParent -> color;
-                    grandParent -> color = parentColor;
 
-                    rightRotate(&grandParent);
-                    printBFS(grandParent);
             //
-            } else if ((*node) == parent -> right) {
+                } else if ((*node) == parent -> right) {
                     // left right case
                     printf("LEFT RIGHT\n");
             //
-                    (*node) = leftRotate(parent);
 
-                    int parentColor = parent -> color;
-                    parent -> color = grandParent -> color;
-                    grandParent -> color = parentColor;
-
-                    // (*node) = rightRotate(grandParent);
             //
                 }
 
             } else if (!empty(grandParent)
                     && parent == grandParent -> right) {
+
                 if ((*node) == parent -> right) {
                     // right right case
                     printf("RIGHT RIGHT\n");
             //
-                    int parentColor = parent -> color;
-                    parent -> color = grandParent -> color;
-                    grandParent -> color = parentColor;
 
-                    (*node) = leftRotate(grandParent);
             //
                 } else if ((*node) == parent -> left) {
                     // right left case
                     printf("RIGHT LEFT\n");
             //
-                    (*node) = leftRotate(parent);
 
-                    int parentColor = parent -> color;
-                    parent -> color = grandParent -> color;
-                    grandParent -> color = parentColor;
-
-                    // (*node) = rightRotate(grandParent);
             //
                 }
             }
         }
     }
 
-    Node *gp = getGrandParent(*node);
-    insertionFixUp(&(gp));
+    insertionFixUp(&((*node) -> parent));
+
+    // (*node) = aux;
+}
+
+void test(Node **node) {
+    printf("test() %p\n\n", (*node));
+    Node *parent = getParent(*node);
+    Node *grandParent = getGrandParent(*node);
+
+    int cp = (*node)-> parent -> color;
+    (*node) -> parent -> color = 1;
+    (*node) -> parent -> parent -> color = cp;
+
+    // printf("TEST BEFORE\n");
+    // printBFS((*node) -> parent -> parent);
+    // TODO: fazendo isso funciona;
+    // printf("$$$$$$$\n%p\n", (*node) -> parent -> parent);
+    // printf("%p\n$$$$$$$\n", (*node) -> parent -> parent -> parent -> left);
+    // (*node) -> parent -> parent -> parent -> left = rightRotate(&(grandParent));
+    rightRotate(&(grandParent -> parent -> left));
+    // printf("\nTEST AFTER\n");
+    // printBFS((*node) -> parent -> parent);
 }
 
 //
@@ -228,25 +243,16 @@ void insert(Node **root, long int val) {
 
     } else {
 
-        // printf("AAAAA %ld\n", (*root) -> value);
-        // Node *a = (*root);
-        // (a) -> value = 666;
-        // printf("BBBBBBB %ld\n", (*root) -> value);
-        // return;
-
         Node *current = (*root);
         Node *parent = current;
 
         while (!empty(current)) {
             parent = current;
             if (val > current -> value) {
-                // printf("CUR righ: %ld\n", current -> value);
                 current = current -> right;
 
             } else if (val < current -> value) {
-                // printf("CUR left: %ld\n", current -> value);
                 current = current -> left;
-                // printf("END CUR\n");
 
             } else {
                 //printf("Baka!!\nValue already exists.\n");
@@ -254,31 +260,17 @@ void insert(Node **root, long int val) {
             }
         }
 
-        // printf("check PARENT: %ld\n", parent -> value);
         if (val > parent -> value) {
             parent -> right = newNode(parent, val);
-            insertionFixUp(&(parent -> right));
-            printf("T1\n");
+            // insertionFixUp(&(parent -> right));
 
         } else if (val < parent -> value) {
             parent -> left = newNode(parent, val);
             if (val == 5) {
-                // tests
-                printf("SSSSSSSS\n");
-                Node *gp = getGrandParent(parent -> left);
-                printInOrder(gp);
-                printf("\n\n");
-                Node *b = rightRotate(&gp);
-                gp -> value = b -> value;
-                gp -> left = b -> left;
-                gp -> right = b -> right;
-                gp -> parent = b -> parent;
-                gp -> color = b -> color;
-                return;
-
+                printf("$$ insert: %p\n", parent -> left);
+                test(&(parent -> left));
             }
-            insertionFixUp(&(parent -> left));
-            printf("T2\n");
+            // insertionFixUp(&(parent -> left));
 
         } else {
             return;

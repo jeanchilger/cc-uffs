@@ -7,6 +7,11 @@ int main() {
 	Node *root = NULL;
     showMenu();
 
+	insert(&root, 30);
+	insert(&root, 15);
+	insert(&root, 40);
+	insert(&root, 10);
+
     while (1) {
         printf("\n>>> ");
         scanf(" %d", &opt);

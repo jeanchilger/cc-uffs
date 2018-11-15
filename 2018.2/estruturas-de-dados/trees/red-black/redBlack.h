@@ -24,7 +24,6 @@ int empty(Node *);
 // If the insertion makes the tree skewed, it is rebalanced following Red-Black rules.
 void insert(Node **, long int);
 
-void insertionFixUp(Node **);
 
 // Searchs for a given value in the tree and returns a pointer to its node.
 // If not found, returns NULL.
@@ -49,12 +48,12 @@ void printBFS(Node *);
 void clear(Node *);
 
 // Calculates the height of the tree at the given node.
-// By default, the root is counted. 
+// By default, the root is counted.
 long int calcTreeHeight(Node *);
 
 // Calculates the black-height of the tree at the given node.
 long int calcTreeBlackHeight(Node *);
- 
+
 // Counts the number of the nodes in the tree.
 long int countNumberOfNodes(Node *);
 
