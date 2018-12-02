@@ -1,5 +1,5 @@
 gcc -c BinarySearchTree.c
-gcc -c bsttest.c
-gcc -o run BinarySearchTree.o bsttest.o
-echo "READY TO ROCK!!"
+gcc -c test1.c
+gcc -o run BinarySearchTree.o test1.c
+./run
 

@@ -9,8 +9,8 @@ int main() {
 
 	insert(&root, 30);
 	insert(&root, 15);
-	insert(&root, 40);
-	insert(&root, 10);
+	// insert(&root, 40);
+	// insert(&root, 10);
 
     while (1) {
         printf("\n>>> ");

@@ -205,9 +205,9 @@ void test(Node **node) {
     Node *parent = getParent(*node);
     Node *grandParent = getGrandParent(*node);
 
-    int cp = (*node)-> parent -> color;
-    (*node) -> parent -> color = 1;
-    (*node) -> parent -> parent -> color = cp;
+    int cp = parent -> color;
+    parent -> color = 1;
+    grandParent -> color = cp;
 
     // printf("TEST BEFORE\n");
     // printBFS((*node) -> parent -> parent);
@@ -215,7 +215,10 @@ void test(Node **node) {
     // printf("$$$$$$$\n%p\n", (*node) -> parent -> parent);
     // printf("%p\n$$$$$$$\n", (*node) -> parent -> parent -> parent -> left);
     // (*node) -> parent -> parent -> parent -> left = rightRotate(&(grandParent));
-    rightRotate(&(grandParent -> parent -> left));
+    // printf("%d\n", (grandParent) -> parent -> left == (*node) -> parent -> parent);
+    rightRotate(&((grandParent) -> parent -> left));
+    // printf("%d\n", (grandParent) -> parent -> left == (*node) -> parent -> parent);
+
     // printf("\nTEST AFTER\n");
     // printBFS((*node) -> parent -> parent);
 }

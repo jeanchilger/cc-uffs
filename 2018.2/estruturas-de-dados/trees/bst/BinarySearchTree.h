@@ -2,44 +2,54 @@
 #define BST$X_Y123
 
 typedef struct TNode {
-    /*
-     * Left: lesser than value.
-     * Right: bigger than value.
-     * */
-
-    int value;
+    long int value;
     struct TNode *left;
     struct TNode *right;
+
 } Node;
 
-// 1 - Checks if the Tree is empty.
+// Returns wether or not the list is empty.
 int empty (Node *);
 
-// 2 - Inserts a new value into the Tree.
-void insert (Node **, int);
+// Inserts a new element to the Tree.
+void insert (Node **, long int);
 
-// 3 - Searches for a given value.
-Node *search (Node *, int);
+// Searches for a given value.
+// If the value is found within the list, returns a pointer to it.
+// Else, returns NULL.
+Node *search (Node *, long int);
 
-// 4 - Removes a single element from the tree.
-void eraseElement(Node **, int);
+// Deletes the node with given value from the tree.
+void erase(Node **, Node **, long int);
 
-// 5 - Prints the values in increasing order.
+// Traverse the tree Pre Order and prints the nodes.
+void printPreOrder(Node *);
+
+// Traverse the tree In Order (increasing) and prints the nodes.
 void printInOrder(Node *);
 
-// 6 - Clear the entire list.
+// Traverse the tree Post Order and prints the nodes.
+void printPostOrder(Node *);
+
+// Traverse the tree using Breadth First Search and prints the nodes.
+void printBFS(Node *);
+
+// Clear the entire list
 void clear(Node *);
 
-// 7 - Calculates the height of the tree.
-int treeHeight(Node *);
+// Calculates the height of the tree.
+long int calcTreeHeight(Node *);
 
-// 8 - Counts the number of nodes.
-int countNodes(Node *);
+// Counts the number of nodes.
+long int countNumberOfNodes(Node *);
 
-// 9 - Shows the menu with the avaiable operations.
+// Returns the value of the In-Order predecessor of the given node.
+Node *getPredecessor(Node *, Node *, long int);
+
+// Returns the value of the In-Order sucessor of the given node.
+Node *getSucessor(Node *, Node *, long int);
+
+// Shows the menu with the avaiable operations.
 void showMenu();
-
-// 10 - BFS.
-void printBFS(Node *, int);
 
 #endif

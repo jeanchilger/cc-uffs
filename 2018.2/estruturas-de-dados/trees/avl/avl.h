@@ -43,10 +43,10 @@ void printBFS(Node *);
 void clear(Node *);
 
 // Calculates the height of the tree at the given node.
-// By default, the root is counted. 
+// By default, the given node is counted. 
 long int calcTreeHeight(Node *);
 
-// Counts the number of the nodes in the tree.
+// Counts the number of nodes in the tree rooted in the given node.
 long int countNumberOfNodes(Node *);
 
 // Prints the menu, showing avaiable options.
