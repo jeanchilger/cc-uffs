@@ -5,12 +5,14 @@
 int main() {
 	int opt, val;
 	Node *root = NULL;
+    Node *parent = NULL;
     showMenu();
 
-	insert(&root, 30);
-	insert(&root, 15);
-	// insert(&root, 40);
-	// insert(&root, 10);
+    insert(&root, &root, 9);
+	insert(&root, &root, 5);
+	insert(&root, &root, 10);
+	insert(&root, &root, 0);
+
 
     while (1) {
         printf("\n>>> ");
@@ -20,7 +22,7 @@ int main() {
             printf("Value to insert: ");
             scanf(" %d", &val);
 
-            insert(&root, val);
+            insert(&root, NULL, val);
 			// printf("COLOR OF ROOT IS (0 - RED; 1 - BLACK): %d\n", root -> color);
 
         } else if (opt == 2) {

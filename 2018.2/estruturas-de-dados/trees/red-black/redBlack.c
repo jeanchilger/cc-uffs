@@ -2,8 +2,15 @@
 #include <stdlib.h>
 #include "redBlack.h"
 
+#define BOLD_BLACK "\e[1;90m"
+#define BOLD_RED "\e[1;31m"
+#define BOLD_WHITE "\e[1;37m"
+#define WHITE_BG "\e[47m"
+#define RESET "\e[0m"
+
 //
 // Utility functions
+//
 
 long int max (long int a, long int b) {
     /*
@@ -88,19 +95,35 @@ void swap(Node *new, Node *old) {
     old -> color = new -> color;
 }
 
-Node *leftRotate(Node *node) {
+void leftRotate(Node **node) {
     /*
      * Performs the LEFT rotation in the subtree rooted in the given node.
      * */
 
-    Node *a = node;
+    Node *a = (*node);
     Node *b = a -> right;
     Node *s2 = b -> left;
-
-    a -> right = s2;
+    
+    if (!empty(s2)) {
+        s2 -> parent = a;
+    }
+    
+    Node *p = getParent(a);
+    if (!empty(p)) {
+        if (a == p -> left) {
+            p -> left = b;
+        } else {
+            p -> right = b;
+        }
+    }
+    
+    b -> parent = a -> parent;
+    a -> parent = b;
+    
     b -> left = a;
-
-    return b;
+    a -> right = s2;
+    
+    (*node) = b;
 }
 
 void rightRotate(Node **node) {
@@ -115,13 +138,22 @@ void rightRotate(Node **node) {
     if (!empty(s2)) {
         s2 -> parent = a;
     }
+    
+    Node *p = getParent(a);
+    if (!empty(p)) {
+        if (a == p -> left) {
+            p -> left = b;
+        } else {
+            p -> right = b;
+        }
+    }
+    
     b -> parent = a -> parent;
     a -> parent = b;
 
-    a -> left = s2;
     b -> right = a;
-
-    // swap(b, (*node));
+    a -> left = s2;
+    
     (*node) = b;
 }
 
@@ -130,101 +162,75 @@ void insertionFixUp(Node **node) {
      * Fixes the possible unbalance caused in the insertion of a new value.
      * */
 
-    // BUG: o nó grandParent não está sendo atualizado por algum motivo;
-
-    if (empty(*node)) return;
-
-    if (!empty(*node) && empty(getParent(*node))) {
-        // node is root
-        printf("NODE IS ROOT\n");
+    if (node == NULL || empty(*node)) return;
+    
+    // Node is the root:
+    if (empty(getParent(*node))) {
         (*node) -> color = BLACK;
-        return;
-    }
-
-    Node *aux = *node;
-    if(!empty(getParent(*node)) && getParent(*node) -> color == RED) {
-        Node *parent = getParent(*node);
-        Node *uncle = getUncle(*node);
-        Node *grandParent = getGrandParent(*node);
-
-        printf("NODE NOT THE ROOT\n");
-        if (!empty(uncle) && uncle -> color == RED) {
-            // node has a red uncle
-            printf("NODE HAS RED UNCLE\n");
-            parent -> color = BLACK;
-            uncle -> color = BLACK;
-            grandParent -> color = RED;
-
-        } else if(!empty(grandParent)) {
-            // node has a black uncle
-            printf("NODE HAS BLACK UNCLE\n");
-
-            if (!empty(grandParent)
-                    && parent == (grandParent -> left)) {
-
-                if ((*node) == parent -> left) {
-                    //left left case
-                    printf("LEFT LEFT\n");
-
-            //
-                } else if ((*node) == parent -> right) {
-                    // left right case
-                    printf("LEFT RIGHT\n");
-            //
-
-            //
+    
+    } else if (getParent(*node) -> color == RED) {
+        
+        if (empty(getUncle(*node)) || getUncle(*node) -> color == BLACK) {
+            // printf("\t\tBLACK UNCLE\n");
+            Node *g = getGrandParent(*node);
+            Node *p = getParent(*node);
+            
+            if (p == g -> left) {
+                // left left case
+                if ((*node) == p -> left) {
+                    int gColor = g -> color;
+                    g -> color = p -> color;
+                    p -> color = gColor;
+                    rightRotate(&g);
+                    // printf("LEFT LEFT\n");
+            
+                // left right case
+                } else if ((*node) == p -> right) {
+                    leftRotate(&p);
+                    int gColor = g -> color;
+                    g -> color = p -> color;
+                    p -> color = gColor;
+                    rightRotate(&g);
+                    // printf("LEFT RIGHT\n");
                 }
-
-            } else if (!empty(grandParent)
-                    && parent == grandParent -> right) {
-
-                if ((*node) == parent -> right) {
-                    // right right case
-                    printf("RIGHT RIGHT\n");
-            //
-
-            //
-                } else if ((*node) == parent -> left) {
-                    // right left case
-                    printf("RIGHT LEFT\n");
-            //
-
-            //
+            
+            } else if (p == g -> right) {
+                // right right case
+                if ((*node) == p -> right) {
+                    int gColor = g -> color;
+                    g -> color = p -> color;
+                    p -> color = gColor;
+                    leftRotate(&g);
+                    // printf("RIGHT RIGHT\n");
+                    
+                // right left case
+                } else if ((*node) == p -> left) {
+                    rightRotate(&p);
+                    int gColor = g -> color;
+                    g -> color = p -> color;
+                    p -> color = gColor;
+                    leftRotate(&g);
+                    // printf("RIGHT LEFT\n");
                 }
             }
+            
+        } else if (getUncle(*node) -> color == RED) {
+            // printf("\t\tRED UNCLE\n");
+            (getParent(*node)) -> color = BLACK;
+            (getUncle(*node)) -> color = BLACK;
+            (getGrandParent(*node)) -> color = RED;
         }
+        
+        if (empty(*node) || empty(getParent(*node))) insertionFixUp(NULL);
+        else insertionFixUp(&((*node) -> parent -> parent));
     }
-
-    insertionFixUp(&((*node) -> parent));
-
-    // (*node) = aux;
-}
-
-void test(Node **node) {
-    printf("test() %p\n\n", (*node));
-    Node *parent = getParent(*node);
-    Node *grandParent = getGrandParent(*node);
-
-    int cp = parent -> color;
-    parent -> color = 1;
-    grandParent -> color = cp;
-
-    // printf("TEST BEFORE\n");
-    // printBFS((*node) -> parent -> parent);
-    // TODO: fazendo isso funciona;
-    // printf("$$$$$$$\n%p\n", (*node) -> parent -> parent);
-    // printf("%p\n$$$$$$$\n", (*node) -> parent -> parent -> parent -> left);
-    // (*node) -> parent -> parent -> parent -> left = rightRotate(&(grandParent));
-    // printf("%d\n", (grandParent) -> parent -> left == (*node) -> parent -> parent);
-    rightRotate(&((grandParent) -> parent -> left));
-    // printf("%d\n", (grandParent) -> parent -> left == (*node) -> parent -> parent);
-
-    // printf("\nTEST AFTER\n");
-    // printBFS((*node) -> parent -> parent);
+    
+    return;
 }
 
 //
 // Red-Black Tree functions
+//
 
 int empty(Node *root) {
     /*
@@ -234,47 +240,24 @@ int empty(Node *root) {
     return (root == NULL);
 }
 
-void insert(Node **root, long int val) {
+void insert(Node **root, Node **parent, long int val) {
     /*
      * Inserts a new element in the tree.
      * If the insertion makes the tree skewed, it is rebalanced following Red-Black rules.
      * */
 
     if (empty(*root)) {
-        (*root) = newNode(NULL, val);
+        (*root) = newNode((*parent), val);
         insertionFixUp(root);
-
+        return;
+    
     } else {
-
-        Node *current = (*root);
-        Node *parent = current;
-
-        while (!empty(current)) {
-            parent = current;
-            if (val > current -> value) {
-                current = current -> right;
-
-            } else if (val < current -> value) {
-                current = current -> left;
-
-            } else {
-                //printf("Baka!!\nValue already exists.\n");
-                return;
-            }
-        }
-
-        if (val > parent -> value) {
-            parent -> right = newNode(parent, val);
-            // insertionFixUp(&(parent -> right));
-
-        } else if (val < parent -> value) {
-            parent -> left = newNode(parent, val);
-            if (val == 5) {
-                printf("$$ insert: %p\n", parent -> left);
-                test(&(parent -> left));
-            }
-            // insertionFixUp(&(parent -> left));
-
+        if (val > (*root) -> value) {
+            insert(&((*root) -> right), root,  val);
+        
+        } else if (val < (*root) -> value) {
+            insert(&((*root) -> left), root, val);
+        
         } else {
             return;
         }
@@ -287,7 +270,7 @@ Node *search(Node *root, long int val) {
      * If not found, returns NULL.
      * */
 
-    if (root == NULL) return NULL;
+    if (empty(root)) return NULL;
     if (root -> value == val) return root;
     if (val > root -> value) return search(root -> right, val);
     if (val < root -> value) return search(root -> left, val);
@@ -307,7 +290,8 @@ void printPreOrder(Node *root) {
      * */
 
     if (empty(root)) return;
-    printf(" %ld\n", root -> value);
+    if (root -> color == RED) printf(BOLD_RED" %ld"RESET, root -> value);
+    else printf(BOLD_BLACK" %ld"RESET, root -> value);
     printPreOrder(root -> left);
     printPreOrder(root -> right);
 }
@@ -317,9 +301,10 @@ void printInOrder(Node *root) {
      * Traverse the tree In Order (increasing) and prints the nodes.
      * */
 
-    if (root == NULL) return;
+    if (empty(root)) return;
     printInOrder(root -> left);
-    printf(" %ld", root -> value);
+    if (root -> color == RED) printf(BOLD_RED" %ld"RESET, root -> value);
+    else printf(BOLD_BLACK" %ld"RESET, root -> value);
     printInOrder(root -> right);
 }
 
@@ -328,10 +313,11 @@ void printPostOrder(Node *root) {
      * Traverse the tree Post Order and prints the nodes.
      * */
 
-    if (root == NULL) return;
+    if (empty(root)) return;
     printPostOrder(root -> left);
     printPostOrder(root -> right);
-    printf(" %ld", root -> value);
+    if (root -> color == RED) printf(BOLD_RED" %ld"RESET, root -> value);
+    else printf(BOLD_BLACK" %ld"RESET, root -> value);
 }
 
 void bfs(Node *root, long int i) {
@@ -340,7 +326,10 @@ void bfs(Node *root, long int i) {
      * */
 
     if (empty(root)) return;
-    if (i == 0) printf("\tval: %ld | color: %d ", root -> value, root -> color);
+    if (i == 0) {
+        if (root -> color == RED) printf(BOLD_RED" %ld"RESET, root -> value);
+        else printf(BOLD_BLACK" %ld"RESET, root -> value);
+    }
     bfs(root -> left, i - 1);
     bfs(root -> right, i - 1);
 }
@@ -362,7 +351,7 @@ void clear(Node *root) {
      * Clear the entire tree.
      * */
 
-    if (root == NULL) return;
+    if (empty(root)) return;
     clear(root -> left);
     clear(root -> right);
     free(root);

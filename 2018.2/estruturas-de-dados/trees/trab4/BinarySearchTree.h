@@ -8,19 +8,19 @@ typedef struct TNode {
 
 } Node;
 
-// Returns wether or not the tree is empty.
+// Returns wether or not the list is empty.
 int empty (Node *);
 
 // Inserts a new element to the Tree.
 void insert (Node **, long int);
 
 // Searches for a given value.
-// If the value is found within the tree, returns a pointer to it.
+// If the value is found within the list, returns a pointer to it.
 // Else, returns NULL.
 Node *search (Node *, long int);
 
 // Deletes the node with given value from the tree.
-void erase(Node **, long int);
+void erase(Node **, Node **, long int);
 
 // Traverse the tree Pre Order and prints the nodes.
 void printPreOrder(Node *);
@@ -43,10 +43,10 @@ long int calcTreeHeight(Node *);
 // Counts the number of nodes.
 long int countNumberOfNodes(Node *);
 
-// Returns a pointer for the In-Order predecessor of the given node.
+// Returns the value of the In-Order predecessor of the given node.
 Node *getPredecessor(Node *, Node *, long int);
 
-// Returns a pointer for the In-Order sucessor of the given node.
+// Returns the value of the In-Order sucessor of the given node.
 Node *getSucessor(Node *, Node *, long int);
 
 // Shows the menu with the avaiable operations.

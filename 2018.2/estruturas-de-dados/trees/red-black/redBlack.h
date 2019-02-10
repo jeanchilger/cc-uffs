@@ -22,7 +22,7 @@ int empty(Node *);
 
 // Inserts a new element in the tree.
 // If the insertion makes the tree skewed, it is rebalanced following Red-Black rules.
-void insert(Node **, long int);
+void insert(Node **, Node **, long int);
 
 
 // Searchs for a given value in the tree and returns a pointer to its node.

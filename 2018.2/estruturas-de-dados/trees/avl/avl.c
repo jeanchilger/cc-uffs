@@ -2,10 +2,14 @@
 #include <stdlib.h>
 #include "avl.h"
 
+#define BOLD_WHITE "\e[1;37m"
+#define RESET "\e[0m"
+
 //
 // Utility functions
+//
 
-int max(int a, int b) {
+long int max(long int a, long int b) {
     /*
      * Returns the max between a and b.
      * */
@@ -13,9 +17,45 @@ int max(int a, int b) {
     return (a > b) ? a : b;
 }
 
+long int power(long int b, long int e) {
+    /*
+     * Performs an exponentiation operation.
+     * 'b' is the base and 'e' is the exponent.
+     * */
+
+    long int i;
+    long int r = 1;
+    if (!e) return 1;
+    for (i=0; i < e; i++) {
+        r *= b;
+    }
+
+    return r;
+}
+
+Node *findMaxNode(Node *root) {
+    /*
+     * Returns the node with MAX value within the subtree rooted in 'root'.
+     * */
+
+    if (empty(root)) return NULL;
+    if (empty(root -> right)) return root;
+    return findMaxNode(root -> right);
+}
+
+Node *findMinNode(Node *root) {
+    /*
+     * Returns the node with MIN value within the subtree rooted in 'root'.
+     * */
+
+    if (empty(root)) return NULL;
+    if (empty(root -> left)) return root;
+    return findMinNode(root -> left);
+}
+
 Node *newNode(long int val) {
     /*
-     * Creates a new tree node and returns it.
+     * Returns a new node.
      * */
 
     Node *node = (Node *)malloc(sizeof(Node));
@@ -74,6 +114,7 @@ void rightRotate(Node **node) {
 
 //
 // AVL functions
+// 
 
 int empty(Node *root) {
     /*
@@ -118,7 +159,6 @@ void insert(Node **root, long int val) {
         if (getHeight((*root) -> left -> left) > getHeight((*root) -> left -> right)) {
             rightRotate(root);
 
-
         // left right case
         } else {
             leftRotate(&((*root) -> left));
@@ -146,18 +186,83 @@ Node *search(Node *root, long int val) {
      * If not found, returns NULL.
      * */
 
-    if (root == NULL) return NULL;
+    if (empty(root)) return NULL;
     if (root -> value == val) return root;
     if (val > root -> value) return search(root -> right, val);
     if (val < root -> value) return search(root -> left, val);
 }
 
-void erase(Node *root, long int val) {
+void erase(Node **root, long int val) {
     /*
-     * Deletes a node with the given value.
+     * Deletes a node with the given value from the tree.
      * */
 
-    return;
+    if (empty(*root)) return;
+
+    if (((*root) -> value) == val) {
+        // Node has one child
+        if (empty((*root) -> left)) {
+            Node *tmp = (*root) -> right;
+            free(*root);
+            (*root) = tmp;
+        
+        } else if (empty((*root) -> right)) {
+            Node *tmp = (*root) -> left;
+            free(*root);
+            (*root) = tmp;
+        
+        // Node has two children
+        } else {
+            Node *p = getPredecessor(*root, NULL, val);
+            long int rValue = (*root) -> value;
+            (*root) -> value = p -> value;
+            p -> value = rValue;
+            (*root) -> height = 1 + max(getHeight((*root) -> left) - 1,
+                                        getHeight((*root) -> right));
+            erase(&((*root) -> left), rValue);
+        }
+
+    } else if (val > (*root) -> value) {
+        erase(&((*root) -> right), val);
+    
+    } else {
+        erase(&((*root) -> left), val);
+    }
+
+    if (empty(*root)) return;
+    (*root) -> height = 1 + max(getHeight((*root) -> left),
+                                getHeight((*root) -> right));
+    int balance = getHeight((*root) -> left) - getHeight((*root) -> right);
+    
+    if (balance > 1) {
+         
+        //printf("LL: %d\tLR: %d\n", getHeight((*root) -> left -> left), getHeight((*root) -> left -> right));
+        // left left case
+        if (getHeight((*root) -> left -> left) >= getHeight((*root) -> left -> right)) {
+            printf("LEFT LEFT\n");
+            rightRotate(root);
+        
+        // left right case
+        } else {
+            printf("LEFT RIGHT\n");
+            leftRotate(&((*root) -> left));
+            rightRotate(root);
+        }
+
+    } else if (balance < -1) {
+            
+        // right right case
+        if (getHeight((*root) -> right -> right) >= getHeight((*root) -> right -> left)) {
+            printf("RIGHT RIGHT\n");
+            leftRotate(root);
+            
+        // right left case
+        } else {
+            printf("RIGHT LEFT\n");
+            rightRotate(&((*root) -> right));
+            leftRotate(root);
+        }
+    }
 }
 
 void printPreOrder(Node *root) {
@@ -165,8 +270,8 @@ void printPreOrder(Node *root) {
      * Traverse the tree Pre Order and prints the nodes.
      * */
 
-    if (root == NULL) return;
-    printf(" %d", root -> value);
+    if (empty(root)) return;
+    printf(BOLD_WHITE" %ld"RESET, root -> value);
     printPreOrder(root -> left);
     printPreOrder(root -> right);
 }
@@ -176,9 +281,9 @@ void printInOrder(Node *root) {
      * Traverse the tree In Order (increasing) and prints the nodes.
      * */
 
-    if (root == NULL) return;
+    if (empty(root)) return;
     printInOrder(root -> left);
-    printf(" %d", root -> value);
+    printf(BOLD_WHITE" %ld"RESET, root -> value);
     printInOrder(root -> right);
 }
 
@@ -187,10 +292,10 @@ void printPostOrder(Node *root) {
      * Traverse the tree Post Order and prints the nodes.
      * */
 
-    if (root == NULL) return;
+    if (empty(root)) return;
     printPostOrder(root -> left);
     printPostOrder(root -> right);
-    printf(" %d", root -> value);
+    printf(BOLD_WHITE" %ld"RESET, root -> value);
 }
 
 void bfs(Node *root, long int lvl) {
@@ -199,7 +304,7 @@ void bfs(Node *root, long int lvl) {
      * */
 
     if (empty(root) || lvl < 0) return;
-    if (lvl == 0) printf(" %d", root -> value);
+    if (lvl == 0) printf(BOLD_WHITE" V: %ld"RESET" |  h: %ld ", root -> value, root -> height);
     bfs(root -> left, lvl - 1);
     bfs(root -> right, lvl - 1);
 }
@@ -210,9 +315,10 @@ void printBFS(Node *root) {
      * */
 
     long int i;
-    for (i = 0; i < calcTreeHeight(root); i++) {
+    long int h = calcTreeHeight(root);
+    for (i = 0; i < h; i++) {
         bfs(root, i);
-        printf("\n\n");
+        printf("\n");
     }
 }
 
@@ -221,7 +327,7 @@ void clear(Node *root) {
      * Clear the entire tree.
      * */
 
-    if (root == NULL) return;
+    if (empty(root)) return;
     clear(root -> left);
     clear(root -> right);
     free(root);
@@ -233,7 +339,7 @@ long int calcTreeHeight(Node *node) {
      * By default, the root is counted.
      * */
 
-    if (node == NULL) return 0;
+    if (empty(node)) return 0;
     return max(1 + calcTreeHeight(node -> left),
                1 + calcTreeHeight(node -> right));
 }
@@ -243,21 +349,69 @@ long int countNumberOfNodes(Node *root) {
      * Counts the number of the nodes in the tree.
      * */
 
-    if (root == NULL) return 0;
+    if (empty(root)) return 0;
     return countNumberOfNodes(root -> left) + countNumberOfNodes(root -> right) + 1;
+}
+
+Node *getPredecessor(Node *root, Node *pred, long int val) {
+    /*
+     * Returns the value of the In-Order predecessor of the given node.
+     * */
+     
+    if (empty(root)) return NULL;
+    if (root -> value == val) {
+        if (!empty(root -> left)){
+            return findMaxNode(root -> left);
+        
+        } else {
+            return pred;                                   
+        }             
+    }
+    
+    if (root -> value < val) {
+        return getPredecessor(root -> right, root, val);
+    
+    } else {
+        return getPredecessor(root -> left, pred, val);
+    }
+}
+
+Node *getSucessor(Node *root, Node *suc, long int val) {
+    /*
+     * Returns the value of the In-Order sucessor of the given node.
+     * */
+    
+    if (empty(root)) return NULL;
+    if (root -> value == val) {
+        if (!empty(root -> right)) {
+            return findMinNode(root -> right);
+        
+        } else {
+            return suc;
+        }
+    }
+    
+    if (root -> value > val) {
+        return getSucessor(root -> left, root, val);
+    
+    } else {
+        return getSucessor(root -> right, suc, val);
+    }
 }
 
 void showMenu() {
     printf("\n\t\t  MENU\n");
     printf("================================================\n");
-    printf(" | 1 - Insert element                         |\n");
-    printf(" | 2 - Search value                           |\n");
-    printf(" | 4 - Erase element                          |\n");
-    printf(" | 4 - Prints elements                        |\n");
-    printf(" | 5 - Clean list                             |\n");
-    printf(" | 6 - Calc. tree height                      |\n");
-    printf(" | 7 - Number of nodes                        |\n");
-    printf(" | 9 - Show menu                              |\n");
-    printf(" | 0 - Exit                                   |\n");
+    printf(" | 1  - Insert element                         |\n");
+    printf(" | 2  - Search value                           |\n");
+    printf(" | 3  - Erase element                          |\n");
+    printf(" | 4  - Prints elements                        |\n");
+    printf(" | 5  - Clean list                             |\n");
+    printf(" | 6  - Calc. tree height                      |\n");
+    printf(" | 7  - Number of nodes                        |\n");
+    printf(" | 8  - Get predecessor                        |\n");
+    printf(" | 9  - Get sucessor                           |\n");
+    printf(" | 10 - Show menu                              |\n");
+    printf(" | 0  - Exit                                   |\n");
     printf("================================================\n");
 }

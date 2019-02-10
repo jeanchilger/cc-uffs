@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 struct TNode {
+
     long int value;
     struct TNode *left;
     struct TNode *right;
@@ -13,19 +14,20 @@ struct TNode {
 
 typedef struct TNode Node;
 
-// Checks whether the tree is empty or not.
+// Returns whether or not the tree is empty.
 int empty(Node *);
 
 // Inserts a new element in the tree.
 // If the insertion makes tree skewed, it is rebalanced.
 void insert(Node **, long int);
 
-// Searchs for a given value in the tree and returns a pointer to its node.
-// If not found, returns NULL.
+// Searchs for a given value.
+// If the value is found within the tree, returns a pointer to it.
+// Else, returns NULL.
 Node *search(Node *, long int);
 
-// Deletes the node with given value.
-void erase(Node *, long int);
+// Deletes the node with given value from the tree.
+void erase(Node **,  long int);
 
 // Traverse the tree Pre Order and prints the nodes.
 void printPreOrder(Node *);
@@ -48,6 +50,12 @@ long int calcTreeHeight(Node *);
 
 // Counts the number of nodes in the tree rooted in the given node.
 long int countNumberOfNodes(Node *);
+
+// Returns a pointer for the In-Order predecessor of the given node.
+Node *getPredecessor(Node *, Node *, long int);
+
+// Returns a pointer for the In-Order sucessor of the given node.
+Node *getSucessor(Node *, Node *, long int);
 
 // Prints the menu, showing avaiable options.
 void showMenu();

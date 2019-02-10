@@ -1,4 +1,7 @@
+#!/bin/bash
+
 gcc -c redBlack.c
-gcc -c test1.c
-gcc -o run test1.o redBlack.o
+gcc -c main.c
+gcc -o run main.o redBlack.o
 ./run
+rm -rf *.o

@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include "BinarySearchTree.h"
 
-#define BOLD_WHITE "\e[1;37m"
-#define RESET "\e[0m"
-
 //
 // Utility functions.
 //
@@ -18,19 +15,16 @@ long int max(long int a, long int b) {
 }
 
 long int power(long int b, long int e) {
-    /*
-     * Performs an exponentiation operation.
-     * 'b' is the base and 'e' is the exponent.
-     * */
-
     long int i;
     long int r = 1;
+//    printf(" e: %ld || b: %ld\n", e, b);
     if (!e) return 1;
     for (i = 0; i < e; i++) {
         r *= b;
     }
 
-    return r;
+//    printf("pow: %ld \n", b);
+    return b;
 }
 
 Node *findMaxNode(Node *root) {
@@ -135,39 +129,79 @@ Node *search (Node *root, long int val) {
 
 }
 
-void erase(Node **root, long int val) {
+void erase(Node **root, Node **parent, long int val) {
     /*
      * Deletes the node with given value from the tree.
      * */
 
-    if (empty(*root)) return;
+    if (empty(*root)) {
+        return ;
+    }
 
     if (((*root) -> value) == val) {
-        // Node has one child
-        if (empty((*root) -> left)) {
-            Node *tmp = (*root) -> right;
+        if (empty((*root) -> left) && empty((*root) -> right)) {
+            // The node to be deleted is a leaf
             free(*root);
-            (*root) = tmp;
+            (*root) = NULL;
 
-        } else if (empty((*root) -> right)) {
-            Node *tmp = (*root) -> left;
-            free(*root);
-            (*root) = tmp;
-        
-        // Node has two children
+        } else if (empty((*root) -> left) || empty((*root) -> right)) {
+            // Node has one child
+
+            if (parent == NULL || (*parent) == NULL) {
+                if (empty((*root) -> left)) {
+                    Node *tmp = (*root) -> right;
+                    free(*root);
+                    (*root) = tmp;
+
+                } else if (empty((*root) -> right)) {
+                    Node *tmp = (*root) -> left;
+                    free(*root);
+                    (*root) = tmp;
+
+                }
+            } else {
+                if ((*root) == (*parent) -> left) {
+                    if (empty((*root) -> left)) {
+                        Node *tmp = (*root) -> right;
+                        free(*root);
+                        (*parent) -> left = tmp;
+
+                    } else {
+                        Node *tmp = (*root) -> left;
+                        free(*root);
+                        (*parent) -> left = tmp;
+                    }
+
+                } else {
+                    if (empty((*root) -> left)) {
+                        Node *tmp = (*root) -> right;
+                        free(*root);
+                        (*parent) -> right = tmp;
+
+                    } else {
+                        Node *tmp = (*root) -> left;
+                        free(*root);
+                        (*parent) -> right = tmp;
+                    }
+                }
+                //free(*root);
+                return ;
+            }
+
         } else {
+            // Node has two child
             Node *p = getPredecessor(*root, NULL, val);
             long int rValue = (*root) -> value;
             (*root) -> value = p -> value;
             p -> value = rValue;
-            erase(&((*root) -> left), rValue);
+            erase(&((*root) -> left), root, rValue);
         }
 
     } else if (val > ((*root) -> value)) {
-        erase(&((*root) -> right), val);
+        erase(&((*root) -> right), root, val);
 
     } else {
-        erase(&((*root) -> left), val);
+        erase(&((*root) -> left), root, val);
     }
 }
 
@@ -177,7 +211,7 @@ void printPreOrder(Node *root) {
      * */
 
     if (empty(root)) return;
-    printf(BOLD_WHITE" %ld"RESET, root -> value);
+    printf(" %ld", root -> value);
     printPreOrder(root -> left);
     printPreOrder(root -> right);
 }
@@ -189,7 +223,7 @@ void printInOrder(Node *root) {
 
     if (empty(root)) return;
     printInOrder(root -> left);
-    printf(BOLD_WHITE" %ld"RESET, root -> value);
+    printf(" %ld", root -> value);
     printInOrder(root -> right);
 }
 
@@ -201,7 +235,7 @@ void printPostOrder(Node *root) {
     if (empty(root)) return;
     printPostOrder(root -> left);
     printPostOrder(root -> right);
-    printf(BOLD_WHITE" %ld"RESET, root -> value);
+    printf(" %ld", root -> value);
 }
 
 void bfs(Node *root, long int lvl, long int h, long int l) {
@@ -210,7 +244,11 @@ void bfs(Node *root, long int lvl, long int h, long int l) {
      * */
 
     if (empty(root) || lvl < 0) return;
-    if (lvl == 0) printf(BOLD_WHITE" %ld"RESET, root -> value);
+    if (lvl == 0) {
+        //long int s = power(2, h - l);
+        //printSpaces(s);
+        printf(" %ld", root -> value);
+    }
     bfs(root -> left, lvl - 1, h, l);
     bfs(root -> right, lvl - 1, h, l);
 }
@@ -290,7 +328,6 @@ Node *getSucessor(Node *root, Node *suc, long int val) {
     if (root -> value == val) {
         if (!empty(root -> right)) {
             return findMinNode(root -> right);
-       
         } else {
             return suc;
         }
@@ -302,12 +339,14 @@ Node *getSucessor(Node *root, Node *suc, long int val) {
     } else {
         return getSucessor(root -> right, suc, val);
     }
+
+
 }
 
 void showMenu() {
     printf("\n\t\t  MENU\n");
     printf("================================================\n");
-    printf(" | 1  - Insert element                         |\n");
+    printf(" | 1  - Insert elements                        |\n");
     printf(" | 2  - Search value                           |\n");
     printf(" | 3  - Erase element                          |\n");
     printf(" | 4  - Print elements                         |\n");

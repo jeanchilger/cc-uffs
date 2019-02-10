@@ -10,9 +10,10 @@ void insertRandomNumbers(Node **root, long int n, long int max) {
     long int i;
     for (i = 0; i < n; i++) {
         long int val = rand() % max;
-        printf("\r\r\r\r\r\r\r%ld", val);
+        printf("%ld\r\r\r\r\r\r\r\r", val);
         insert(root, val);
     }
+    printf("\r\r\r\r\r\r\r\r");
 }
 
 int main() {
@@ -27,24 +28,18 @@ int main() {
         scanf(" %d", &opt);
 
         if (opt == 1) {
-            int x;
-            long int n, max;
-            printf("Insert lots of numbers? (1-Y/2-N): ");
-            scanf(" %d", &x);
-            if (x == 1) {
-                printf("Number of numbers: ");
-                scanf(" %ld", &n);
-                printf("Max value (the max is not included): ");
-                scanf(" %ld", &max);
-
-                insertRandomNumbers(&root, n, max);
-
-            } else if (x == 2) {
-                printf("Value to insert: ");
-                scanf(" %ld", &val);
-
-                insert(&root, val);
+            if (!empty(root)) {
+                free(root);
+                root = NULL;
             }
+
+            long int n, max;
+            printf("Number of numbers: ");
+            scanf(" %ld", &n);
+            printf("Max value (the max is not included): ");
+            scanf(" %ld", &max);
+            
+            insertRandomNumbers(&root, n, max);
 
         } else if (opt == 2) {
             printf("Value to search: ");
@@ -126,6 +121,11 @@ int main() {
         
         } else if (opt == 0) {
             printf("Goodbye.\n");
+            if (!empty(root)) {
+                free(root);
+                root = NULL;                                               
+            }
+
             break;
 
         } else {
