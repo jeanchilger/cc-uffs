@@ -1,0 +1,65 @@
+##### 1
+
+a) Não funciona. 
+O objeto 'c' não foi inicializado e está apontando para NULL. NULL não possui uma propriedade dados.
+
+b) Não funciona. 
+A variavel 'num' é do tipo 'float' e o método chamado recebe um tipo 'int'. Mesmo 'num' valendo 0, o Java não admite tal conversão.
+
+c) Não funciona.
+A instancia 'c' nao foi inicializada, e portanto está apontando para NULL. NULL não possui um método chamado 'setIdentificacao(int, String)'.
+
+
+d) Funciona.
+
+e) Não funciona.
+A propriedade 'rotulo' da classe 'BlurayDisc' é privada e não pode ser acessada diretamente por seus objetos.
+
+f) Funciona.
+
+g) Funciona.
+
+h) Funciona?
+
+i) Funciona.
+
+j) Não funciona.
+Se o objeto 'c' ainda não foi inicializado, está apontando para NULL e NULL não possui uma propriedade 'dados'.
+
+##### 2
+
+Compra.java e TestaCompra.java
+
+##### 3
+
+saída na tela: "good-bye\nhello\n"
+1) O construtor que recebe um inteiro é chamado com o valor '5'.
+2) Este construtor chama o construtor que recebe uma 'String'.
+3) O construtor que recebe uma 'String' chama o construtor que não recebe parâmetros.
+4) O construtor que não recebe parâmetros mostra a menssagem "good-bye\n".
+5) O código retorna para o construtor que recebe uma "String", que mostra na tela a "String" recebida.
+
+##### 4
+
+saída na tela: "2.7\nBox: 9 0\n"
+
+O desenho tá na minha cabeça.
+
+##### 5
+
+Autor.java, Post.java e T.java
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
