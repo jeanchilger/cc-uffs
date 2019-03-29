@@ -60,7 +60,7 @@ void fill(int b, int e, int i, int arr[]) {
 int query(int b, int e, int id = 1) {
     /*
      * Searches for the minimun value in the given range [b, e].
-     * Returns the index this element or INF if there is no such a element.
+     * Returns the value of this element or INF if there is no such a element.
      * */
 
     int i = get<1>(st[id]);
@@ -69,7 +69,6 @@ int query(int b, int e, int id = 1) {
     if ((b == i and j == e) or (b <= i and e >= j)) {
         return get<0>(st[id]);
     }
-    
 
     if (j < b or i > e) {
         return INF;
@@ -79,17 +78,24 @@ int query(int b, int e, int id = 1) {
         return min(query(b, e, 2 * id), query(b, e, 2 * id + 1));  
     }
   
+
+    return 0;
 }
 
-void update(int b, int e, int newVal, int id=1) {
+void update(int b, int e, int newVal, int arr[], int id=1) {
     /*
-     * Updates the tree in the given interval.
+     * Updates the tree in the given position.
+     * The position is in the form [b, b].
      * */
 
     int i = get<1>(st[id]);
     int j = get<2>(st[id]);
 
-    if ((b == i and j == e) or (b <= i and e >= j)) {
+
+    if ((b == i and j == e)) {
+        iii n(newVal, i, j);
+        st[id] = n;
+        arr[i-1] = newVal;
         return ;              
     }
      
@@ -99,17 +105,17 @@ void update(int b, int e, int newVal, int id=1) {
     }
      
     if (i <= b or j >= e) {
-        query(b, e, 2 * id);
-        query(b, e, 2 * id + 1);
+        update(b, e, newVal, arr, 2 * id);
+        update(b, e, newVal, arr, 2 * id + 1);
     }
 
-
-    
-
+    int v = min(get<0>(st[2 * id]), get<0>(st[2 * id + 1]));
+    iii m(v, i, j);
+    st[id] = m;
 }
 
 int main(){
-    int n, e, b;
+    int n, e, b, o;
 
     scanf(" %d", &n);
    
@@ -118,14 +124,18 @@ int main(){
         scanf(" %d", &arr[i]);
     }
 
-    iii f (9, 0, 0);
+    iii f (INF, 0, 0);
     st.assign(2*n, f);
     
     fill(1, n, 1, arr);
-    //print(2*n - 1);
-    while (scanf(" %d %d", &b, &e)!= EOF) {
-        int id = query(b, e);
-        printf("query(%d, %d) = st[%d] = %d\n", b, e, id, get<0>(st[id]));
+    while (scanf(" %d", &o)!= EOF) {
+        scanf(" %d %d", &b, &e);
+        if (o == 1) {    
+            int val = query(b, e);
+            printf("query(%d, %d) = %d\n", b, e, val);
+        } else {
+            update(b, b, e, arr);
+        }
     }
 
     return 0;
