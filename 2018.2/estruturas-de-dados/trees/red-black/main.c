@@ -3,15 +3,16 @@
 #include "redBlack.h"
 
 int main() {
-	int opt, val;
+	int opt;
+    long int val;
 	Node *root = NULL;
-    Node *parent = NULL;
+    
     showMenu();
 
-    insert(&root, &root, 9);
+    /*insert(&root, &root, 9);
 	insert(&root, &root, 5);
 	insert(&root, &root, 10);
-	insert(&root, &root, 0);
+	insert(&root, &root, 0);*/
 
 
     while (1) {
@@ -20,24 +21,28 @@ int main() {
 
         if (opt == 1) {
             printf("Value to insert: ");
-            scanf(" %d", &val);
+            scanf(" %ld", &val);
 
-            insert(&root, NULL, val);
+            insert(&root, &root, val);
 			// printf("COLOR OF ROOT IS (0 - RED; 1 - BLACK): %d\n", root -> color);
 
         } else if (opt == 2) {
             printf("Value to search: ");
-            scanf(" %d", &val);
+            scanf(" %ld", &val);
 
             Node* elem = search(root, val);
             if (elem == NULL) {
-                printf ("%d not found\n", val);
+                printf ("%ld not found\n", val);
 
             } else {
-                printf("%d found\n", val);
+                printf("%ld found\n", val);
             }
 
         } else if (opt == 3) {
+            printf("Value to erase: ");
+            scanf(" %ld", &val);
+
+            erase(&root, val);
 
         } else if (opt == 4) {
             printf(" 1 - Pre-Order\n 2 - In-Order\n 3 - Post-Order\n 4 - BFS\n: ");

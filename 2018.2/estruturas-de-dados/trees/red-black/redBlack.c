@@ -20,6 +20,26 @@ long int max (long int a, long int b) {
     return (a > b) ? a : b;
 }
 
+Node *findMaxNode(Node *root) {
+    /*
+     * Returns the node with MAX value within the subtree rooted in 'root'.
+     * */
+
+    if (empty(root)) return NULL;
+    if (empty(root -> right)) return root;
+    return findMaxNode(root -> right);
+}
+
+Node *findMinNode(Node *root) {
+    /*
+     * Returns the node with MIN valuw within the subtree rooted in 'root'.
+     * */
+
+    if (empty(root)) return NULL;
+    if (empty(root -> left)) return root;
+    return findMinNode(root -> left);
+}
+
 Node *newNode (Node *parent, long int val) {
     /*
      * Creates a new node and returns it.
@@ -40,11 +60,7 @@ Node *getParent(Node *node) {
      * Utility function to get the parent of a node.
      * */
 
-    //printf("parent\n");
-    if (!empty(node)) {
-        return (node) -> parent;
-    }
-
+    if (!empty(node)) return (node) -> parent;
 
     return NULL;
 }
@@ -54,10 +70,7 @@ Node *getGrandParent(Node *node) {
      * Utility function to get the grand parent of a node.
      * */
 
-    //printf("grandParent\n");
-    if (!empty(node)) {
-        return getParent(node -> parent);
-    }
+    if (!empty(node)) return getParent(node -> parent);
 
     return NULL;
 }
@@ -69,30 +82,51 @@ Node *getUncle(Node *node) {
 
     if (!empty(node)) {
         Node *gp = getGrandParent(node);
-       // printf("uncle\n");
         if (!empty(gp)) {
-            if (getParent(node) == gp -> left) {
-                return gp -> right;
-
-            } else if (getParent(node) == gp -> right) {
-                return gp -> left;
-            }
+            if (getParent(node) == gp -> left) return gp -> right;
+            else if (getParent(node) == gp -> right) return gp -> left;
         }
     }
 
     return NULL;
 }
 
-void swap(Node *new, Node *old) {
+Node *getSibling(Node *node) {
     /*
-     * Swap the values from new to old.
+     * Utility function to get the sibling of a node.
      * */
 
-    old -> value = new -> value;
-    old -> left = new -> left;
-    old -> right = new -> right;
-    old -> parent = new -> parent;
-    old -> color = new -> color;
+    if (!empty(node)) {
+        Node *p = getParent(node);
+        if (!empty(p)) {
+            if (node == p -> left) return p -> right;
+            else if (node == p -> right) return p -> left;
+        }
+    }
+
+    return NULL;
+}
+
+int getColor(Node *node) {
+    /*
+     * Utility function to get the color of a node.
+     * */
+
+    if (empty(node)) return BLACK;
+    return (node -> color);
+    
+}
+
+void swap(Node **a, Node **b) {
+    /*
+     * Swaps the properties of two nodes.
+     * */
+
+    (*a) -> value = (*b) -> value;
+    (*a) -> parent = (*b) -> parent;
+    (*a) -> left = (*b) -> left;
+    (*a) -> right = (*b) -> right;
+    (*a) -> value = (*b) -> value;
 }
 
 void leftRotate(Node **node) {
@@ -164,58 +198,59 @@ void insertionFixUp(Node **node) {
 
     if (node == NULL || empty(*node)) return;
     
-    // Node is the root:
+    // Node is the root
     if (empty(getParent(*node))) {
         (*node) -> color = BLACK;
     
-    } else if (getParent(*node) -> color == RED) {
-        
-        if (empty(getUncle(*node)) || getUncle(*node) -> color == BLACK) {
-            // printf("\t\tBLACK UNCLE\n");
+    // parent is red
+    } else if (getColor(getParent(*node)) == RED) {
+
+        // black uncle
+        if (getColor(getUncle(*node)) == BLACK) {
             Node *g = getGrandParent(*node);
             Node *p = getParent(*node);
             
             if (p == g -> left) {
                 // left left case
                 if ((*node) == p -> left) {
-                    int gColor = g -> color;
-                    g -> color = p -> color;
+                    printf("LL\n");
+                    int gColor = getColor(g);
+                    g -> color = getColor(p);
                     p -> color = gColor;
                     rightRotate(&g);
-                    // printf("LEFT LEFT\n");
             
                 // left right case
                 } else if ((*node) == p -> right) {
+                    printf("LR\n");
                     leftRotate(&p);
-                    int gColor = g -> color;
-                    g -> color = p -> color;
+                    int gColor = getColor(g);
+                    g -> color = getColor(p);
                     p -> color = gColor;
                     rightRotate(&g);
-                    // printf("LEFT RIGHT\n");
                 }
             
             } else if (p == g -> right) {
                 // right right case
                 if ((*node) == p -> right) {
-                    int gColor = g -> color;
-                    g -> color = p -> color;
+                    printf("RR\n");
+                    int gColor = getColor(g);
+                    g -> color = getColor(p);
                     p -> color = gColor;
                     leftRotate(&g);
-                    // printf("RIGHT RIGHT\n");
                     
                 // right left case
                 } else if ((*node) == p -> left) {
+                    printf("RL\n");
                     rightRotate(&p);
-                    int gColor = g -> color;
-                    g -> color = p -> color;
+                    int gColor = getColor(g);
+                    g -> color = getColor(p);
                     p -> color = gColor;
                     leftRotate(&g);
-                    // printf("RIGHT LEFT\n");
                 }
             }
             
-        } else if (getUncle(*node) -> color == RED) {
-            // printf("\t\tRED UNCLE\n");
+        // red uncle
+        } else if (getColor(getUncle(*node)) == RED) {
             (getParent(*node)) -> color = BLACK;
             (getUncle(*node)) -> color = BLACK;
             (getGrandParent(*node)) -> color = RED;
@@ -226,6 +261,21 @@ void insertionFixUp(Node **node) {
     }
     
     return;
+}
+
+void delFixUp(Node **node) {
+    /*
+     * Fixes the possible unbalance caused in the deletion of a node.
+     * */
+
+    if (node == NULL || empty(*node)) return;
+
+    if (empty(getParent(*node))) {
+        (*node) -> color = BLACK;
+        return;
+    }
+
+    //if (getColor(getSibling(*node)) == BLACK)
 }
 
 //
@@ -278,10 +328,42 @@ Node *search(Node *root, long int val) {
 
 void erase(Node **root, long int val) {
     /*
-     * Removes a single element from the tree.
+     * Deletes the node with given value from the tree.
      * */
 
-    printf("I don't work!!\n");
+    if (empty(*root)) return;
+
+    if (((*root) -> value) == val) {
+        // Node has one or no child
+        if (empty((*root) -> left)) {
+            Node *tmp = (*root) -> right;
+            free(*root);
+            (*root) = tmp;
+            //prinft("\tAAAAAA: %p\n", (*root) -> parent);
+            //delFixUp(root);
+    
+        } else if (empty((*root) -> right)) {
+            Node *tmp = (*root) -> left;
+            free(*root);
+            (*root) = tmp;
+            //printf("\tBBBBB: %p\n", (*root) -> parent);
+            //delFixUp(root);
+        
+        // Node has two children
+        } else {
+            Node *p = getPredecessor(*root, NULL, val);
+            long int rValue = (*root) -> value;
+            (*root) -> value = p -> value;
+            p -> value = rValue;
+            erase(&((*root) -> left), rValue);
+        }
+    
+    } else if (val > ((*root) -> value)) {
+        erase(&((*root) -> right), val);
+    
+    } else {
+        erase(&((*root) -> left), val);
+    }
 }
 
 void printPreOrder(Node *root) {
@@ -374,8 +456,8 @@ long int calcTreeBlackHeight(Node *root) {
      * */
 
     if (empty(root)) return 1;
-    if (root -> color) return max(1 + calcTreeBlackHeight(root -> left),
-                                  1 + calcTreeBlackHeight(root -> right));
+    if (getColor(root) == BLACK) return max(1 + calcTreeBlackHeight(root -> left),
+                                            1 + calcTreeBlackHeight(root -> right));
 }
 
 long int countNumberOfNodes(Node *root) {
@@ -387,17 +469,61 @@ long int countNumberOfNodes(Node *root) {
     return 1 + countNumberOfNodes(root -> left) + countNumberOfNodes(root -> right);
 }
 
+Node *getPredecessor(Node *root, Node *pred, long int val) {
+    /*
+     * Returns a pointer to the In-Order predecessor of the node with given value.
+     * */
+
+    if (empty(root)) return NULL;
+    if (root -> value == val) {
+        if (!empty(root -> left)) 
+            return findMaxNode(root -> left);
+        
+        else 
+            return pred;
+    }
+
+    if (root -> value < val) 
+        return getPredecessor(root -> right, pred, val);
+
+    else
+        return getPredecessor(root -> left, pred, val);
+}
+
+Node *getSucessor(Node *root, Node *pred, long int val) {
+    /*
+     * Returns a pointer to the In-Order sucessor of the node with given value.
+     * */
+
+    if (empty(root)) return NULL;
+    if (root -> value == val) {
+        if (!empty(root -> right))
+            return findMinNode(root -> right);
+
+        else
+            return pred;
+    }
+
+    if (root -> value < val)
+        return getSucessor(root -> right, root, val);
+
+    else
+        return getSucessor(root -> left, root, val);
+}
+
 void showMenu() {
     printf("\n\t\t  MENU\n");
     printf("================================================\n");
-    printf(" | 1 - Insert element                         |\n");
-    printf(" | 2 - Search value                           |\n");
-    printf(" | (X)3 - Erase element                       |\n");
-    printf(" | 4 - Print elements                         |\n");
-    printf(" | 5 - Clean list                             |\n");
-    printf(" | 6 - Calc. tree height                      |\n");
-    printf(" | 7 - Number of nodes                        |\n");
-    printf(" | 9 - Show menu                              |\n");
-    printf(" | 0 - Exit                                   |\n");
+    printf(" | 1  - Insert element                         |\n");
+    printf(" | 2  - Search value                           |\n");
+    printf(" | 3  - Erase element                          |\n");
+    printf(" | 4  - Print elements                         |\n");
+    printf(" | 5  - Clean list                             |\n");
+    printf(" | 6  - Calc. tree height                      |\n");
+    printf(" | 7  - Number of nodes                        |\n");
+    printf(" | 8  - Get predecessor                        |\n");
+    printf(" | 9  - Get sucessor                           |\n");
+    printf(" | 10 - Show menu                              |\n");
+    printf(" | 0  - Exit                                   |\n");
     printf("================================================\n");
 }

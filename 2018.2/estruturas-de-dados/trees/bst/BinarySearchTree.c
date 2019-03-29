@@ -260,12 +260,12 @@ long int countNumberOfNodes(Node *root) {
 
 Node *getPredecessor(Node *root, Node *pred, long int val) {
     /*
-     * Returns the value of the In-Order predecessor of the given node.
+     * Returns a pointer to the In-Order predecessor of the node with given value.
      * */
 
     if (empty(root)) return NULL;
     if (root -> value == val) {
-        if (!empty(root -> left)){
+        if (!empty(root -> left)) {
             return findMaxNode(root -> left);
 
         } else {
@@ -283,7 +283,7 @@ Node *getPredecessor(Node *root, Node *pred, long int val) {
 
 Node *getSucessor(Node *root, Node *suc, long int val) {
     /*
-     * Returns the value of the In-Order sucessor of the given node.
+     * Returns a pointer to the In-Order sucessor of the node with given value.
      * */
 
     if (empty(root)) return NULL;

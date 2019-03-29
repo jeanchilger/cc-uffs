@@ -6,6 +6,7 @@
 
 #define BLACK 1
 #define RED 0
+#define DOUBLE_BLACK -1
 
 struct TNode {
     long int value;
@@ -56,6 +57,12 @@ long int calcTreeBlackHeight(Node *);
 
 // Counts the number of the nodes in the tree.
 long int countNumberOfNodes(Node *);
+
+// Returns a pointer to the In-Order predecessor of the node with given value.
+Node *getPredecessor(Node *, Node *, long int);
+
+// Returns a pointer to the In-Order sucessor of the node with given value.
+Node *getSucessor(Node *, Node *, long int);
 
 // Prints the menu, showing avaiable options.
 void showMenu();
