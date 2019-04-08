@@ -1,20 +1,30 @@
 class Data {
-    public int dia;
-    public int mes;
+    
+    private int dia;
+    private int mes;
+    private int ano;
 
-    public Data(int dia, int mes) {
-        this.dia = dia;
-        this.mes = mes;
-
+    public void setDia(int d) {
+        this.dia = d;
     }
 
-    public void imprime() {
-
-        System.out.println(this.dia + "/" + this.mes);
+    public void setMes(int m) {
+        this.mes = m;
     }
 
-    public double media() {
-        return (double)(this.dia + this.mes) / 2;
+    public void setAno(int a) {
+        this.ano = a;
     }
 
+    public int getDia() {
+        return this.dia;
+    }
+
+    public int getMes() {
+        return this.mes;
+    }
+
+    public int getAno() {
+        return this.ano;
+    }
 }
