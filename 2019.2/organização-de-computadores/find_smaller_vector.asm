@@ -17,6 +17,10 @@ main:
 	ebreak
 	
 # set registers and call loop body
+# parameters: a0 -> vector addres
+# 	      a1 -> vector size
+# return:     a0 -> smaller value
+# 	      a1 -> smaller index
 find_min:
 	
 	add  t0, a0, zero     # vector address

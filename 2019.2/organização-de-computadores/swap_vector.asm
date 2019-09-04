@@ -21,17 +21,19 @@ main:
 	addi a1, zero, 0 # index to swap
 	addi a2, zero, 2 # index to swap
 	
-	addi t0, zero, 4 # constant to multiply (get address)
-	
 	jal  swap
 
 	ebreak
 	
-# swap positions of the vector
+# arguments: a0 -> index of vector
+#	     a1 -> index of vector
+# return:    none
+
+# swap two positions of the vector
 swap:
 
-	mul t1, a1, t0 # offset 1
-	mul t2, a2, t0 # offset 2
+	slli t1, a1, 2 # offset 1
+	slli t2, a2, 2 # offset 2
 	
 	add t1, t1, a0
 	add t2, t2, a0

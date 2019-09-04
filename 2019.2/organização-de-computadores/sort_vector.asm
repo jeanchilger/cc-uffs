@@ -15,32 +15,49 @@ vector: .word 5 6 4 7 15 9 97
 main:
 
 	# vector addres
+	la a0, vector
 	
 
 	ebreak
 	
+# sorts the vector using bubble sort algorithm
+sort_vector:
+
+	nop
+	
+	
 
 ###### SWAP TWO POSITIONS IN A VECTOR
 
-# swap positions of the vector
+# arguments: a0 -> index of vector
+#	     a1 -> index of vector
+# return:    none
+
+# swap two positions of the vector
 swap:
 
-	mul t1, a1, t0
-	mul t2, a2, t0
+	slli t1, a1, 2 # offset 1
+	slli t2, a2, 2 # offset 2
 	
 	add t1, t1, a0
 	add t2, t2, a0
 	
-	lw t3, 0(t1)
-	lw t4, 0(t2)
+	lw  t3, 0(t1)
+	lw  t4, 0(t2)
 	
-	sw t4, 0(t1)
-	sw t3, 0(t2)
+	sw  t4, 0(t1)
+	sw  t3, 0(t2)
 	
 	ret
 
 
-###### FIND MIN VALUE	
+###### FIND MIN VALUE
+
+# parameters: a0 -> vector addres
+# 	      a1 -> vector size
+# return:     a0 -> smaller value
+# 	      a1 -> smaller index
+
 # set registers and call loop body
 find_min:
 	
