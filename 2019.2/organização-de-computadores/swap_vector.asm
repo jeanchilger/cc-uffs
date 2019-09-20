@@ -25,9 +25,10 @@ main:
 
 	ebreak
 	
-# arguments: a0 -> index of vector
-#	     a1 -> index of vector
-# return:    none
+# parameters: a0 -> vector address
+#	      a1 -> vector index
+#	      a2 -> vector index
+# return:     none
 
 # swap two positions of the vector
 swap:

@@ -8,6 +8,7 @@ main:
 
 	# vector addres
 	la a0, vector
+	addi a0, a0, 4
 	# vector size
 	addi a1, zero, 7
 	
