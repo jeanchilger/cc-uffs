@@ -22,24 +22,30 @@ SELECT f.titulo FROM filme f JOIN elenco e ON f.codf=e.codf
 
 -- 11)
 
--- 16)
+---- 15)
+SELECT count(a.coment) FROM avaliacao a WHERE a.email = 'cinefilo@gmail.com';
+
+---- 16)
 SELECT p.paisn, count(p.nome) FROM pessoa p
                               GROUP BY p.paisn;
 
---17)
+---- 17)
+				   -- =
 SELECT * FROM pessoa p WHERE p.dtnasc IN (SELECT min(p.dtnasc) FROM pessoa p);
     -- ou
-SELECT * FROM pessoa p ORDER BY p.dtnasc LIMIT 1;
+--SELECT * FROM pessoa p ORDER BY p.dtnasc LIMIT 1; -- gambiarra d+
 
---18)
+---- 18)
 SELECT * FROM filme f WHERE f.dur IN (SELECT min(f.dur) FROM filme f);
 
---19)
+---- 19)
 SELECT f.titulo, count(p) FROM filme f JOIN elenco e ON f.codf=e.codf
                                        JOIN pessoa p ON e.codp=p.codp
                                        GROUP BY f.titulo;
 
---20)
+---- 20)
 SELECT f.titulo, avg(a.nestrelas) FROM filme f NATURAL JOIN avaliacao a
                                   GROUP BY f.titulo;
+
+---- desafio
 
