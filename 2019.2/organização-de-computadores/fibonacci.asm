@@ -10,6 +10,11 @@ main:
 
 	ebreak
 
+# aloca o espaço dexa vazio <- A
+# armazena depois na hora de desempilhar
+# n_1 não desempilha? só faz A
+# n_2 é o que desempilha?
+
 Fibonacci:
 # Calculates the n-th Fibonacci number defined as
 # F(n) = F(n - 1) + F(n - 2)
