@@ -15,6 +15,7 @@ bool is_in(vector<int> array, int valor) {
 
     return false;
 }
+
 bool is_ina(deque<int> array, int valor) {
     for (int x : array) {
         if (x == valor) {
@@ -39,7 +40,7 @@ bool busca_largura(vector< vector<int> > grafo, int inicio, int fim) {
     printf("Busca em largura\n");
     deque<int> fronteira;
 
-    vector<int> visitados;
+    vector<int> descobertos;
     fronteira.push_back(inicio);
 
     while (!fronteira.empty()) {
@@ -51,13 +52,14 @@ bool busca_largura(vector< vector<int> > grafo, int inicio, int fim) {
         } else {
             int noPai = fronteira.front();
             fronteira.pop_front();
-            visitados.push_back(noPai);
+            descobertos.push_back(noPai);
 
             int no = 0;
             for (int n : grafo[noPai]) {
                 if (n == 1) {
-                    if (!is_in(visitados, no)) {
+                    if (!is_in(descobertos, no)) {
                         fronteira.push_back(no);
+                        descobertos.push_back(no);
                     }
                 }
 
@@ -75,7 +77,7 @@ bool busca_profundidade(vector< vector<int> > grafo, int inicio, int fim) {
     printf("Busca em profundidade\n");
     deque<int> fronteira;
 
-    vector<int> visitados;
+    vector<int> descobertos;
     fronteira.push_front(inicio);
 
     while (!fronteira.empty()) {
@@ -87,13 +89,14 @@ bool busca_profundidade(vector< vector<int> > grafo, int inicio, int fim) {
         } else {
             int noPai = fronteira.front();
             fronteira.pop_front();
-            visitados.push_back(noPai);
+            descobertos.push_back(noPai);
 
             int no = 0;
             for (int n : grafo[noPai]) {
                 if (n == 1) {
-                    if (!is_in(visitados, no) && !is_ina(fronteira, no)) {
+                    if (!is_in(descobertos, no)) {
                         fronteira.push_front(no);
+                        descobertos.push_back(no);
                     }
                 }
 
