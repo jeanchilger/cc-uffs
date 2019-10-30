@@ -21,7 +21,7 @@ select s.sid from sailors s
 ------------------------------------ NOT CHECKED ------------------------------------------
 -------------------------------------------------------------------------------------------
 
--- Q9?:
+-- Q9: ok
 select s.sname from sailors s
 where not exists (
     select b.bid from boats b
@@ -30,7 +30,7 @@ where not exists (
         where s.sid = r.sid;
 );
 
--- Q10????:
+-- Q10: ok
 select s.sname from sailors s
     where not exists (
         select b.bid from boats b
@@ -40,7 +40,7 @@ select s.sname from sailors s
             where s.sid = r.sid
     );
 
--- Q19:
+-- Q19: ok
 select s.sid from sailors s
     natural join reserves r
     natural join boats b
@@ -51,11 +51,14 @@ select s.sid from sailors s
     natural join boats b
     where b.color = 'green';
 
--- Q21???:
+-- Q21: ok
 select s.sname from sailors s
-    natural join reserves r
-    natural join boats b
-    where b.color != 'red';
+    where not exists (
+        select b.bid from boats b
+            join reserves r on r.bid = b.bid
+                           and r.sid = s.sid
+            where b.color = 'red'
+    );
 
 -- Q22:
 select s.sname from sailors s
