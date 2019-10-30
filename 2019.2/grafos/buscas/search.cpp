@@ -16,16 +16,6 @@ bool is_in(vector<int> array, int valor) {
     return false;
 }
 
-bool is_ina(deque<int> array, int valor) {
-    for (int x : array) {
-        if (x == valor) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 void print_fronteira(deque<int> fronteira) {
     printf("FRONTEIRA: [");
     for (int x : fronteira) {
