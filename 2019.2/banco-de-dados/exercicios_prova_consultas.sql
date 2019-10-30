@@ -1,3 +1,4 @@
+
 -- Q6:
 select s.sname from sailors s
     natural join reserves r
@@ -10,6 +11,17 @@ select s.sname from sailors s
     where b.color='green';
 
 -- Q7:
+select s.sname from sailors s
+    where s.sid in (select s2.sid
+                        from sailors s2
+                        natural join reserves r
+                        group by s2.sid
+                        having count(r.bid) >= 2);
+
+select s.sname from sailors s
+    natural join reserves r
+    group by s.sname
+    having count(*) >= 2;
 
 -- Q8:
 select s.sid from sailors s
@@ -81,10 +93,26 @@ select s.sname from sailors s
     where s.age > (select max(s2.age) from sailors s2
                         where s2.rating = 10);
 
--- Q31:
+-- Q32:
 select s.rating, min(s.age) from sailors s 
-    where s.age >= 18 and
-    exists (select t.amount from (select count(*) as amount from sailors s2
-                                        group by s2.rating)t 
-                where t.amount >= 2)
-    group by s.rating;
+    where s.age >= 18
+    group by s.rating
+    having count(s.rating) >= 2;
+
+-- Q33:
+select count(*) as reservations from boats b
+    natural join reserves r
+    where b.color = 'red'
+    group by b.bid;
+
+-- Q34:
+select s.rating, avg(s.age) as average_age from sailors s
+    group by s.rating
+    having count(*) >= 2;
+
+-- Q37:
+select s.rating, avg(s.age) as avg_age from sailors s
+    group by s.rating
+    having avg(s.age) = (select min(avg_age) from 
+                            (select avg(s2.age) as avg_age from sailors s2
+                                group by s2.rating)t);
