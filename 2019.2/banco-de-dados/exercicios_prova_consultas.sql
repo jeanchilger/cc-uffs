@@ -17,11 +17,7 @@ select s.sid from sailors s
     natural join boats b
     where b.color != 'red' and s.age > 20;
 
--------------------------------------------------------------------------------------------
------------------------------------- NOT CHECKED ------------------------------------------
--------------------------------------------------------------------------------------------
-
--- Q9: ok
+-- Q9: 
 select s.sname from sailors s
 where not exists (
     select b.bid from boats b
@@ -30,7 +26,7 @@ where not exists (
         where s.sid = r.sid;
 );
 
--- Q10: ok
+-- Q10: 
 select s.sname from sailors s
     where not exists (
         select b.bid from boats b
@@ -40,7 +36,7 @@ select s.sname from sailors s
             where s.sid = r.sid
     );
 
--- Q19: ok
+-- Q19: 
 select s.sid from sailors s
     natural join reserves r
     natural join boats b
@@ -51,7 +47,7 @@ select s.sid from sailors s
     natural join boats b
     where b.color = 'green';
 
--- Q21: ok
+-- Q21: 
 select s.sname from sailors s
     where not exists (
         select b.bid from boats b
@@ -65,12 +61,30 @@ select s.sname from sailors s
     where s.rating > any (select s2.rating from sailors s2 
                                 where s2.sname = 'Horatio' );
 
--- Q24??:
-select s.sid from silors s
-    having s.rating = max(s.rating);
+-- Q24:
+select s.sid from sailors s
+    where s.rating >= all(select max(s2.rating) from sailors s2;
+
+-- Q26:
+select avg(s.age) from sailors s
+    where s.rating = 10;
+
+-- Q27:
+select s.sname, s.age from sailors s
+    where s.age = (select max(s2.age) from sailors s2);
 
 -- Q29:
-select distinct count(s.sname) from sailors s;
+select count(distinct s.sname) from sailors s;
 
 -- Q30:
+select s.sname from sailors s
+    where s.age > (select max(s2.age) from sailors s2
+                        where s2.rating = 10);
 
+-- Q31:
+select s.rating, min(s.age) from sailors s 
+    where s.age >= 18 and
+    exists (select t.amount from (select count(*) as amount from sailors s2
+                                        group by s2.rating)t 
+                where t.amount >= 2)
+    group by s.rating;
