@@ -16,6 +16,18 @@ bool is_in(vector<int> array, int valor) {
     return false;
 }
 
+bool is_adjacency_matrix(vector< vector<int> > grafo) {
+    if (grafo.size() != grafo[0].size()) return false;
+
+    for (int i=0; i < grafo.size(); i++) {
+        for (int j=0; j < grafo[0].size(); j++) {
+            if (grafo[i][j] != grafo[j][i]) return false;
+        }
+    }
+
+    return true;
+}
+
 void print_fronteira(deque<int> fronteira) {
     printf("FRONTEIRA: [");
     for (int x : fronteira) {
@@ -32,6 +44,7 @@ bool busca_largura(vector< vector<int> > grafo, int inicio, int fim) {
 
     vector<int> descobertos;
     fronteira.push_back(inicio);
+    bool adj_mtrx = is_adjacency_matrix(grafo);
 
     while (!fronteira.empty()) {
         print_fronteira(fronteira);
@@ -44,16 +57,36 @@ bool busca_largura(vector< vector<int> > grafo, int inicio, int fim) {
             fronteira.pop_front();
             descobertos.push_back(noPai);
 
-            int no = 0;
-            for (int n : grafo[noPai]) {
-                if (n == 1) {
-                    if (!is_in(descobertos, no)) {
-                        fronteira.push_back(no);
-                        descobertos.push_back(no);
+            if (adj_mtrx) {
+                int no = 0;
+                for (int n : grafo[noPai]) {
+                    if (n == 1) {
+                        if (!is_in(descobertos, no)) {
+                            fronteira.push_back(no);
+                            descobertos.push_back(no);
+                        }
                     }
-                }
 
-                no++;
+                    no++;
+                }
+            
+            } else {
+                int col = 0;
+                for (int n : grafo[noPai]) {
+                    if (n == 1) {
+                        int no = 0;
+                        for (int i=0; i < grafo.size(); i++) {
+                            if(grafo[i][col] == 1) {
+                                if (!is_in(descobertos, no)) {
+                                    fronteira.push_back(no);
+                                    descobertos.push_back(no);
+                                }
+                            }
+                            no++;
+                        }
+                    }
+                    col++;
+                }
             }
 
         }
@@ -69,6 +102,7 @@ bool busca_profundidade(vector< vector<int> > grafo, int inicio, int fim) {
 
     vector<int> descobertos;
     fronteira.push_front(inicio);
+    bool adj_mtrx = is_adjacency_matrix(grafo);
 
     while (!fronteira.empty()) {
         print_fronteira(fronteira);
@@ -81,18 +115,37 @@ bool busca_profundidade(vector< vector<int> > grafo, int inicio, int fim) {
             fronteira.pop_front();
             descobertos.push_back(noPai);
 
-            int no = 0;
-            for (int n : grafo[noPai]) {
-                if (n == 1) {
-                    if (!is_in(descobertos, no)) {
-                        fronteira.push_front(no);
-                        descobertos.push_back(no);
+            if (adj_mtrx) {
+                int no = 0;
+                for (int n : grafo[noPai]) {
+                    if (n == 1) {
+                        if (!is_in(descobertos, no)) {
+                            fronteira.push_front(no);
+                            descobertos.push_back(no);
+                        }
                     }
+
+                    no++;
                 }
-
-                no++;
+            
+            } else {
+                int col = 0;
+                for (int n : grafo[noPai]) {
+                    if (n == 1) {
+                        int no = 0;
+                        for (int i=0; i < grafo.size(); i++) {
+                            if(grafo[i][col] == 1) {
+                                if (!is_in(descobertos, no)) {
+                                    fronteira.push_front(no);
+                                    descobertos.push_back(no);
+                                }
+                            }
+                            no++;
+                        }
+                    }
+                    col++;
+                }
             }
-
         }
     }
 
@@ -106,6 +159,7 @@ int main() {
     int n; // linhas
     int m; // colunas
     int v;
+    int inicio, fim;
 
     scanf(" %d %d", &n, &m);
 
@@ -117,9 +171,15 @@ int main() {
             grafo[i][j] = v;
         }
     }
+    
+    // printf("Nó de início: ");
+    scanf(" %d", &inicio);
+    // printf("Nó destino: ");
+    scanf(" %d", &fim);
 
-    printf("MIAU: %d\n", busca_largura(grafo, 0, 3));
-    printf("MIAU: %d\n", busca_profundidade(grafo, 0, 3));
+    printf("%s\n", (busca_largura(grafo, inicio, fim) ? "O caminho é possível." : "O caminho é impossível"));
+    printf("%s\n", (busca_profundidade(grafo, inicio, fim) ? "O caminho é possível." : "O caminho é impossível"));
+    
 
     return 0;
 }
