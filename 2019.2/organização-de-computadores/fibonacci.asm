@@ -46,10 +46,10 @@ N_1:
 	beq  a0, t1, N_1EqualsOne
 	beqz a0, N_1EqualsZero
 	
-	addi sp, sp, -8
+	addi sp, sp, 12
 	
-	sw   ra, 4(sp)
-	sw   a0, 0(sp)
+	sw   ra, 0(sp)
+	sw   a0, 4(sp)
 	
 	addi a0, a0, -1
 	
@@ -62,11 +62,11 @@ N_1:
 	jal  N_2
 	nop
 	
-	lw   ra, 4(sp)
+	lw   ra, 0(sp)
 	
 	add  s0, s0, s1
 	
-	addi sp, sp, 8
+	addi sp, sp, 12
 	
 	ret
 
