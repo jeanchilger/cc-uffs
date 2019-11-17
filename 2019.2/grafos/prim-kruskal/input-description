@@ -1,0 +1,17 @@
+Adjacency matrices:
+    - in1a
+    - in2
+    - in3
+    - in5a
+
+Incidence matrices:
+    - in1b
+    - in4
+    - in5b
+
+Graphs:
+    - 1: in1a, in1b
+    - 2: in2
+    - 3: in3
+    - 4: in4
+    - 5: in5a, in5b
