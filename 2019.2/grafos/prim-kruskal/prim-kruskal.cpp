@@ -66,7 +66,7 @@ lli pickVertex(vector<lli> vec, vector<lli> set) {
     lli pos = 0;
     lli val = INF;
     for (lli i=0; i < (lli)vec.size(); i++) {
-        if (vec[i] < val && !isIn(vec[i], set)) {
+        if (vec[i] < val && !isIn(i, set)) {
             val = vec[i];
             pos = i;
         }
@@ -316,7 +316,6 @@ lli kruskalMST(vector<vector<lli> > matrix) {
     graph.createByMatrix(matrix);
 
     vector<iii > edgeList = graph.buildEdgeList();
-    vector<iii > mst;
 
     UnionFind uf(graph);
 
@@ -329,10 +328,11 @@ lli kruskalMST(vector<vector<lli> > matrix) {
 
         if (v1 != v2) {
             cost += get<2>(edgeList[i]);
-            mst.push_back(edgeList[i]);
             uf.Union(v1, v2);
 
-            printf("%lli-%lli, ", get<0>(edgeList[i]), get<1>(edgeList[i]));
+            // TODO: create a function to print edges given two vertice.
+            // in Graph or outside?
+            printf("%c-%c, ", (char)get<0>(edgeList[i]) + 65, (char)get<1>(edgeList[i]) + 65);
         }
     }
 
@@ -356,29 +356,34 @@ lli primMST(vector<vector<lli> > matrix, lli startVertex) {
     Graph graph;
     graph.createByMatrix(matrix);
 
-    vector<vector<ii> > adjacencyList = graph.getAdjacencyList(); 
-    vector<iii > mst;
-
-    UnionFind uf(graph);
+    vector<vector<ii> > adjacencyList = graph.getAdjacencyList();
 
     lli cost = 0;
 
     vector<lli> mstSet;
-    vector<lli> keyValues(graph.getVertices(), INF);
+    vector<lli> keyValues (graph.getVertices(), INF);
+    vector<lli> sources (graph.getVertices(), -1);
     keyValues[startVertex] = 0;
-    
 
-    printf("Arestas incluídas:\n{");
+    printf("Vértices incluídos:\n{");
+    //lli lastVertex = -1;
+
     while ((lli)mstSet.size() < graph.getVertices()) {
         lli vertex = pickVertex(keyValues, mstSet);
+        mstSet.push_back(vertex);
+        
+        /*if (lastVertex != -1) {
+            printf("%c-%c, ", (char)lastVertex + 65, (char)vertex + 65);
+        }
+
+        lastVertex = vertex;*/
+        cost += keyValues[vertex];
+        printf("%c, ", (char)vertex + 65);
 
         for (ii v : adjacencyList[vertex]) {
             keyValues[get<0>(v)] = get<1>(v);
         }
-
-        printf("%lli-%lli, ", get<0>(edgeList[i]), get<1>(edgeList[i]));
     }
-
 
     printf("\b\b}\n");
 
@@ -387,8 +392,9 @@ lli primMST(vector<vector<lli> > matrix, lli startVertex) {
 
 int main() {
 
-    lli n; // linhas
-    lli m; // colunas
+    lli n; // rows
+    lli m; // columns
+    lli x; // start vertex for prim
     lli v;
  
     scanf(" %lli %lli", &n, &m);
@@ -402,7 +408,10 @@ int main() {
         }
     }
 
-    printf("Custo: %lli\n", kruskalMST(matrix));
+    scanf(" %lli", &x);
+
+    printf("Kruskal: %lli\n", kruskalMST(matrix));
+    printf("Prim: %lli\n", primMST(matrix, x));
 
     return 0;
 }
