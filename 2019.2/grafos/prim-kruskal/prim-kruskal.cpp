@@ -300,16 +300,16 @@ class UnionFind {
 
 };
 
-lli kruskalMST(vector<vector<lli> > matrix) {
+string kruskalMST(vector<vector<lli> > matrix) {
     /*
      * Builds the Minimun Spanning Tree
      * using kruskal's algorithm for the graph
      * given as a adjacency matrix or as a 
      * incidence matrix.
      *
-     * Returns the cost of building the tree and
-     * prints the edges at same order they were
-     * inserted in MST.
+     * Returns the edges at same order they were
+     * inserted in MST with the cost of building
+     * it.
      * */
 
     Graph graph;
@@ -321,7 +321,8 @@ lli kruskalMST(vector<vector<lli> > matrix) {
 
     lli cost = 0;
 
-    printf("Arestas incluídas:\n{");
+    string res = "{";
+
     for (lli i=0; i < graph.getEdges(); i++) {
         lli v1 = uf.Find(get<0>(edgeList[i]));
         lli v2 = uf.Find(get<1>(edgeList[i]));
@@ -330,27 +331,28 @@ lli kruskalMST(vector<vector<lli> > matrix) {
             cost += get<2>(edgeList[i]);
             uf.Union(v1, v2);
 
-            // TODO: create a function to print edges given two vertice.
-            // in Graph or outside?
-            printf("%c-%c, ", (char)get<0>(edgeList[i]) + 65, (char)get<1>(edgeList[i]) + 65);
+            res += (char)get<0>(edgeList[i]) + 65; 
+            res += "-";
+            res += (char)get<1>(edgeList[i]) + 65;
+            res += ", ";
         }
     }
 
-    printf("\b\b}\n");
+    res += "\b\b}\nCost: " + to_string(cost) + "\n";
 
-    return cost;
+    return res;
 }
 
-lli primMST(vector<vector<lli> > matrix, lli startVertex) {
+string primMST(vector<vector<lli> > matrix, lli startVertex) {
     /*
      * Builds the Minimun Spanning Tree
      * using prim's algorithm for the graph
      * given as a adjacency matrix or as a 
      * incidence matrix.
      *
-     * Returns the cost of building the tree and
-     * prints the edges at same order they were
-     * inserted in MST.
+     * Returns the edges at same order they were
+     * inserted in MST with the cost of building
+     * it.
      * */
 
     Graph graph;
@@ -365,29 +367,30 @@ lli primMST(vector<vector<lli> > matrix, lli startVertex) {
     vector<lli> sources (graph.getVertices(), -1);
     keyValues[startVertex] = 0;
 
-    printf("Vértices incluídos:\n{");
-    //lli lastVertex = -1;
+    string res = "{";
 
     while ((lli)mstSet.size() < graph.getVertices()) {
         lli vertex = pickVertex(keyValues, mstSet);
         mstSet.push_back(vertex);
         
-        /*if (lastVertex != -1) {
-            printf("%c-%c, ", (char)lastVertex + 65, (char)vertex + 65);
+        if (sources[vertex] != -1) {
+            res += (char)sources[vertex] + 65; 
+            res += "-";
+            res += (char)vertex + 65;
+            res += ", ";
         }
 
-        lastVertex = vertex;*/
         cost += keyValues[vertex];
-        printf("%c, ", (char)vertex + 65);
 
         for (ii v : adjacencyList[vertex]) {
             keyValues[get<0>(v)] = get<1>(v);
+            sources[get<0>(v)] = vertex;
         }
     }
 
-    printf("\b\b}\n");
+    res += "\b\b}\nCost: " + to_string(cost) + "\n";
 
-    return cost;
+    return res;
 }
 
 int main() {
@@ -410,8 +413,11 @@ int main() {
 
     scanf(" %lli", &x);
 
-    printf("Kruskal: %lli\n", kruskalMST(matrix));
-    printf("Prim: %lli\n", primMST(matrix, x));
+    cout << "Kruskal\n"
+         << kruskalMST(matrix);
+
+    cout << "\nPrim\n"
+         << primMST(matrix, x);
 
     return 0;
 }
