@@ -1,0 +1,8 @@
+# Funções
+
+```postgres
+CREATE FUNTION func_name(<parametro> <tipo>, ) RETURNS <int> AS $$
+
+```
+
+# Triggers
