@@ -1,0 +1,7 @@
+CREATE FUNCTION OR REPLACE
+    increase_wage()
+RETURNS VOID AS $$
+BEGIN
+
+END;
+$$ LANGUAGE plpgsql;

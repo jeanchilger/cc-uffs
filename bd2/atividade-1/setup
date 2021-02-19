@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "
+CREATE DATABASE task_one;
+CREATE ROLE db_student;
+GRANT ALL PRIVILEGES ON DATABASE task_one TO db_student;
+" >> /tmp/create_user_table_pass.sql
+
+sudo -u postgres psql -f /tmp/create_user_table_pass.sql
