@@ -61,11 +61,11 @@ CREATE OR REPLACE FUNCTION
     )
 RETURNS VOID AS $$
 DECLARE
-    i INTEGER;
+    i INT4;
 BEGIN
     i := 0;
     LOOP
-        i := i + 1;
+        i:= i + 1;
         PERFORM insert_employee(i);
         EXIT WHEN i = n;
     END LOOP;
@@ -74,3 +74,6 @@ $$ LANGUAGE plpgsql;
 
 
 SELECT populate_employees(5);
+
+-- Adds an additional employee for easy control.
+INSERT INTO employees VALUES (6, 'Control Emp', current_date, 100);
