@@ -1,3 +1,6 @@
+\c task_one
+
+
 SELECT * FROM employees;
 
 

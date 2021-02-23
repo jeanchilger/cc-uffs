@@ -1,10 +1,19 @@
+-- Creates a database and connects to it
+SELECT 'CREATE DATABASE task_one'
+WHERE NOT EXISTS (
+    SELECT FROM pg_database WHERE datname = 'task_one'
+) \gexec
+
+\c task_one
+
+
 -- Creates an 'employees' table.
 DROP TABLE IF EXISTS employees;
 CREATE TABLE employees (
-    id INT,
-    name VARCHAR(50),
-    birth_date DATE,
-    wage FLOAT
+    id INT PRIMARY KEY NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    birth_date DATE NOT NULL,
+    wage FLOAT NOT NULL
 );
 
 

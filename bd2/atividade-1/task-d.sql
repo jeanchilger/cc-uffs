@@ -1,3 +1,6 @@
+\c task_one
+
+
 SELECT * FROM employees;
 
 
@@ -33,7 +36,10 @@ $$ LANGUAGE plpgsql;
 
 -- Applies function and shows new table;
 SELECT insert_employee_managed(
-    99, 'Last Inserted Employee', '2020-02-20', 1000
+    floor(random() * (1500 - 999) + 999)::INTEGER,
+    'Last Inserted Employee',
+    '2020-02-20',
+    1000
 );
 
 SELECT * FROM employees; 
