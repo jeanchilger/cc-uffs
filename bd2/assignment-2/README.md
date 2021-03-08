@@ -34,7 +34,7 @@ bookings(
 
 A partir do banco de dados hw2 (que deve ser carregado do arquivo db.sql presente no moodle), construa gatilhos para as seguintes funcionalidades:
 2.1 - se o produto em estoque chegar ao valor 0 (não tem mais o produto) então o mesmo deve ser removido das tabelas Product e Stock. Tem um esqueleto de exemplo. 
- 
+
 2.2 - Para evitar problemas com uso indevido de medicamentos controlados, crie uma tabela auxiliar de  controle para verificar quem está requisitando cada medicamento com a data e hora. 
 
 
