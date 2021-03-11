@@ -77,7 +77,8 @@
 \newpage
 \section{Exercício 1}
 
-A Figura \ref{fig:m1_m2} representa os diagramas de estado de dois autômatos finitos $M_1$ e $M_2$. Responda às questões sobre cada um desses autômatos.
+A Figura \ref{fig:m1_m2} representa os diagramas de estado de dois autômatos 
+finitos $M_1$ e $M_2$. Responda às questões sobre cada um desses autômatos.
 
 \begin{figure}[!ht]
     \centering
@@ -89,87 +90,138 @@ A Figura \ref{fig:m1_m2} representa os diagramas de estado de dois autômatos fi
 \subsection{Autômato M1}
 
 % Pergunstas e Respostas
-\begin{itemize}
+\begin{enumerate}
     \item \textbf{Qual é o estado inicial?}
     \begin{itemize}
-        \item Resposta
+        \item $q_1$.
     \end{itemize}
     
     
     \item \textbf{Qual é o conjunto de estados de aceitação?}
     \begin{itemize}
-        \item Resposta
+        \item ${q_2}$.
     \end{itemize}
     
     
     \item \textbf{Por qual sequência de estados o autômato passa na entrada aabb?}
     \begin{itemize}
-        \item Resposta
+        \item $q_1 \rightarrow q_2 \rightarrow q_3 \rightarrow q_1 \rightarrow q_1$.
     \end{itemize}
     
     
     \item \textbf{O autômato aceita a string aabb?}
     \begin{itemize}
-        \item Resposta
+        \item Não, pois o estado ao final da \textit{string} não é um estado
+                de aceitação.
     \end{itemize}
     
     
     \item \textbf{O autômato aceita a string $\epsilon$?}
     \begin{itemize}
-        \item Resposta
+        \item Não. O estado inicial não é um estado de aceitação.
     \end{itemize}
-\end{itemize}
+\end{enumerate}
 
 \subsection{Autômato M2}
 % Pergunstas e Respostas
-\begin{itemize}
+\begin{enumerate}
     \item \textbf{Qual é o estado inicial?}
     \begin{itemize}
-        \item Resposta
+        \item $q_1$.
     \end{itemize}
     
     
     \item \textbf{Qual é o conjunto de estados de aceitação?}
     \begin{itemize}
-        \item Resposta
+        \item ${q_1, q_4}$.
     \end{itemize}
     
     
     \item \textbf{Por qual sequência de estados o autômato passa na entrada aabb?}
     \begin{itemize}
-        \item Resposta
+        \item $q_1 \rightarrow q_1 \rightarrow q_1 \rightarrow q_2 \rightarrow q_4$.
     \end{itemize}
     
     
     \item \textbf{O autômato aceita a string aabb?}
     \begin{itemize}
-        \item Resposta
+        \item Sim, pois o estado final da \textit{string} é um estado de aceitação.
     \end{itemize}
     
     
     \item \textbf{O autômato aceita a string $\epsilon$?}
     \begin{itemize}
-        \item Resposta
+        \item Sim. Se o estado inicial for estado de aceitação, o autômato
+            aceitará $\delta$.
     \end{itemize}
-\end{itemize}
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Exercício 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\section{Exercício 2}
+\section*{Exercício 2}
 
 Dê a definição formal (através de uma 5-upla) dos autômatos considerados no exercício anterior.
 
 \subsection{Autômato M1}
+Definido como $(Q, \Sigma, \delta, q_s, F)$, temos:
+
+\begin{align*}
+    Q &= \{q_1, q_2, q_3\} \\
+    \Sigma &= \{a, b\} \\
+    \delta &= Tabela \text{\ref{tab:delta_m1}} \\
+    q_s &= q_1 \\
+    F &= \{q_2\}
+\end{align*}
+
+onde $\delta$ é dada pela tabela:
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{l|ll}
+              & a     & b     \\ 
+        \hline \hline
+        $q_1$ & $q_2$ & $q_1$ \\
+        $q_2$ & $q_3$ & $q_3$ \\
+        $q_3$ & $q_2$ & $q_1$ \\
+    \end{tabular}
+    \caption{Representação da função de transição para o autômato $M_1$.}
+    \label{tab:delta_m1}
+\end{table}
 
 \subsection{Autômato M2}
+Definido como $(Q, \Sigma, \delta, q_s, F)$, temos:
+
+\begin{align*}
+    Q &= \{q_1, q_2, q_3, q_4\} \\
+    \Sigma &= \{a, b\} \\
+    \delta &= Tabela \text{\ref{tab:delta_m2}} \\
+    q_s &= q_1 \\
+    F &= \{q_1, q_4\}
+\end{align*}
+
+onde $\delta$ é dada pela tabela:
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{l|ll}
+              & a     & b     \\ 
+        \hline \hline
+        $q_1$ & $q_1$ & $q_2$ \\
+        $q_2$ & $q_3$ & $q_4$ \\
+        $q_3$ & $q_2$ & $q_1$ \\
+        $q_4$ & $q_3$ & $q_4$ \\
+    \end{tabular}
+    \caption{Representação da função de transição para o autômato $M_2$.}
+    \label{tab:delta_m2}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Exercício 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\section{Exercício 3}
+\section*{Exercício 3}
 
 A definição formal de um autômato finito $M$ é 
 $$(\{q_1, q_2, q_3, q_4, q_5\}, \{u, d\}, \delta, q_3, \{q_3\})$$
