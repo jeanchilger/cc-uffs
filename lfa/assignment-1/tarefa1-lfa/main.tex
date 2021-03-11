@@ -1,0 +1,201 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[portuges]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{multicol,lipsum}
+
+\usepackage{hyperref}   % adiciona links na TOC e nas citações
+
+% Renomeia o título da TOC
+\addto\captionsportuges{
+  \renewcommand{\contentsname}
+    {Sumário}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INÍCIO DO DOCUMENTO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CAPA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+	\begin{center}
+    	\begin{figure}[!ht]
+        	\centering
+        	\includegraphics[width=3cm]{./imgs/uffs.png}
+    	\end{figure}
+    
+    	\Huge{Universidade Federal da Fronteira Sul}\\
+    	\large{Campus Chapecó}\\ 
+    	\large{Bacharelado em Ciência da Computação}\\ 
+    	
+    	\vspace{15pt}
+        \vspace{95pt}
+        
+        \textbf{\LARGE{Exercícios indicados nas aulas 03 e 04}}\\
+    	
+        \vspace{3,5cm}
+	\end{center}
+	
+	\begin{flushleft}
+	    \begin{tabbing}
+			\textbf{Aluno:} Jean Carlo Hilger \\
+			\textbf{Professor:} Andrei Braga \\
+        \end{tabbing}
+    \end{flushleft}
+	
+	\vspace{1cm}
+	
+	\begin{center}
+		\vspace{\fill}
+		Chapecó, março\\
+		2021
+	\end{center}
+\end{titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUMÁRIO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exercício 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Exercício 1}
+
+A Figura \ref{fig:m1_m2} representa os diagramas de estado de dois autômatos finitos $M_1$ e $M_2$. Responda às questões sobre cada um desses autômatos.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=10cm]{./imgs/img1.png}
+    \caption{Diagramas dos autômatos finitos $M_1$ e $M_2$.}
+    \label{fig:m1_m2}
+\end{figure}
+
+\subsection{Autômato M1}
+
+% Pergunstas e Respostas
+\begin{itemize}
+    \item \textbf{Qual é o estado inicial?}
+    \begin{itemize}
+        \item Resposta
+    \end{itemize}
+    
+    
+    \item \textbf{Qual é o conjunto de estados de aceitação?}
+    \begin{itemize}
+        \item Resposta
+    \end{itemize}
+    
+    
+    \item \textbf{Por qual sequência de estados o autômato passa na entrada aabb?}
+    \begin{itemize}
+        \item Resposta
+    \end{itemize}
+    
+    
+    \item \textbf{O autômato aceita a string aabb?}
+    \begin{itemize}
+        \item Resposta
+    \end{itemize}
+    
+    
+    \item \textbf{O autômato aceita a string $\epsilon$?}
+    \begin{itemize}
+        \item Resposta
+    \end{itemize}
+\end{itemize}
+
+\subsection{Autômato M2}
+% Pergunstas e Respostas
+\begin{itemize}
+    \item \textbf{Qual é o estado inicial?}
+    \begin{itemize}
+        \item Resposta
+    \end{itemize}
+    
+    
+    \item \textbf{Qual é o conjunto de estados de aceitação?}
+    \begin{itemize}
+        \item Resposta
+    \end{itemize}
+    
+    
+    \item \textbf{Por qual sequência de estados o autômato passa na entrada aabb?}
+    \begin{itemize}
+        \item Resposta
+    \end{itemize}
+    
+    
+    \item \textbf{O autômato aceita a string aabb?}
+    \begin{itemize}
+        \item Resposta
+    \end{itemize}
+    
+    
+    \item \textbf{O autômato aceita a string $\epsilon$?}
+    \begin{itemize}
+        \item Resposta
+    \end{itemize}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exercício 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Exercício 2}
+
+Dê a definição formal (através de uma 5-upla) dos autômatos considerados no exercício anterior.
+
+\subsection{Autômato M1}
+
+\subsection{Autômato M2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exercício 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Exercício 3}
+
+A definição formal de um autômato finito $M$ é 
+$$(\{q_1, q_2, q_3, q_4, q_5\}, \{u, d\}, \delta, q_3, \{q_3\})$$
+
+Onde $\alpha$ é dado pela Tabela \ref{fig:table_delta} Dê o diagrama de estados desse autômato.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=3cm]{./imgs/table_delta.png}
+    \caption{Tabela da função de transição $\delta$.}
+    \label{fig:table_delta}
+\end{figure}
+
+
+% \begin{table}[]
+%     \centering
+%     \begin{tabular}{c|c|c}
+%         u & d \\
+%          & 
+%     \end{tabular}
+%     \caption{Caption}
+%     \label{tab:my_label}
+% \end{table}
+
+
+\end{document}
+
+
+
