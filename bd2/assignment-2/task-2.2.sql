@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS product_audit;
 CREATE TABLE product_audit (
+    id SERIAL PRIMARY KEY NOT NULL,
     username VARCHAR(64),
     time_stamp TIMESTAMP,
     eid INTEGER
@@ -19,7 +20,12 @@ BEGIN
     SELECT current_user INTO username;
     SELECT now() INTO time_stamp;
 
-    INSERT INTO product_audit VALUES (username, time_stamp, NEW.eid);
+    IF NEW.quantity < OLD.quantity THEN
+        INSERT INTO product_audit 
+            (username, time_stamp, eid) 
+        VALUES 
+            (username, time_stamp, NEW.eid);
+    END IF;
 
     RETURN NEW;
 END;

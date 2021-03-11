@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION
     t2_1()
-RETURNS trigger AS $$
+RETURNS TRIGGER AS $$
 
 BEGIN
 
@@ -9,7 +9,7 @@ BEGIN
         DELETE FROM product WHERE eid = NEW.eid;
     END IF;
 
-    RETURN NULL;
+    RETURN NEW;
 
 END;
 $$ LANGUAGE plpgsql;
