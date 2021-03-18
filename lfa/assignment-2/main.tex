@@ -77,93 +77,32 @@
 \newpage
 \section{Exercício 1}
 
+Construa um diagrama de estados com 3 estados para um autômato finito
+não-determinístico que reconheça a linguagem $\{ w | w \text{ é uma string de }0\text{’s e }1\text{’s
+que termina com }00\}$.
+
+\subsection{Solução}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=6cm]{./imgs/task-2-1.pdf}
+    \caption{Autômato não-determinístico solução}
+    \label{fig:solution_t2_1}
+\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Exercício 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Exercício 2}
+Descreva um autômato finito não-determinístico que reconheça a linguagem
+que consiste de toda string do alfabeto $\{0, 1, …, 9\}$ tal que o último dígito da
+string aparece antes na string.
 
-Dê a definição formal (através de uma 5-upla) dos autômatos considerados no exercício anterior.
+\subsection{Solução}
 
-\subsection{Autômato M1}
-Definido como $(Q, \Sigma, \delta, q_s, F)$, temos:
+Inicialmente, imaginemos o mesmo autômato para um alfabeto mais simples, formado apenas por $\{a, b\}$
 
-\begin{align*}
-    Q &= \{q_1, q_2, q_3\} \\
-    \Sigma &= \{a, b\} \\
-    \delta &= Tabela \text{\ref{tab:delta_m1}} \\
-    q_s &= q_1 \\
-    F &= \{q_2\}
-\end{align*}
-
-onde $\delta$ é dada pela tabela:
-
-\begin{table}[!h]
-    \centering
-    \begin{tabular}{l|ll}
-              & a     & b     \\ 
-        \hline \hline
-        $q_1$ & $q_2$ & $q_1$ \\
-        $q_2$ & $q_3$ & $q_3$ \\
-        $q_3$ & $q_2$ & $q_1$ \\
-    \end{tabular}
-    \caption{Representação da função de transição para o autômato $M_1$.}
-    \label{tab:delta_m1}
-\end{table}
-
-\subsection{Autômato M2}
-Definido como $(Q, \Sigma, \delta, q_s, F)$, temos:
-
-\begin{align*}
-    Q &= \{q_1, q_2, q_3, q_4\} \\
-    \Sigma &= \{a, b\} \\
-    \delta &= Tabela \text{\ref{tab:delta_m2}} \\
-    q_s &= q_1 \\
-    F &= \{q_1, q_4\}
-\end{align*}
-
-onde $\delta$ é dada pela tabela:
-
-\begin{table}[!h]
-    \centering
-    \begin{tabular}{l|ll}
-              & a     & b     \\ 
-        \hline \hline
-        $q_1$ & $q_1$ & $q_2$ \\
-        $q_2$ & $q_3$ & $q_4$ \\
-        $q_3$ & $q_2$ & $q_1$ \\
-        $q_4$ & $q_3$ & $q_4$ \\
-    \end{tabular}
-    \caption{Representação da função de transição para o autômato $M_2$.}
-    \label{tab:delta_m2}
-\end{table}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Exercício 3
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\section{Exercício 3}
-
-A definição formal de um autômato finito $M$ é 
-$$(\{q_1, q_2, q_3, q_4, q_5\}, \{u, d\}, \delta, q_3, \{q_3\})$$
-
-Onde $\alpha$ é dado pela Tabela \ref{fig:table_delta} Dê o diagrama de estados desse autômato.
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=2.6cm]{./imgs/table_delta.png}
-    \caption{Tabela da função de transição $\delta$.}
-    \label{fig:table_delta}
-\end{figure}
-
-\textbf{Resposta:}
-
-\begin{figure}[ht]
-    \includegraphics[width=8.4cm]{./imgs/lfa-trab-1.pdf}
-    \centering
-    \caption{Diagrama do autômato $M$.}
-    \label{fig:diag_m}
-\end{figure}
 
 \end{document}
