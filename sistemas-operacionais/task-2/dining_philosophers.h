@@ -10,7 +10,11 @@
 #include <stdio.h>
 #include <unistd.h>
 
+// Number of philosophers
 #define N 5
+// Number of cycles to be executed.
+// Used a negative number for infinite cycles.
+#define CYCLES 1
 
 sem_t philosophers[N];
 sem_t changeState;

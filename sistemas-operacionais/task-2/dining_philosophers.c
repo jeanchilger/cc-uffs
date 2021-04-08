@@ -2,13 +2,18 @@
 
 void * philosopherCycle(void *data) {
     int philosopherId = *((int *) data);
+    int countCycles = 0;
 
     while (1) {
         eat(philosopherId);
         
         think(philosopherId);
 
-        break;
+        countCycles++;
+
+        if (CYCLES > 0 && countCycles == CYCLES) {
+            break;
+        }
     }
 
     pthread_exit(NULL);
