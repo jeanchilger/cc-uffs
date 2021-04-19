@@ -1,0 +1,88 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[portuges]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{multicol,lipsum}
+
+\usepackage{hyperref}   % adiciona links na TOC e nas citações
+
+% Renomeia o título da TOC
+\addto\captionsportuges{
+  \renewcommand{\contentsname}
+    {Sumário}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INÍCIO DO DOCUMENTO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CAPA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+	\begin{center}
+    	\begin{figure}[!ht]
+        	\centering
+        	\includegraphics[width=3cm]{./imgs/uffs.png}
+    	\end{figure}
+    
+    	\Huge{Universidade Federal da Fronteira Sul}\\
+    	\large{Campus Chapecó}\\ 
+    	\large{Bacharelado em Ciência da Computação}\\ 
+    	
+    	\vspace{15pt}
+        \vspace{95pt}
+        
+        \textbf{\LARGE{Parte 1 da Prova de LFA}}\\
+    	
+        \vspace{3,5cm}
+	\end{center}
+	
+	\begin{flushleft}
+	    \begin{tabbing}
+			\textbf{Aluno:} Jean Carlo Hilger \\
+			\textbf{Matrícula:} 1811100018 \\
+			\textbf{Professor:} Andrei de Almeida Sampaio Braga \\
+        \end{tabbing}
+    \end{flushleft}
+	
+	\vspace{1cm}
+	
+	\begin{center}
+		\vspace{\fill}
+		Chapecó, abril\\
+		2021
+	\end{center}
+\end{titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUMÁRIO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+\pagenumbering{arabic}
+
+\section{Questão 1}
+\textbf{Resposta:} D - aceita / 101010 / q0 
+
+\section{Questão 2}
+\textbf{Resposta:} C - consista em um ou mais a’s seguidos de um ou mais b’s
+
+\section{Questão 3}
+\textbf{Resposta:} A - I é a única afirmacão verdadeira
+
+\section{Questão 4}
+\textbf{Resposta:} B - II e IV são as únicas afirmações verdadeiras
+
+
+\end{document}

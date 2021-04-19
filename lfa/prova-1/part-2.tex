@@ -1,0 +1,88 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[portuges]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{multicol,lipsum}
+
+\usepackage{hyperref}   % adiciona links na TOC e nas citações
+
+% Renomeia o título da TOC
+\addto\captionsportuges{
+  \renewcommand{\contentsname}
+    {Sumário}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INÍCIO DO DOCUMENTO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CAPA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+	\begin{center}
+    	\begin{figure}[!ht]
+        	\centering
+        	\includegraphics[width=3cm]{./imgs/uffs.png}
+    	\end{figure}
+    
+    	\Huge{Universidade Federal da Fronteira Sul}\\
+    	\large{Campus Chapecó}\\ 
+    	\large{Bacharelado em Ciência da Computação}\\ 
+    	
+    	\vspace{15pt}
+        \vspace{95pt}
+        
+        \textbf{\LARGE{Parte 2 da Prova de LFA}}\\
+    	
+        \vspace{3,5cm}
+	\end{center}
+	
+	\begin{flushleft}
+	    \begin{tabbing}
+			\textbf{Aluno:} Jean Carlo Hilger \\
+			\textbf{Matrícula:} 1811100018 \\
+			\textbf{Professor:} Andrei de Almeida Sampaio Braga \\
+        \end{tabbing}
+    \end{flushleft}
+	
+	\vspace{1cm}
+	
+	\begin{center}
+		\vspace{\fill}
+		Chapecó, abril\\
+		2021
+	\end{center}
+\end{titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUMÁRIO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+\pagenumbering{arabic}
+
+\section{Questão 5}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm]{./imgs/ans-5.pdf}
+\end{figure}
+
+\section{Questão 6}
+Seja $\Sigma = \{A, B, ..., Y, Z\}$, $\Sigma^{\prime} = \{U, F, S\}$ e $\Sigma^{\prime\prime} = \{J, E, A, N\}$. Assim temos:
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=13cm]{./imgs/ans-6.pdf}
+\end{figure}
+
+\end{document}
