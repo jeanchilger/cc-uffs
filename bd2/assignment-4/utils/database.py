@@ -8,7 +8,7 @@ class DBManager:
                 host=host, database=database,
                 user=user, password=password)
 
-    def _execute_query(self, sql, get_pk=None):
+    def _execute_query(self, sql, get_pk=False, is_select=False):
         """
         Executes a SQL query.
 
@@ -21,13 +21,31 @@ class DBManager:
         cursor.execute(sql)
         self.connection.commit()
         
-        pk_value = None
-        if get_pk is not None:
-            pk_value = cursor.fetchone()[0]
+        _value = None
+        if get_pk:
+            _value = cursor.fetchone()[0]
         
+        if is_select:
+            _value = cursor.fetchone()
+
         cursor.close()
 
-        return pk_value
+        return _value
+    
+    def select(
+            self, table_name="test",
+            columns=("A", "B", "C", "D"), pk_name="id",
+            pk_value=None):
+
+        if pk_value is not None:
+            sql = "SELECT {} FROM {} WHERE {} = {};".format(
+                    ",".join(columns), table_name,
+                    pk_name, pk_value)
+
+        else:
+            sql = "SELECT {} FROM {};".format(",".join(columns), table_name)
+
+        return self._execute_query(sql, is_select=True)
 
     def drop_table(self, table_name="test"):
         """[summary]
@@ -100,5 +118,5 @@ class DBManager:
 
         sql = "UPDATE {} SET {} WHERE {} = {};".format(
                 table_name, _set_columns, pk_name, pk_value)
-        
+
         self._execute_query(sql)

@@ -18,10 +18,21 @@ parser.add_argument(
         "-l", "--log-file", help="Path to the log file",
         dest="log_file")
 
+
+def format_entry(string, modified_columns=None):
+    if modified_columns is not None and string in modified_columns:
+        return "\033[1;91m" + string.ljust(3).rjust(6) + "\033[0m"
+
+    else:
+        return string.ljust(3).rjust(6)
+
+
 if __name__ == "__main__":
     args = parser.parse_args()
     log_file_path = args.log_file
     first_line = True
+    columns = []
+    initial_state = {}
     db = DBManager()
 
     with open(log_file_path, "r") as log_file:
@@ -32,6 +43,9 @@ if __name__ == "__main__":
                 line_list = line.split("|")
                 columns = [item.split("=")[0].strip() for item in line_list]
                 values = [item.split("=")[1].strip() for item in line_list]
+
+                for column, value in zip(columns, values):
+                    initial_state[column] = value
 
                 db.drop_table()
                 db.create_table(columns=columns)
@@ -53,21 +67,9 @@ if __name__ == "__main__":
             elif commit_t is not None:
                 commited_transactions.add(commit_t.upper())
 
-            # elif checkpoint_t is not None:
-            #     for t in commited_transactions:
-            #         # print(t)
-            #         checkpoint_started.put(t.upper())
-            #     # exit()
-
             elif rp.is_checkpoint_end(line):
                 for t in commited_transactions:
-                    # print(t)
                     checkpoint_finished.add(t)
-
-                    # checkpoint_started.put(t.upper())
-                # while not checkpoint_started.empty():
-                #     t = checkpoint_started.get()
-                #     checkpoint_finished.add(t)
 
             else:
                 _values = rp.get_values(line)
@@ -78,7 +80,7 @@ if __name__ == "__main__":
     while not len(commited_transactions) == 0:
         t = commited_transactions.pop()
         if t not in checkpoint_finished:
-            print("{} realizou REDO.".format(t))
+            print("Transaction \033[1;97m{}\033[0m performed REDO.".format(t))
 
             pk, column, value = redo_values[t]
             if pk in database_copy:
@@ -86,13 +88,23 @@ if __name__ == "__main__":
             else:
                 database_copy[pk] = {column: value}
 
+    print()
     for t in checkpoint_finished:
-        print("{} não realizou REDO.".format(t))
+        print("Transaction \033[1;97m{}\033[0m DID NOT performed REDO.".format(t))
 
-
-    # print(database_copy)
-
+    modified_columns = []
     for pk in database_copy:
-        db.update(
-                list(database_copy[pk].values()),
-                list(database_copy[pk].keys()), pk)
+        for column, value in database_copy[pk].items():
+            if initial_state[column] != value:
+                modified_columns.append(column)
+                db.update([value], list(column), pk)
+
+    _columns = [
+            format_entry(column_name, modified_columns)
+            for column_name in columns]
+    _values = [
+            format_entry(str(value)) 
+            for value in db.select(columns=tuple(columns))]
+
+    print("|".join(_columns))
+    print("|".join(_values))
