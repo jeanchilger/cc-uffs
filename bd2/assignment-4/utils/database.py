@@ -29,6 +29,36 @@ class DBManager:
 
         return pk_value
 
+    def drop_table(self, table_name="test"):
+        """[summary]
+
+        Args:
+            table_name ([type]): [description]
+        """
+
+        sql = "DROP TABLE IF EXISTS {}".format(table_name)
+
+        self._execute_query(sql)
+
+    def create_table(
+            self, table_name="test",
+            columns=("A", "B", "C", "D"), pk_name="id"):
+        """[summary]
+
+        Args:
+            table_name (str, optional): [description]. Defaults to "test".
+            columns (tuple, optional): [description]. Defaults to ("A", "B", "C", "D").
+            pk_name (str, optional): [description]. Defaults to "id".
+        """
+
+        _columns = ["{} SERIAL".format(pk_name)]
+        for column in columns:
+            _columns.append("{} INT".format(column))
+
+        sql = "CREATE TABLE {}({})".format(table_name, ",".join(_columns))
+
+        self._execute_query(sql)
+
     def insert(
             self, values, table_name="test",
             columns=("A", "B", "C", "D"), pk_name="id"):
