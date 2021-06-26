@@ -94,7 +94,6 @@ void eat(int philosopherId) {
     putForks(philosopherId);
 
     sleep(1);
-
 }
 
 void think(int philosopherId) {
