@@ -4,7 +4,7 @@ import re
 import utils.regex_parser as rp
 from utils.database import DBManager
 
-started_transactions = queue.Queue()
+started_transactions = set()
 commited_transactions = set()
 checkpoint_started = queue.Queue()
 checkpoint_finished = set()
@@ -62,10 +62,11 @@ if __name__ == "__main__":
             checkpoint_t = rp.get_checkpoint_start(line)
 
             if start_t is not None:
-                started_transactions.put(start_t.upper())
+                started_transactions.add(start_t.upper())
             
             elif commit_t is not None:
                 commited_transactions.add(commit_t.upper())
+                started_transactions.remove(commit_t.upper())
 
             elif rp.is_checkpoint_end(line):
                 for t in commited_transactions:
@@ -92,6 +93,11 @@ if __name__ == "__main__":
     for t in checkpoint_finished:
         print("Transaction \033[1;97m{}\033[0m DID NOT performed REDO.".format(t))
 
+
+    for t in  started_transactions:
+        print("Transaction \033[1;97m{}\033[0m is corrupted (i.e. started but not commited).".format(t))
+
+    # Setup final table values to be printed
     modified_columns = []
     for pk in database_copy:
         for column, value in database_copy[pk].items():
