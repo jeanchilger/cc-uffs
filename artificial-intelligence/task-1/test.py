@@ -1,4 +1,6 @@
 import argparse
+from pprint import pprint
+from layers.dense import Dense
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -46,25 +48,4 @@ if __name__ == "__main__":
             X, y, test_size=.3, random_state=0)
     
     # Model creation
-    model = Model()
-    model.add(Layer(4, input_dim=X_train.shape[1], activation=Sigmoid))
-    model.add(Layer(8, activation=Sigmoid))
-    model.add(Layer(16, activation=Sigmoid))
-    model.add(Layer(32, activation=Sigmoid))
-    model.add(Layer(16, activation=Sigmoid))
-    model.add(Layer(1, activation=Sigmoid))
-    model.compile(loss=MSE)
-    
-    
-    # model.summary()
-    
-    history = model.fit(X_train, y_train, epochs=epochs, learn_rate=learn_rate)
-    
-    model_name = "(4x8x16x32x16x1)-activation={},loss={},epochs={},learn_rate={}"
-    model_name = model_name.format("sigmoid", "mse", epochs, learn_rate)
-    
-    model.save("trained_models/{}".format(model_name))
-    
-    y_pred = model.predict(X_test)
-                
-    print("@ACC: {:.3f}".format(accuracy(y_pred, y_test)))
+#     
