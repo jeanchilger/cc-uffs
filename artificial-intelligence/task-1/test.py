@@ -25,27 +25,41 @@ args = parser.parse_args()
 
 
 if __name__ == "__main__":
-    epochs = args.epochs
-    learn_rate = args.learn_rate
+#     epochs = args.epochs
+#     learn_rate = args.learn_rate
     
-    # Data loading
-    raw_dataset = pd.read_csv("arruela_dataset.csv")
+#     # Data loading
+#     raw_dataset = pd.read_csv("arruela_dataset.csv")
 
-    labels = ["Output1"]
-    features = ["NumAmostra", "Area", "Delta"]
+#     labels = ["Output1"]
+#     features = ["NumAmostra", "Area", "Delta"]
 
-    scaler = StandardScaler()
-    dataset = scaler.fit_transform(raw_dataset[[*labels, *features]])
-    dataset = pd.DataFrame(dataset, columns=[*labels, *features])
+#     scaler = StandardScaler()
+#     dataset = scaler.fit_transform(raw_dataset[[*labels, *features]])
+#     dataset = pd.DataFrame(dataset, columns=[*labels, *features])
 
-    print(dataset.head())
+#     print(dataset.head())
 
-    X = dataset[features].to_numpy()
-    y = dataset[labels].to_numpy()
+#     X = dataset[features].to_numpy()
+#     y = dataset[labels].to_numpy()
     
 
-    X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=.3, random_state=0)
+#     X_train, X_test, y_train, y_test = train_test_split(
+#             X, y, test_size=.3, random_state=0)
     
     # Model creation
-#     
+    l = Dense(3, 5)
+    l2 = Dense(5, 2)
+    
+    X = np.array([[1, 0, 2], [1, 1, 1]])
+    print(X.shape)
+    l.weights = np.ones((3, 5))
+    l.weights[0, 0] = 2
+    l.weights[2, 0] = 2
+    pprint(X)
+    pprint(l.weights)
+    l.biases = np.zeros((1, 5))
+    o = l.forward(X)
+#     o2 = l2.forward(o)
+    print(o)
+#     print(o2)
