@@ -16,7 +16,6 @@ class Layer(ABC):
     _biases, which are further implemented as properties
     (weights and biases), used for training. 
     """
-
     def __init__(
             self, n_inputs: int, n_outputs: int,
             activation: Function = None):

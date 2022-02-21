@@ -1,7 +1,9 @@
-from .mse import MSE
 from .cross_entropy import CrossEntropy
+from .function import Function
+from .mse import MSE
 
 __all__ = [
-    "MSE",
     "CrossEntropy",
+    "Function",
+    "MSE",
 ]

@@ -1,11 +1,9 @@
-from pprint import pprint
-from time import sleep
-import activations
 import numpy as np
 import pickle
 from tqdm import tqdm
 
 from layers import Layer
+from losses import Function
 
 class Model(object):
     """
@@ -18,6 +16,7 @@ class Model(object):
     
     def __init__(self):
         self._layers = []
+        self._losses = None
     
     def add_layer(self, layer: Layer) -> None:
         """
@@ -65,8 +64,6 @@ class Model(object):
         """
 
         history = []
-        
-        pprint(self._layers[-1].weights)
 
         for epoch in range(epochs):
             deltas_w = [np.zeros(l.weights.shape) for l in self._layers]
@@ -80,21 +77,14 @@ class Model(object):
                 deltas_w = [dw + diw for dw, diw in zip(deltas_w, d_w)]
                 deltas_b = [db + dib for db, dib in zip(deltas_b, d_b)]
 
-            # print("="*50)
-            # pprint(deltas_w)
-            # print("="*50)
-            
-            # input()
-
             for i in range(len(self._layers)):
                 l = self._layers[i]
 
                 l.weights = l.weights - learning_rate * deltas_w[i]
                 l.biases = l.biases - learning_rate * deltas_b[i]
-                
+
             history.append(self.loss(y, self.predict(X)))
-        
-        pprint(self._layers[-1].weights)
+
         return history
 
     def _backpropagate(self, x, y):
@@ -122,7 +112,7 @@ class Model(object):
 
         deltas_w[-1] = np.dot(activations[-2].reshape(-1, 1), delta.reshape(1, -1))
         deltas_b[-1] = delta
-        
+
         ## Compute deltas for the rest of the layers. Delta for
         ## ith layer is taken in terms of the delta of the
         ## (i + 1)th layer.                
@@ -132,21 +122,20 @@ class Model(object):
 
             delta = (np.dot(delta, self._layers[-i + 1].weights.T)
                     * self._layers[-i].activation_derivative(z))
-            
+
             deltas_w[-i] = np.dot(a, delta)
             deltas_b[-i] = delta
-        
+
         return deltas_w, deltas_b
-    
+
+    def compile(self, loss: Function) -> None:
+        self._loss = loss
+
     def loss(self, y_true, y_pred):
-        # pprint((y_pred - y_true))
-        # pprint((y_pred - y_true) ** 2)
-        # pprint(np.mean((y_pred - y_true) ** 2))
-        # input()
-        return np.mean((y_pred - y_true) ** 2)
+        return self._loss(y_pred, y_true)
     
     def loss_derivative(self, y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
-        return y_pred - y_true
+        return self._loss.derivative(y_pred, y_true)
     
     def save(self, model_path: str) -> None:
         """
