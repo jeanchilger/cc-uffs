@@ -14,8 +14,12 @@ class Dense(Layer):
             activation: Function = None):
         super().__init__(n_inputs, n_outputs, activation)
     
-    def forward(self, inputs):
+    def forward(self, inputs: np.ndarray, training: bool = False) -> np.ndarray:
         assert type(inputs) is np.ndarray
         
         z = np.dot(inputs, self.weights) + self.biases
-        return self.activation(z)
+        
+        if not training:
+            return self.activation(z)
+        
+        return self.activation(z), z

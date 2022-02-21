@@ -23,6 +23,7 @@ class Layer(ABC):
         self.weights = np.random.randn(n_inputs, n_outputs)
         self.biases = np.random.randn(1, n_outputs)
         self.activation = activation if activation is not None else Linear()
+        self.activation_derivative = self.activation.derivative
 
     @property
     def weights(self):
@@ -41,6 +42,6 @@ class Layer(ABC):
         self._biases = biases
 
     @abstractmethod
-    def forward(self, X):
+    def forward(self, X, training=False):
         pass
     

@@ -5,4 +5,4 @@ class Linear(Function):
         return x
     
     def derivative(self, x):
-        return 1
+        return x
