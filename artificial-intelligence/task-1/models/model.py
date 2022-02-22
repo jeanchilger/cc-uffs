@@ -52,8 +52,8 @@ class Model(object):
         return self.forward(X)
     
     def train(
-            self, X: np.ndarray, y: np.ndarray,
-            epochs: int = 10, learning_rate: float = 1e-2) -> None:
+            self, X: np.ndarray, y: np.ndarray, epochs: int = 10,
+            learning_rate: float = 1e-2, verbose: bool = True) -> None:
         """
         Trains the model, updating the layers' weights.
 
@@ -69,13 +69,20 @@ class Model(object):
             deltas_w = [np.zeros(l.weights.shape) for l in self._layers]
             deltas_b = [np.zeros(l.biases.shape) for l in self._layers]
             
-            for xi, yi in (bar := tqdm(list(zip(X, y)))):
-                bar.set_description(f"Epoch {epoch}")
+            if verbose:
+                for xi, yi in (bar := tqdm(list(zip(X, y)))):
+                    bar.set_description(f"Epoch {epoch}")
 
-                d_w, d_b = self._backpropagate(xi, yi)
+                    d_w, d_b = self._backpropagate(xi, yi)
 
-                deltas_w = [dw + diw for dw, diw in zip(deltas_w, d_w)]
-                deltas_b = [db + dib for db, dib in zip(deltas_b, d_b)]
+                    deltas_w = [dw + diw for dw, diw in zip(deltas_w, d_w)]
+                    deltas_b = [db + dib for db, dib in zip(deltas_b, d_b)]
+            else:
+                for xi, yi in zip(X, y):
+                    d_w, d_b = self._backpropagate(xi, yi)
+
+                    deltas_w = [dw + diw for dw, diw in zip(deltas_w, d_w)]
+                    deltas_b = [db + dib for db, dib in zip(deltas_b, d_b)]
 
             for i in range(len(self._layers)):
                 l = self._layers[i]

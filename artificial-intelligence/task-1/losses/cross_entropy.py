@@ -1,11 +1,13 @@
+from pprint import pprint
 import numpy as np
 from .function import Function
 
 class CrossEntropy(Function):
-    def evaluate(self, a, y):
-        return - (y * np.log(a) + (1 - y) * np.log(1 - a))
-        # return np.sum(np.nan_to_num(-y * np.log(a) - (1 - y) * np.log(1 - a)))
+    def evaluate(self, y_hat, y):
+        n = y_hat.shape[0]
     
-    def derivative(self, a, y):
-        return y - a
+        return -np.sum(y * np.log(y_hat) + (1 - y) * np.log(1 - y_hat)) / n
+    
+    def derivative(self, y_hat, y):
+        return y_hat - y
     
